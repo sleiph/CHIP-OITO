@@ -1,26 +1,36 @@
 import React, { useState, useEffect } from 'react';
 
 import Tratamento from '../services/Tratamento';
+import Disassembler from '../services/Disassembler';
+import OPCodes from '../components/OPCodes';
 
 import styled from 'styled-components'
 
 const Container = styled.div`
-  margin: 0;
+  margin: 42px;
   padding: 0;
   overflow-wrap: break-word;
 `
 
+const OPDiv = styled.div`
+  margin: 42px;
+  display: grid;
+  grid-template-columns: repeat(16, 1fr);
+`
+
 function Home(  ) {
-  const [arquivo, setArquivo] = useState(0);
+  const [arquivo, setArquivo] = useState([]);
 
   let fileReader;
+  function teste(item) {
+    console.log(item)
+  }
   
   const handleFileRead = (e) => {
     const content = fileReader.result;
-    console.log(content)
     let tratado = Tratamento(content)
+    tratado.forEach(Disassembler)
     setArquivo(tratado)
-
   };
   
   const handleFileChosen = (file) => {
@@ -38,13 +48,7 @@ function Home(  ) {
         accept='.rom,.txt'
         onChange={e => handleFileChosen(e.target.files[0])}
       />
-      <p>{
-        arquivo.map((byte, i) => {
-          return(
-            <spam key={i}>{(i%2==0) ? " " + byte : byte}</spam>
-          );
-        })
-      }</p>
+      <OPCodes codigos={arquivo}/>
     </Container>
   )
 }
