@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 
 import Tratamento from '../services/Tratamento';
 import Disassembler from '../services/Disassembler';
@@ -12,19 +12,10 @@ const Container = styled.div`
   overflow-wrap: break-word;
 `
 
-const OPDiv = styled.div`
-  margin: 42px;
-  display: grid;
-  grid-template-columns: repeat(16, 1fr);
-`
-
 function Home(  ) {
   const [arquivo, setArquivo] = useState([]);
 
   let fileReader;
-  function teste(item) {
-    console.log(item)
-  }
   
   const handleFileRead = (e) => {
     const content = fileReader.result;

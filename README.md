@@ -3,7 +3,9 @@
 Emulador de [CHIP-8](https://en.wikipedia.org/wiki/CHIP-8), vai ser criado provavelmente em javaScript, com React, talvez em C++, quem sabe?
 
 ## Instruções
+Precisa do Node e NPM pra rodar, versão mais atual possível (04-02-2022).
 
+M
 ```shell
 git clone https://github.com/sleiph/CHIP-OITO.git
 cd CHIP-OITO
