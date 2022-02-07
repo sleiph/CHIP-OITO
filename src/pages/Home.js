@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 
 import Tratamento from '../services/Tratamento';
 import Disassembler from '../services/Disassembler';
+import Display from '../components/Display';
 import OPCodes from '../components/OPCodes';
 
 import styled from 'styled-components'
@@ -39,7 +40,9 @@ function Home(  ) {
         accept='.rom,.txt'
         onChange={e => handleFileChosen(e.target.files[0])}
       />
-      <OPCodes codigos={arquivo}/>
+
+      <Display />
+      <OPCodes codigos={arquivo} />
     </Container>
   )
 }
