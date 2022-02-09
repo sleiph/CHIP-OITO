@@ -6,10 +6,14 @@ const DisplayDiv = styled.div`
   display: grid;
   grid-template-columns: repeat(64, 1fr);
   grid-gap: 1px;
+
+  @media (max-width: 1024px) {
+    grid-gap: 0;
+  }
 `
 
 const PixelDiv = styled.div`
-  height: 2vh;
+  height: 1.5vw;
 `
 
 function Display(  ) {
@@ -66,7 +70,7 @@ function Display(  ) {
     let temp = [...display];
     for (let i=0; i<sprite.length; i++) {
       for (let j=0; j<8; j++) {
-        temp[y+i][x+j] = sprite[i][j]
+        temp[(y+i)%32][(x+j)%64] = sprite[i][j]
       }
     }
     return temp;
@@ -76,12 +80,12 @@ function Display(  ) {
     <DisplayDiv>{
       display.map((linha, i) => {
         return(
-          linha.map((pixel, i) => {
+          linha.map((pixel, j) => {
             return( 
-              <PixelDiv key={i}
+              <PixelDiv key={i + "-" + j}
                 style={{backgroundColor: (pixel===1) ? '#38b764' : '#257179'}}
                 onClick={() => {
-                  setDisplay(Draw(sprites[0], 2, 2))
+                  setDisplay(Draw(sprites[0], j, i))
                 }}
               />
             );
