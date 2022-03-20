@@ -8,7 +8,7 @@ function Tratamento(conteudo) {
     temp = parseInt(temp, 2).toString(16).toUpperCase()
     bytes.push(temp)
     cnt+=1;
-    if (cnt%4==0) {
+    if (cnt%4===0) {
       ops.push(bytes)
       bytes= []
     }

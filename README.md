@@ -5,7 +5,6 @@ Emulador de [CHIP-8](https://en.wikipedia.org/wiki/CHIP-8), vai ser criado prova
 ## Instruções
 Precisa do Node e NPM pra rodar, versão mais atual possível (04-02-2022).
 
-M
 ```shell
 git clone https://github.com/sleiph/CHIP-OITO.git
 cd CHIP-OITO
@@ -18,6 +17,10 @@ npm install
 ```shell
 npm start
 ```
+
+O servidor fica ativo na [porta 3000](http://localhost:3000/).
+
+Um arquivo "binário" pra testes pode ser encontrado [aqui](./src/data/pong.txt).
 
 ## Referências
 
@@ -36,3 +39,14 @@ npm start
 3. Aplicação [instrução por instrução](/roms/pong/pong-instr.md) da tabela de opcodes em alguns [roms de CHIP-8](/roms). 
 
 4. Estudo de prática das roms rodando em um [emulador de terceiros](https://github.com/massung/CHIP-8), que possui um sistema de debug.
+
+### Fazer
+
+Bastante coisa...
+- Ler arquivos binários de verdade, não os .txt que ele lê por enquanto (a leitura de arquivos por enquanto é feita direto na página home, talvez mudar essa parte pra um serviço)
+    - [JavaScript global method: writeFile](https://docs.microfocus.com/SM/9.51/Hybrid/Content/programming/javascript/reference/javascript_global_method_writefile.htm#:~:text=Use%20the%20string%20%22b%22%20to,write%20to%20a%20text%20file.)
+- Escrever arquivos binários, se a gente for deixar o jogador editar as roms
+    - [Writing Byte Array To Binary File Javascript](https://stackoverflow.com/questions/26244126/writing-byte-array-to-binary-file-javascript)
+- Interpretar as instruções, por enquanto ele só identifica o que deve ser feito, pelo arquivo [Disassembler](./src/services/Disassembler.js)
+    -[taniarascia/chip8](https://github.com/taniarascia/chip8/tree/master/classes)
+- Achar um jeito de ler continuar lendo as instruções em loop, provavelmente só um while tá bom, não sei...
