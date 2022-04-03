@@ -8,9 +8,19 @@ import OPCodes from '../components/OPCodes';
 import styled from 'styled-components'
 
 const Container = styled.div`
-  margin: 42px;
-  padding: 0;
-  overflow-wrap: break-word;
+  width: 90vw;
+  max-height: 86vh;
+  display: flex;
+  flex-direction: column;
+  background-color: #63bda4;
+`
+const Cartucho = styled.div`
+  height: 4vh;
+  background-color: #f20553;
+  padding: 0 16px;
+  display: flex;
+  align-self: flex-end;
+  align-items: center;
 `
 
 function Home(  ) {
@@ -33,13 +43,14 @@ function Home(  ) {
 
   return (
     <Container>
-      <input
-        type='file'
-        id='file'
-        className='input-file'
-        accept='.rom,.txt'
-        onChange={e => handleFileChosen(e.target.files[0])}
-      />
+      <Cartucho>
+        <input
+          type='file'
+          id='file'
+          accept='.rom,.txt'
+          onChange={e => handleFileChosen(e.target.files[0])}
+        />
+      </Cartucho>
 
       <Display />
       <OPCodes codigos={arquivo} />

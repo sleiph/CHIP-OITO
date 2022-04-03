@@ -3,17 +3,18 @@ import React, { useState } from 'react';
 import styled from 'styled-components'
 
 const DisplayDiv = styled.div`
+  height: 70vh;
+  margin: 2vh;
   display: grid;
   grid-template-columns: repeat(64, 1fr);
-  grid-gap: 1px;
 
   @media (max-width: 1024px) {
-    grid-gap: 0;
+
   }
 `
 
 const PixelDiv = styled.div`
-  height: 1.5vw;
+
 `
 
 function Display(  ) {
@@ -83,7 +84,7 @@ function Display(  ) {
           linha.map((pixel, j) => {
             return( 
               <PixelDiv key={i + "-" + j}
-                style={{backgroundColor: (pixel===1) ? '#38b764' : '#257179'}}
+                style={{backgroundColor: (pixel===1) ? '#62afb7' : '#d9ffea'}}
                 onClick={() => {
                   setDisplay(Draw(sprites[0], j, i))
                 }}
