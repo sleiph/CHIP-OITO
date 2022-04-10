@@ -4,6 +4,7 @@ import Tratamento from '../services/Tratamento';
 import Disassembler from '../services/Disassembler';
 import Display from '../components/Display';
 import OPCodes from '../components/OPCodes';
+import Teclado from '../components/Teclado';
 
 import styled from 'styled-components'
 
@@ -18,8 +19,8 @@ const Cartucho = styled.div`
   height: 4vh;
   background-color: #f20553;
   padding: 0 16px;
-  display: flex;
-  align-self: flex-end;
+  display: grid;
+  grid-template-columns: 1fr 3fr;
   align-items: center;
 `
 
@@ -50,10 +51,12 @@ function Home(  ) {
           accept='.rom,.txt'
           onChange={e => handleFileChosen(e.target.files[0])}
         />
+        <OPCodes codigos={arquivo} />
       </Cartucho>
 
       <Display />
-      <OPCodes codigos={arquivo} />
+      <Teclado />
+      
     </Container>
   )
 }

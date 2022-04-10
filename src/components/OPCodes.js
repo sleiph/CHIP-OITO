@@ -1,8 +1,7 @@
 import styled from 'styled-components'
 
 const OPDiv = styled.div`
-  height: 12vh;
-  margin: 2vh;
+  height: 100%;
   display: flex;
   flex-wrap: wrap;
   overflow: auto;
