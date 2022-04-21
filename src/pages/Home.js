@@ -39,7 +39,7 @@ function Home(  ) {
   const handleFileChosen = (file) => {
     fileReader = new FileReader();
     fileReader.onloadend = handleFileRead;
-    fileReader.readAsText(file);
+    fileReader.readAsBinaryString(file);
   };
 
   return (

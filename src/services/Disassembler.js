@@ -1,4 +1,5 @@
 function Disassembler(op) {
+  console.log(op);
   switch(op[0]) {
     case '0':
       if (op[2]==='E') {
