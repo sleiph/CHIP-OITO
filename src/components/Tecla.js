@@ -9,10 +9,23 @@ const TeclaDiv = styled.div`
     button {
         height: 100%;
         width: 100%;
-        border-style: none;
         margin: 0;
         padding: 0;
+        color: #fff;
         background-color: #3f956f;
+        font-size: 16px;
+        border-radius: 5px;
+        text-decoration: none;
+        border: none;
+        cursor: pointer;
+        outline: none;
+        transition: 0.1s all;
+    }
+    button:hover {
+        background-color: #388663;
+    }
+    button:active {
+        transform: scale(0.98);
     }
 `
 
