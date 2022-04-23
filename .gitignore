@@ -1,14 +1,17 @@
 # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 
-# dependencies
+# editores de texto
+.vs/
+
+# dependências
 /node_modules
 /.pnp
 .pnp.js
 
-# testing
+# testes
 /coverage
 
-# production
+# produção
 /build
 
 # misc

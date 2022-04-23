@@ -1,8 +1,13 @@
+/**
+ * recebe 4 chars hexadecimais e interpreta a instrução
+ * de acordo com a Opcode table na wiki
+ * https://en.wikipedia.org/wiki/CHIP-8
+ */ 
 function Disassembler(op) {
-  console.log(op);
+  // TODO: Tem q trocar tudo esses console.log() por funções reais
   switch(op[0]) {
     case '0':
-      if (op[2]==='E') {
+      if (op[2]==='e') {
         if (op[3]==='0')
           console.log("cls()")
         else
@@ -58,7 +63,7 @@ function Disassembler(op) {
         case '7':
           console.log("V"+op[1] + " = V" + op[2] + " - V" + op[1])
           break;
-        case 'E':
+        case 'e':
           console.log("V"+op[1] + " <<= 1")
           break;
         default:
@@ -68,27 +73,27 @@ function Disassembler(op) {
     case '9':
       console.log("if (V" + op[1] + " != V" + op[2] + ")")
       break;
-    case 'A':
+    case 'a':
       console.log("I = " + op[1] + op[2] + op[3])
       break;
-    case 'B':
+    case 'b':
       console.log("pula pra " + op[1] + op[2] + op[3] + " + V0")
       break;
-    case 'C':
+    case 'c':
       console.log("V" + op[1] + " = rand() & " + op[2] + op[3])
       break;
-    case 'D':
+    case 'd':
       console.log("draw(V" + op[1] + ", V" + op[2] + ", " + op[3] + ")")
       break;
-    case 'E':
-      if (op[3]==='E')
+    case 'e':
+      if (op[3]==='e')
         console.log("if (key() === " + op[1] + ")")
       else if (op[3]==='1')
         console.log("if (key() != " + op[1] + ")")
       else
       console.log("E e alguma coisa...")
       break;
-    case 'F':
+    case 'f':
       switch(op[3]) {
         case '3':
           console.log("set_BCD(V" + op[1] + ")")
@@ -112,10 +117,10 @@ function Disassembler(op) {
         case '9':
           console.log("I = sprite_addr[V" + op[1] + "]")
           break;
-        case 'A':
+        case 'a':
           console.log("V" + op[1] + " = get_key()")
           break;
-        case 'E':
+        case 'e':
           console.log("I += V" + op[1])
           break;
         default:

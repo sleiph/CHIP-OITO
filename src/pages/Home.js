@@ -29,17 +29,22 @@ function Home(  ) {
 
   let fileReader;
   
+  // trata e manda o arquivo pra ser interpretado
   const handleFileRead = (e) => {
-    const content = fileReader.result;
-    let tratado = Tratamento(content)
-    tratado.forEach(Disassembler)
-    setArquivo(tratado)
+    const conteudo = fileReader.result;
+    
+    let tratado = Tratamento(conteudo);
+    setArquivo(tratado);
+
+    // TODO: vai ter q tirar esse foreach e fazer um apontador
+    tratado.forEach(Disassembler);
   };
   
+  // lê o arquivo carregado pelo usuario
   const handleFileChosen = (file) => {
     fileReader = new FileReader();
     fileReader.onloadend = handleFileRead;
-    fileReader.readAsBinaryString(file);
+    fileReader.readAsArrayBuffer(file);
   };
 
   return (
@@ -48,7 +53,7 @@ function Home(  ) {
         <input
           type='file'
           id='file'
-          accept='.rom,.txt'
+          accept='.rom'
           onChange={e => handleFileChosen(e.target.files[0])}
         />
         <OPCodes codigos={arquivo} />
