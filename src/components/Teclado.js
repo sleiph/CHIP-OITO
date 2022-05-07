@@ -37,6 +37,15 @@ const AlfaDiv = styled.div`
 `
 
 function Teclado(  ) {
+    const handleAnswerChange = (event) => {
+		if(event.key === 'y'){
+			alert('The sky is your starting point!')
+	    }
+		else if (event.key === 'n') {
+			alert('The sky is your limit👀')
+	    }
+    }  
+  
   return (
     <TecladoDiv>
         <NumDiv>

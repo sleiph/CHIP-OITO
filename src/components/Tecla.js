@@ -28,11 +28,22 @@ const TeclaDiv = styled.div`
         transform: scale(0.98);
     }
 `
+const valarray = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "0", "q", "w", "e", "a", "s", "d"]; 
+const valarray2 = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "0", "a", "b", "c", "d", "e", "f"]; 
 
 function Tecla( {valor} ) {
+   const handleAnswerChange = (event) => {
+    if (valarray.includes(event.key)){
+        if (valarray.indexOf(event.key) > 8){
+            event.key = valarray2[valarray.indexOf(event.key)]
+        }
+        console.log(event.key);
+    }
+  }  
+
   return (
-    <TeclaDiv>
-        <button onClick={() => console.log(valor)}>{valor}</button>
+    <TeclaDiv onKeyDown = {handleAnswerChange} tabIndex = "0">
+        <button onClick ={() => console.log(valor)}>{valor}</button>
     </TeclaDiv>
   )
 }
