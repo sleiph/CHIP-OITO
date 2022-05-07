@@ -33,6 +33,8 @@ function Disassembler(op) {
       break;
     case '6':
       console.log("V"+op[1] + " = " + op[2]+op[3])
+      op = '2345'
+      return op
       break;
     case '7':
       console.log("V"+op[1] + " += " + op[2]+op[3])
@@ -130,6 +132,8 @@ function Disassembler(op) {
     default:
       console.log("instrução "+op[0]+op[1]+op[2]+op[3]+" não entendida")
   }
+  return ""
 }
+
 
 export default Disassembler

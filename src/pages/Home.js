@@ -7,6 +7,7 @@ import OPCodes from '../components/OPCodes';
 import Teclado from '../components/Teclado';
 
 import styled from 'styled-components'
+import Apontador from '../services/Apontador';
 
 const Container = styled.div`
   width: 90vw;
@@ -37,7 +38,8 @@ function Home(  ) {
     setArquivo(tratado);
 
     // TODO: vai ter q tirar esse foreach e fazer um apontador
-    tratado.forEach(Disassembler);
+    //tratado.forEach(Disassembler);
+    Apontador(tratado[0])
   };
   
   // lê o arquivo carregado pelo usuario
@@ -66,4 +68,4 @@ function Home(  ) {
   )
 }
 
-export default Home
+export default Home;
