@@ -2,6 +2,7 @@
 
 # editores de texto
 .vs/
+.vscode/
 
 # dependências
 /node_modules
