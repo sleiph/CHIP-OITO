@@ -37,9 +37,7 @@ function Home(  ) {
     let tratado = Tratamento(conteudo);
     setArquivo(tratado);
 
-    // TODO: vai ter q tirar esse foreach e fazer um apontador
-    //tratado.forEach(Disassembler);
-    Apontador(tratado[0])
+    Apontador(tratado)
   };
   
   // lê o arquivo carregado pelo usuario
