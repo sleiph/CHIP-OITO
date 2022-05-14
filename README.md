@@ -32,11 +32,11 @@ Um arquivo "binário" pra testes pode ser encontrado [aqui](./src/data/pong.txt)
 
 ### Processo de pesquisa
 
-1. [Leitura de guias práticos de criação de emuladores](http://www.emulator101.com/introduction-to-chip-8.html)
+1. [Leitura de guias práticos de criação de emuladores](http://www.emulator101.com/introduction-to-chip-8.html).
 
-2. [Estudo dos opcodes do CHIP-8](https://en.wikipedia.org/wiki/CHIP-8#Opcode_table)
+2. [Estudo dos opcodes do CHIP-8](https://en.wikipedia.org/wiki/CHIP-8#Opcode_table).
 
-3. Aplicação [instrução por instrução](/roms/pong/pong-instr.md) da tabela de opcodes em alguns [roms de CHIP-8](/roms). 
+3. Aplicação [instrução por instrução](/roms/pong/pong-instr.md) da tabela de opcodes em alguns [roms de CHIP-8](/roms).
 
 4. Estudo de prática das roms rodando em um [emulador de terceiros](https://github.com/massung/CHIP-8), que possui um sistema de debug.
 
@@ -44,7 +44,7 @@ Um arquivo "binário" pra testes pode ser encontrado [aqui](./src/data/pong.txt)
 
 Bastante coisa...
 - Ler arquivos binários de verdade, não os .txt que ele lê por enquanto (a leitura de arquivos por enquanto é feita direto na página home, talvez mudar essa parte pra um serviço)
-    - [JavaScript global method: writeFile](https://docs.microfocus.com/SM/9.51/Hybrid/Content/programming/javascript/reference/javascript_global_method_writefile.htm#:~:text=Use%20the%20string%20%22b%22%20to,write%20to%20a%20text%20file.)
+    - [JavaScript global method: writeFile](https://docs.microfocus.com/SM/9.51/Hybrid/Content/programming/javascript/reference/javascript_global_method_writefile.htm)
 - Escrever arquivos binários, se a gente for deixar o jogador editar as roms
     - [Writing Byte Array To Binary File Javascript](https://stackoverflow.com/questions/26244126/writing-byte-array-to-binary-file-javascript)
 - Interpretar as instruções, por enquanto ele só identifica o que deve ser feito, pelo arquivo [Disassembler](./src/services/Disassembler.js)
