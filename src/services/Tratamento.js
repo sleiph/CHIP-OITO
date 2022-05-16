@@ -22,7 +22,8 @@ function criaPosicoes(bytes) {
     ops[posicao] = bytes.slice(i-4, i);
     posicao += 0x002;
   }
-
+  ops['limite'] = posicao;
+  
   return ops;
 }
 

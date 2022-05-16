@@ -1,13 +1,12 @@
 import React, { useState } from 'react';
 
-import Tratamento from '../services/Tratamento';
-import Disassembler from '../services/Disassembler';
 import Display from '../components/Display';
 import OPCodes from '../components/OPCodes';
 import Teclado from '../components/Teclado';
+import Apontador from '../services/Apontador';
+import Tratamento from '../services/Tratamento';
 
 import styled from 'styled-components'
-import Apontador from '../services/Apontador';
 
 const Container = styled.div`
   width: 90vw;
@@ -26,7 +25,7 @@ const Cartucho = styled.div`
 `
 
 function Home(  ) {
-  const [arquivo, setArquivo] = useState([]);
+  const [instrucoes, setInstrucoes] = useState([]);
 
   let fileReader;
   
@@ -35,7 +34,7 @@ function Home(  ) {
     const conteudo = fileReader.result;
     
     let tratado = Tratamento(conteudo);
-    setArquivo(tratado);
+    setInstrucoes(tratado);
 
     Apontador(tratado)
   };
@@ -56,7 +55,7 @@ function Home(  ) {
           accept='.rom'
           onChange={e => handleFileChosen(e.target.files[0])}
         />
-        <OPCodes codigos={arquivo} />
+        <OPCodes codigos={instrucoes} />
       </Cartucho>
 
       <Display />

@@ -1,8 +1,32 @@
+function Vazio() {
+  console.log("vazio");
+}
+
+// Instruções e subrotinas
+function Retorna() {
+  console.log("return");
+}
+
+// Variáveis
+
+// Condicionais
+
+// Operações
+
+// Display
+function LimpaTela() {
+  console.log("cls()");
+}
+
+// Teclado
+
+// Timers
+
 /**
  * recebe 4 chars hexadecimais e interpreta a instrução
  * de acordo com a Opcode table na wiki
  * https://en.wikipedia.org/wiki/CHIP-8
- */ 
+ */
 function Disassembler(instrucao) {
   // TODO: Tem q trocar tudo esses console.log() por funções reais
   console.log(instrucao);
@@ -13,21 +37,20 @@ function Disassembler(instrucao) {
       if (op[2]==='e') {
         // limpa a tela
         if (op[3]==='0') {
-          console.log("cls()")
-          return instrucao.indice + 0x002;
+          LimpaTela();
         }
         // TODO: vai voltar pra linha que chamou a subrotina, mas
         // por enquanto só termina o processo pra evitar loops infinitos
-        else {
-          console.log("return");
+        else if (op[3]==='e') {
+          Retorna();
           return -1;
         }
       }
       // faz é nada
       else {
-        console.log("vazio");
-        return instrucao.indice + 0x002;
+        Vazio();
       }
+      return instrucao.indice + 0x002;
     // pula pro endereço descrito na instrucao
     case '1':
       console.log("goto " + op[1]+op[2]+op[3]);
