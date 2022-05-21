@@ -18,6 +18,10 @@ function LimpaTela() {
   console.log("cls()");
 }
 
+function StrHex(x){
+  return parseInt(x, 16);
+}
+
 // Teclado
 
 // Timers
@@ -29,6 +33,7 @@ function LimpaTela() {
  */
 function Disassembler(instrucao) {
   // TODO: Tem q trocar tudo esses console.log() por funções reais
+  console.log(instrucao.indice.toString(16));
   console.log(instrucao);
   let op = instrucao.op;
 
@@ -54,6 +59,7 @@ function Disassembler(instrucao) {
     // pula pro endereço descrito na instrucao
     case '1':
       console.log("goto " + op[1]+op[2]+op[3]);
+      console.log(StrHex(op[1] + op[2] + op[3]));
       return instrucao.indice + 0x002;
     // manda pra uma subrotina
     case '2':
