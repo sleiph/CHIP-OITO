@@ -13,10 +13,6 @@ function Apontador(ops){
 function aponta(opsx) {
   op = { 'indice':i, 'op':opsx[i] }
   i = Disassembler(op);
-  if (i >= opsx['limite']) {
-    // volta pro começo
-    i = 0x200;
-  }
   // se chegou no fim das instruções
 }
 

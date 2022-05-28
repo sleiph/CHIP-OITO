@@ -4,7 +4,7 @@ function Vazio() {
 
 // Instruções e subrotinas
 function Retorna() {
-  console.log("return");
+  return 0x200;
 }
 
 // Variáveis
@@ -47,8 +47,7 @@ function Disassembler(instrucao) {
         // TODO: vai voltar pra linha que chamou a subrotina, mas
         // por enquanto só termina o processo pra evitar loops infinitos
         else if (op[3]==='e') {
-          Retorna();
-          return -1;
+          return Retorna();
         }
       }
       // faz é nada
@@ -193,7 +192,7 @@ function Disassembler(instrucao) {
       console.log("instrução " + op + " não entendida");
   }
   // termina o processo
-  return -1;
+  return Retorna();
 }
 
 export default Disassembler;
