@@ -1,30 +1,4 @@
-function Vazio() {
-  console.log("vazio");
-}
-
-// Instruções e subrotinas
-function Retorna() {
-  return 0x200;
-}
-
-// Variáveis
-
-// Condicionais
-
-// Operações
-
-// Display
-function LimpaTela() {
-  console.log("cls()");
-}
-
-function StrHex(x){
-  return parseInt(x, 16);
-}
-
-// Teclado
-
-// Timers
+import Instrucoes from './Instrucoes';
 
 /**
  * recebe 4 chars hexadecimais e interpreta a instrução
@@ -32,58 +6,58 @@ function StrHex(x){
  * https://en.wikipedia.org/wiki/CHIP-8
  */
 function Disassembler(instrucao) {
-  // TODO: Tem q trocar tudo esses console.log() por funções reais
   console.log(instrucao.indice.toString(16));
   console.log(instrucao);
+
   let op = instrucao.op;
 
   switch(op[0]) {
     case '0':
       if (op[2]==='e') {
-        // limpa a tela
         if (op[3]==='0') {
-          LimpaTela();
+          // limpa a tela
+          return Instrucoes.LimpaTela(instrucao.indice);
         }
-        // TODO: vai voltar pra linha que chamou a subrotina, mas
-        // por enquanto só termina o processo pra evitar loops infinitos
         else if (op[3]==='e') {
-          return Retorna();
+          // TODO: vai voltar pra linha que chamou a subrotina, mas
+          // por enquanto só volta pra primeira instrucao
+          return Instrucoes.Retorna();
         }
       }
-      // faz é nada
       else {
-        Vazio();
+        // faz é nada
+        return Instrucoes.Vazio(instrucao.indice);
       }
-      return instrucao.indice + 0x002;
-    // pula pro endereço descrito na instrucao
     case '1':
-      console.log("goto " + op[1]+op[2]+op[3]);
-      console.log(StrHex(op[1] + op[2] + op[3]));
-      return instrucao.indice + 0x002;
-    // manda pra uma subrotina
+      // pula pro endereço descrito na instrucao
+      // TODO: Tem q trocar tudo esses console.log() por funções reais
+      return Instrucoes.StrHex(op[1] + op[2] + op[3]);
     case '2':
+      // manda pra uma subrotina
       console.log("call " + op[1]+op[2]+op[3]);
       return instrucao.indice + 0x002;
-    // condicionais
     case '3':
+      // condicionais
       console.log("if (V" + op[1] + " === " + op[2]+op[3]+")");
       return instrucao.indice + 0x002;
     case '4':
+      // condicionais
       console.log("if (V" + op[1] + " != " + op[2]+op[3]+")");
       return instrucao.indice + 0x002;
     case '5':
+      // condicionais
       console.log("if (V" + op[1] + " === V" + op[2] + ")");
       return instrucao.indice + 0x002;
-    // atribui o valor de uma das variaveis
     case '6':
+      // atribui o valor de uma das variaveis
       console.log("V"+op[1] + " = " + op[2]+op[3]);
       return instrucao.indice + 0x002;
-    // adiciona ao valor de uma variavel
     case '7':
+      // adiciona ao valor de uma variavel
       console.log("V"+op[1] + " += " + op[2]+op[3]);
       return instrucao.indice + 0x002;
-    // operações com as variaveis
     case '8':
+      // operações com as variaveis
       switch(op[3]) {
         case '0':
           console.log("V"+op[1] + " = V" + op[2]);
@@ -116,45 +90,47 @@ function Disassembler(instrucao) {
           console.log("8 e alguma coisa...");
       }
       return instrucao.indice + 0x002;
-    // condicional com duas variaveis
     case '9':
+      // condicional com duas variaveis
       console.log("if (V" + op[1] + " != V" + op[2] + ")");
       return instrucao.indice + 0x002;
-    // muda o valor do apontador (I)
     case 'a':
+      // muda o valor do apontador (I)
       console.log("I = " + op[1] + op[2] + op[3]);
       return instrucao.indice + 0x002;
-    // pula pro endereço V0 + instrucao enviada
     case 'b':
+      // pula pro endereço V0 + instrucao enviada
       console.log("pula pra " + op[1] + op[2] + op[3] + " + V0");
       return instrucao.indice + 0x002;
-    // atribui um valor aleatorio pra uma variavel
     case 'c':
+      // atribui um valor aleatorio pra uma variavel
       console.log("V" + op[1] + " = rand() & " + op[2] + op[3]);
       return instrucao.indice + 0x002;
-    // desenha na tela
     case 'd':
+      // desenha na tela
       console.log("draw(V" + op[1] + ", V" + op[2] + ", " + op[3] + ")");
       return instrucao.indice + 0x002;
-    // entrada de teclado
     case 'e':
-      // skipa a proxima instrucao se a tecla pedida tiver sendo apertada
+      // entrada de teclado
       if (op[3]==='e')
+        // skipa a proxima instrucao se a tecla pedida tiver sendo apertada
         console.log("if (key() === " + op[1] + ")");
-      // skipa a proxima instrucao se a tecla pedida NÃO tiver sendo apertada
       else if (op[3]==='1')
+        // skipa a proxima instrucao se a tecla pedida NÃO tiver sendo apertada
         console.log("if (key() != " + op[1] + ")");
-      else
+      else {
+        // sei lá...
         console.log("E e alguma coisa...");
+      }
       return instrucao.indice + 0x002;
     case 'f':
       switch(op[3]) {
-        // sinceramente? não faço ideia...
         case '3':
+          // sinceramente? não faço ideia... mas é importante
           console.log("set_BCD(V" + op[1] + ")");
           return instrucao.indice + 0x002;
-        // seta timers
         case '5':
+          // seta timers
           if (op[2] === '1')
             console.log("delay_timer(V" + op[1] + ")");
           else if (op[2] === '5')
@@ -164,35 +140,36 @@ function Disassembler(instrucao) {
           else
             console.log("F alguma coisa 5...");
           return instrucao.indice + 0x002;
-        // usa os timers
         case '7':
+          // usa os timers
           console.log("V" + op[1] + " = get_delay()");
           return instrucao.indice + 0x002;
-        // toca um somzin
         case '8':
+          // toca um somzin
           console.log("sound_timer(V" + op[1] + ")");
           return instrucao.indice + 0x002;
-        // seta um sprite na memoria
         case '9':
+          // seta um sprite na memoria
           console.log("I = sprite_addr[V" + op[1] + "]");
           return instrucao.indice + 0x002;
-        // espera até que o usuario aperte uma tecla
         case 'a':
+          // espera até que o usuario aperte uma tecla
           console.log("V" + op[1] + " = get_key()");
           return instrucao.indice + 0x002;
-        // adiciona o valor de uma variavel ao apontador
         case 'e':
+          // adiciona o valor de uma variavel ao apontador
           console.log("I += V" + op[1]);
           return instrucao.indice + 0x002;
         default:
+          // só pra garantir
           console.log("F total");
       }
       return instrucao.indice + 0x002;
     default:
       console.log("instrução " + op + " não entendida");
   }
-  // termina o processo
-  return Retorna();
+  // volta pro começo das instruções
+  return 0x200;
 }
 
 export default Disassembler;

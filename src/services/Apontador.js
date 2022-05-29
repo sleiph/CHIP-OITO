@@ -13,7 +13,6 @@ function Apontador(ops){
 function aponta(opsx) {
   op = { 'indice':i, 'op':opsx[i] }
   i = Disassembler(op);
-  // se chegou no fim das instruções
 }
 
 export default Apontador;
