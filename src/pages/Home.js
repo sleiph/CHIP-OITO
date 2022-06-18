@@ -26,7 +26,7 @@ const Cartucho = styled.div`
 
 function Home(  ) {
   const [instrucoes, setInstrucoes] = useState([]);
-
+  const[registradores, setRegistradores] = useState([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0])
   let fileReader;
   
   // trata e manda o arquivo pra ser interpretado
@@ -36,7 +36,7 @@ function Home(  ) {
     let tratado = Tratamento(conteudo);
     setInstrucoes(tratado);
 
-    Apontador(tratado)
+    Apontador(tratado, registradores, setRegistradores);
   };
   
   // lê o arquivo carregado pelo usuario
@@ -55,7 +55,7 @@ function Home(  ) {
           accept='.rom'
           onChange={e => handleFileChosen(e.target.files[0])}
         />
-        <OPCodes codigos={instrucoes} />
+        <OPCodes codigos={instrucoes} registradores={registradores} />
       </Cartucho>
 
       <Display />

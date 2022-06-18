@@ -5,7 +5,7 @@ import Instrucoes from './Instrucoes';
  * de acordo com a Opcode table na wiki
  * https://en.wikipedia.org/wiki/CHIP-8
  */
-function Disassembler(instrucao) {
+function Disassembler(instrucao, registradores, setRegistradores) {
   console.log(instrucao.indice.toString(16));
   console.log(instrucao);
 
@@ -21,7 +21,7 @@ function Disassembler(instrucao) {
         else if (op[3]==='e') {
           // TODO: vai voltar pra linha que chamou a subrotina, mas
           // por enquanto só volta pra primeira instrucao
-          return Instrucoes.Retorna();
+          return Instrucoes.Retorna(instrucao.indice);
         }
       }
       else {
@@ -50,8 +50,8 @@ function Disassembler(instrucao) {
       return instrucao.indice + 0x002;
     case '6':
       // atribui o valor de uma das variaveis
-      console.log("V"+op[1] + " = " + op[2]+op[3]);
-      return instrucao.indice + 0x002;
+      //console.log("V"+op[1] + " = " + op[2]+op[3]);
+      Instrucoes.setRegistrar(op, instrucao.indice, registradores, setRegistradores);
     case '7':
       // adiciona ao valor de uma variavel
       console.log("V"+op[1] + " += " + op[2]+op[3]);

@@ -6,13 +6,13 @@ import Disassembler from "./Disassembler";
  */
  let i = 0x200;
  let op;
-function Apontador(ops){
-  setInterval( function() {aponta(ops)}, 1000 );
+function Apontador(ops, registradores, setRegistradores){
+  setInterval( function() {aponta(ops, registradores, setRegistradores)}, 1000);
 }
 
-function aponta(opsx) {
+function aponta(opsx, registradores, setRegistradores) {
   op = { 'indice':i, 'op':opsx[i] }
-  i = Disassembler(op);
+  i = Disassembler(op, registradores, setRegistradores);
 }
 
 export default Apontador;
