@@ -6,7 +6,7 @@ import Disassembler from "./Disassembler";
  */
  let i = 0x200;
  let op;
-function Apontador(ops, registradores, setRegistradores){
+function Apontador(ops, registradores, setRegistradores) {
   setInterval( function() {aponta(ops, registradores, setRegistradores)}, 1000);
 }
 

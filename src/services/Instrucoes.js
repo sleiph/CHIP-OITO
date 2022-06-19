@@ -16,6 +16,7 @@ const Instrucoes = {
         return anterior + 0x002;
     },
 
+    // Variáveis
     setRegistrar : function(op, instrucao, registradores, setRegistradores) {
         let ope = parseInt(op[1], 16);
         let valor = parseInt(op.slice(-2), 16);
@@ -24,8 +25,6 @@ const Instrucoes = {
         setRegistradores(copia);
         return instrucao + 0x002;
     },
-  
-    // Variáveis
   
     // Condicionais
   

@@ -12,7 +12,7 @@ const Instrucao = styled.span`
 `
 
 function OPCodes( {codigos, registradores} ) {
-  let arrayCodigos = Object.values(codigos);
+  //let arrayCodigos = Object.values(codigos);
   let arrayRegistradores = Object.values(registradores);
   
   return (
