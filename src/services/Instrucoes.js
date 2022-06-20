@@ -1,3 +1,4 @@
+let copiadora = [0, 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
 const Instrucoes = {
 
     Vazio : function(anterior) {
@@ -19,8 +20,11 @@ const Instrucoes = {
     setRegistrar : function(op, instrucao, registradores, setRegistradores) {
         let ope = parseInt(op[1], 16);
         let valor = parseInt(op.slice(-2), 16);
+        //if (copia.length == 0) copia = [...registradores];
         let copia = [...registradores];
-        copia[ope] = valor;
+        copiadora[ope] = valor;
+        copia = copiadora;
+        console.log(copia);
         setRegistradores(copia);
         return instrucao + 0x002;
     },
