@@ -24,7 +24,9 @@ const Instrucoes = {
         //if (copia.length == 0) copia = [...registradores];
         let copia = [...registradores];
         copiadora[ope] = valor;
-        copia = copiadora;
+        for (let i = 0; i < 16; i++){
+            copia[i] = copiadora[i];
+        }
         console.log(copia);
         setRegistradores(copia);
         return instrucao + 0x002;
