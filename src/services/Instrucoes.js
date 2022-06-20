@@ -21,9 +21,20 @@ const Instrucoes = {
     setRegistrar : function(op, instrucao, registradores, setRegistradores) {
         let ope = parseInt(op[1], 16);
         let valor = parseInt(op.slice(-2), 16);
-        //if (copia.length == 0) copia = [...registradores];
         let copia = [...registradores];
         copiadora[ope] = valor;
+        for (let i = 0; i < 16; i++){
+            copia[i] = copiadora[i];
+        }
+        setRegistradores(copia);
+        return instrucao + 0x002;
+    },
+
+    setAdd : function(op, instrucao, registradores, setRegistradores) {
+        let ope = parseInt(op[1], 16);
+        let valor = parseInt(op.slice(-2), 16);
+        let copia = [...registradores];
+        copiadora[ope] += valor;
         for (let i = 0; i < 16; i++){
             copia[i] = copiadora[i];
         }
