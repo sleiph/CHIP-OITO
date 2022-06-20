@@ -50,8 +50,7 @@ function Disassembler(instrucao, registradores, setRegistradores) {
       return instrucao.indice + 0x002;
     case '6':
       // atribui o valor de uma das variaveis
-      //console.log("V"+op[1] + " = " + op[2]+op[3]);
-      Instrucoes.setRegistrar(op, instrucao.indice, registradores, setRegistradores);
+      return Instrucoes.setRegistrar(op, instrucao.indice, registradores, setRegistradores);
     case '7':
       // adiciona ao valor de uma variavel
       console.log("V"+op[1] + " += " + op[2]+op[3]);
