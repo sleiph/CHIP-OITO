@@ -58,8 +58,9 @@ function Disassembler(instrucao, registradores, setRegistradores) {
       // operações com as variaveis
       switch(op[3]) {
         case '0':
-          console.log("V"+op[1] + " = V" + op[2]);
-          return instrucao.indice + 0x002;
+          //console.log("V"+op[1] + " = V" + op[2]);
+          //return instrucao.indice + 0x002;
+          return Instrucoes.setIgual(op, instrucao.indice, registradores, setRegistradores);
         case '1':
           console.log("V"+op[1] + " |= V" + op[2]);
           return instrucao.indice + 0x002;

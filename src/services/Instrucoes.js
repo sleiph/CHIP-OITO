@@ -38,6 +38,18 @@ const Instrucoes = {
         for (let i = 0; i < 16; i++){
             copia[i] = copiadora[i];
         }
+        setRegistradores(copia);
+        return instrucao + 0x002;
+    },
+
+    setIgual : function(op, instrucao, registradores, setRegistradores){
+        let ope1 = parseInt(op[1], 16);
+        let ope2 = parseInt(op[2], 16);
+        let copia = [...registradores];
+        copiadora[ope1] = copiadora[ope2];
+        for (let i = 0; i < 16; i++){
+            copia[i] = copiadora[i];
+        }
         console.log(copia);
         setRegistradores(copia);
         return instrucao + 0x002;
