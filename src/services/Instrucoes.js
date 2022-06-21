@@ -54,6 +54,48 @@ const Instrucoes = {
         setRegistradores(copia);
         return instrucao + 0x002;
     },
+
+    setAddop : function(op, instrucao, registradores, setRegistradores) { 
+        //VF is set to 1 when there's a carry, and to 0 when there is not.
+        let ope1 = parseInt(op[1], 16);
+        let ope2 = parseInt(op[2], 16);
+        let copia = [...registradores];
+        copiadora[ope1] += copiadora[ope2];
+        for (let i = 0; i < 16; i++){
+            copia[i] = copiadora[i];
+        }
+        console.log(copia);
+        setRegistradores(copia);
+        return instrucao + 0x002;
+    },
+
+    setSubop : function(op, instrucao, registradores, setRegistradores) { 
+        //VF is set to 0 when there's a borrow, and 1 when there is not.
+        let ope1 = parseInt(op[1], 16);
+        let ope2 = parseInt(op[2], 16);
+        let copia = [...registradores];
+        copiadora[ope1] -= copiadora[ope2];
+        for (let i = 0; i < 16; i++){
+            copia[i] = copiadora[i];
+        }
+        console.log(copia);
+        setRegistradores(copia);
+        return instrucao + 0x002;
+    },
+
+    setRestop : function(op, instrucao, registradores, setRegistradores){
+        //VF is set to 0 when there's a borrow, and 1 when there is not.
+        let ope1 = parseInt(op[1], 16);
+        let ope2 = parseInt(op[2], 16);
+        let copia = [...registradores];
+        copiadora[ope1] = copiadora[ope2] - copiadora[ope1];
+        for (let i = 0; i < 16; i++){
+            copia[i] = copiadora[i];
+        }
+        console.log(copia);
+        setRegistradores(copia);
+        return instrucao + 0x002;
+    },
   
     // Condicionais
   

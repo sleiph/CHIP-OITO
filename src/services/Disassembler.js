@@ -71,17 +71,20 @@ function Disassembler(instrucao, registradores, setRegistradores) {
           console.log("V"+op[1] + " ^= V" + op[2]);
           return instrucao.indice + 0x002;
         case '4':
-          console.log("V"+op[1] + " += V" + op[2]);
-          return instrucao.indice + 0x002;
+          //console.log("V"+op[1] + " += V" + op[2]);
+          //return instrucao.indice + 0x002;
+          return Instrucoes.setAddop(op, instrucao.indice, registradores, setRegistradores);
         case '5':
-          console.log("V"+op[1] + " -= V" + op[2]);
-          return instrucao.indice + 0x002;
+          //console.log("V"+op[1] + " -= V" + op[2]);
+          //return instrucao.indice + 0x002;
+          return Instrucoes.setSubop(op, instrucao.indice, registradores, setRegistradores);
         case '6':
           console.log("V"+op[1] + " >>= 1");
           return instrucao.indice + 0x002;
         case '7':
-          console.log("V"+op[1] + " = V" + op[2] + " - V" + op[1]);
-          return instrucao.indice + 0x002;
+          //console.log("V"+op[1] + " = V" + op[2] + " - V" + op[1]);
+          //return instrucao.indice + 0x002;
+          return Instrucoes.setRestop(op, instrucao.indice, registradores, setRegistradores);
         case 'e':
           console.log("V"+op[1] + " <<= 1");
           return instrucao.indice + 0x002;
