@@ -51,6 +51,7 @@ function Disassembler(instrucao, registradores, setRegistradores) {
     case '6':
       // atribui o valor de uma das variaveis
       return Instrucoes.setRegistrar(op, instrucao.indice, registradores, setRegistradores);
+
     case '7':
       // adiciona ao valor de uma variavel
       return Instrucoes.setAdd(op, instrucao.indice, registradores, setRegistradores);
@@ -62,14 +63,11 @@ function Disassembler(instrucao, registradores, setRegistradores) {
           //return instrucao.indice + 0x002;
           return Instrucoes.setIgual(op, instrucao.indice, registradores, setRegistradores);
         case '1':
-          console.log("V"+op[1] + " |= V" + op[2]);
-          return instrucao.indice + 0x002;
+          return Instrucoes.setOR(op, instrucao.indice, registradores, setRegistradores);
         case '2':
-          console.log("V"+op[1] + " &= V" + op[2]);
-          return instrucao.indice + 0x002;
+          return Instrucoes.setAND(op, instrucao.indice, registradores, setRegistradores);
         case '3':
-          console.log("V"+op[1] + " ^= V" + op[2]);
-          return instrucao.indice + 0x002;
+          return Instrucoes.setXOR(op, instrucao.indice, registradores, setRegistradores);
         case '4':
           //console.log("V"+op[1] + " += V" + op[2]);
           //return instrucao.indice + 0x002;

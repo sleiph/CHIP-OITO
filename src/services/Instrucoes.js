@@ -1,4 +1,4 @@
-let copiadora = [0, 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
+let copiadora = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
 const Instrucoes = {
 
     Vazio : function(anterior) {
@@ -21,6 +21,7 @@ const Instrucoes = {
         for (let i = 0; i < 16; i++){
             copia[i] = copiadora[i];
         }
+        console.log(copia);
         setRegistradores(copia);
     },
 
@@ -30,6 +31,36 @@ const Instrucoes = {
         let valor = parseInt(op.slice(-2), 16);
         let copia = [...registradores];
         copiadora[ope] = valor;
+        this.Update(copia, copiadora, setRegistradores)
+        return instrucao + 0x002;
+    },
+
+    setOR : function(op, instrucao, registradores, setRegistradores) {
+        let ope1 = parseInt(op[1], 16);
+        let ope2 = parseInt(op[2], 16);
+        let copia = [...registradores];
+        let valor = parseInt(copiadora[ope1], 16) | parseInt(copiadora[ope2], 16);
+        copiadora[ope1] = valor;
+        this.Update(copia, copiadora, setRegistradores)
+        return instrucao + 0x002;
+    },
+
+    setAND : function(op, instrucao, registradores, setRegistradores) {
+        let ope1 = parseInt(op[1], 16);
+        let ope2 = parseInt(op[2], 16);
+        let copia = [...registradores];
+        let valor = parseInt(copiadora[ope1], 16) & parseInt(copiadora[ope2], 16);
+        copiadora[ope1] = valor;
+        this.Update(copia, copiadora, setRegistradores)
+        return instrucao + 0x002;
+    },
+
+    setXOR : function(op, instrucao, registradores, setRegistradores) {
+        let ope1 = parseInt(op[1], 16);
+        let ope2 = parseInt(op[2], 16);
+        let copia = [...registradores];
+        let valor = parseInt(copiadora[ope1], 16) ^ parseInt(copiadora[ope2], 16);
+        copiadora[ope1] = valor;
         this.Update(copia, copiadora, setRegistradores)
         return instrucao + 0x002;
     },
@@ -48,7 +79,6 @@ const Instrucoes = {
         let ope2 = parseInt(op[2], 16);
         let copia = [...registradores];
         copiadora[ope1] = copiadora[ope2];
-        console.log(copia);
         this.Update(copia, copiadora, setRegistradores)
         return instrucao + 0x002;
     },
@@ -59,6 +89,10 @@ const Instrucoes = {
         let ope2 = parseInt(op[2], 16);
         let copia = [...registradores];
         copiadora[ope1] += copiadora[ope2];
+        if (copiadora[ope1] > parseInt(255, 16)) {
+            copiadora[15] = parseInt(1, 16);
+            console.log(copiadora[15]);
+        }
         console.log(copia);
         this.Update(copia, copiadora, setRegistradores)
         return instrucao + 0x002;
@@ -70,6 +104,10 @@ const Instrucoes = {
         let ope2 = parseInt(op[2], 16);
         let copia = [...registradores];
         copiadora[ope1] -= copiadora[ope2];
+        if (copiadora[ope1] > parseInt(255, 16)) {
+            copiadora[15] = 0;
+            console.log(copiadora[15]);
+        }
         console.log(copia);
         this.Update(copia, copiadora, setRegistradores)
         return instrucao + 0x002;
@@ -81,6 +119,10 @@ const Instrucoes = {
         let ope2 = parseInt(op[2], 16);
         let copia = [...registradores];
         copiadora[ope1] = copiadora[ope2] - copiadora[ope1];
+        if (copiadora[ope1] > parseInt(255, 16)) {
+            copiadora[15] = 0;
+            console.log(copiadora[15]);
+        }
         console.log(copia);
         this.Update(copia, copiadora, setRegistradores)
         return instrucao + 0x002;
