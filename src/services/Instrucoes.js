@@ -27,7 +27,7 @@ const Instrucoes = {
      * TODO: Fazer
      * 
      * Retorna pro ponto que chamou a função atual + 0x002(próxima instrução)
-     * @param {*} anterior a posição da instrução que chamou Retorna
+     * @param anterior a posição da instrução que chamou Retorna
      * @returns a posição da instrução depois da 2NNN que chamou a subrotina atual
      *   
      */
@@ -164,26 +164,26 @@ const Instrucoes = {
         switch(op[0]){
             case '3':
                 if (parseInt(op[1], 16) === parseInt(op[2], 16) + parseInt(op[3], 16)) {
-                    return instrucao.indice + 0x004;
+                    return instrucao + 0x004;
                 }
                 break;
             case '4':
                 if (parseInt(op[1], 16) !== parseInt(op[2], 16) + parseInt(op[3], 16)) {
-                    return instrucao.indice + 0x004;
+                    return instrucao + 0x004;
                 }
                 break;
             case '5':
                 if (parseInt(op[1], 16) === parseInt(op[2], 16)) {
-                    return instrucao.indice + 0x004;
+                    return instrucao + 0x004;
                 }
                 break;
             case '9':
                 if (parseInt(op[1], 16) !== parseInt(op[2], 16) + parseInt(op[3], 16)) {
-                    return instrucao.indice + 0x004;
+                    return instrucao + 0x004;
                 }
                 break;
             default:
-                return instrucao.indice + 0x002;
+                return instrucao + 0x002;
         }
     },
 
