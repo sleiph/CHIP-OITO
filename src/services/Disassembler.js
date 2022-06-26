@@ -38,16 +38,26 @@ function Disassembler(instrucao, registradores, setRegistradores) {
       return instrucao.indice + 0x002;
     case '3':
       // condicionais
-      console.log("if (V" + op[1] + " === " + op[2]+op[3]+")");
+      //console.log("if (V" + op[1] + " === " + op[2]+op[3]+")");
+      if (parseInt(op[1], 16) === parseInt(op[2], 16) + parseInt(op[3], 16)) {
+        return instrucao.indice + 0x004;
+      }
       return instrucao.indice + 0x002;
     case '4':
       // condicionais
       console.log("if (V" + op[1] + " != " + op[2]+op[3]+")");
+      if (parseInt(op[1], 16) != parseInt(op[2], 16) + parseInt(op[3], 16)) {
+        return instrucao.indice + 0x004;
+      }
       return instrucao.indice + 0x002;
     case '5':
       // condicionais
       console.log("if (V" + op[1] + " === V" + op[2] + ")");
+      if (parseInt(op[1], 16) === parseInt(op[2], 16)) {
+        return instrucao.indice + 0x004;
+      }
       return instrucao.indice + 0x002;
+      // 0x004
     case '6':
       // atribui o valor de uma das variaveis
       return Instrucoes.setRegistrar(op, instrucao.indice, registradores, setRegistradores);
@@ -92,7 +102,10 @@ function Disassembler(instrucao, registradores, setRegistradores) {
       return instrucao.indice + 0x002;
     case '9':
       // condicional com duas variaveis
-      console.log("if (V" + op[1] + " != V" + op[2] + ")");
+      //console.log("if (V" + op[1] + " != V" + op[2] + ")");
+      if (parseInt(op[1], 16) != parseInt(op[2], 16) + parseInt(op[3], 16)) {
+        return instrucao.indice + 0x004;
+      }
       return instrucao.indice + 0x002;
     case 'a':
       // muda o valor do apontador (I)
