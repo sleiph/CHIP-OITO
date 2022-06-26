@@ -26,6 +26,29 @@ const Instrucoes = {
     },
 
     // Variáveis
+    setJump : function(op, instrucao, registradores, setRegistradores){
+        switch(op[0]){
+            case '3':
+                if (parseInt(op[1], 16) === parseInt(op[2], 16) + parseInt(op[3], 16)) {
+                    return instrucao.indice + 0x004;
+                }
+            case '4':
+                if (parseInt(op[1], 16) != parseInt(op[2], 16) + parseInt(op[3], 16)) {
+                    return instrucao.indice + 0x004;
+                }
+            case '5':
+                if (parseInt(op[1], 16) === parseInt(op[2], 16)) {
+                    return instrucao.indice + 0x004;
+                }
+            case '9':
+                if (parseInt(op[1], 16) != parseInt(op[2], 16) + parseInt(op[3], 16)) {
+                    return instrucao.indice + 0x004;
+                }
+            default:
+                return instrucao.indice + 0x002;
+        }
+    },
+
     setRegistrar : function(op, instrucao, registradores, setRegistradores) {
         let ope = parseInt(op[1], 16);
         let valor = parseInt(op.slice(-2), 16);
