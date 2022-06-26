@@ -36,16 +36,15 @@ function Disassembler(instrucao, registradores, setRegistradores) {
       // manda pra uma subrotina
       console.log("call " + op[1]+op[2]+op[3]);
       return instrucao.indice + 0x002;
+    // condicionais
     case '3':
     case '4':
     case '5':
     case '9':
-      // condicionais
       return Instrucoes.setJump(op, instrucao.indice, registradores, setRegistradores);
     case '6':
       // atribui o valor de uma das variaveis
       return Instrucoes.setRegistrar(op, instrucao.indice, registradores, setRegistradores);
-
     case '7':
       // adiciona ao valor de uma variavel
       return Instrucoes.setAdd(op, instrucao.indice, registradores, setRegistradores);
