@@ -37,15 +37,10 @@ function Disassembler(instrucao, registradores, setRegistradores) {
       console.log("call " + op[1]+op[2]+op[3]);
       return instrucao.indice + 0x002;
     case '3':
-      // condicionais
-      return Instrucoes.setJump(op, instrucao.indice, registradores, setRegistradores);
     case '4':
-      // condicionais
-      console.log("if (V" + op[1] + " != " + op[2]+op[3]+")");
-      return Instrucoes.setJump(op, instrucao.indice, registradores, setRegistradores);
     case '5':
+    case '9':
       // condicionais
-      console.log("if (V" + op[1] + " === V" + op[2] + ")");
       return Instrucoes.setJump(op, instrucao.indice, registradores, setRegistradores);
     case '6':
       // atribui o valor de uma das variaveis
@@ -89,11 +84,6 @@ function Disassembler(instrucao, registradores, setRegistradores) {
           console.log("8 e alguma coisa...");
       }
       return instrucao.indice + 0x002;
-    case '9':
-      // condicional com duas variaveis
-      //console.log("if (V" + op[1] + " != V" + op[2] + ")");
-      return Instrucoes.setJump(op, instrucao.indice, registradores, setRegistradores);
-      //return instrucao.indice + 0x002;
     case 'a':
       // muda o valor do apontador (I)
       console.log("I = " + op[1] + op[2] + op[3]);
