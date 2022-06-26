@@ -29,11 +29,11 @@ const Instrucoes = {
     setJump : function(op, instrucao, registradores, setRegistradores){
         switch(op[0]){
             case '3':
-                if (copiadora(parseInt(op[1], 16)) === copiadora(parseInt(op[2], 16)) + copiadora(parseInt(op[3], 16))) {
+                if (copiadora(parseInt(op[1], 16)) === parseInt(op.slice(-2), 16)) {
                     return instrucao.indice + 0x004;
                 }
             case '4':
-                if (copiadora(parseInt(op[1], 16)) != copiadora(parseInt(op[2], 16)) + copiadora(parseInt(op[3], 16))) {
+                if (copiadora(parseInt(op[1], 16)) != parseInt(op.slice(-2), 16)) {
                     return instrucao.indice + 0x004;
                 }
             case '5':
@@ -41,7 +41,7 @@ const Instrucoes = {
                     return instrucao.indice + 0x004;
                 }
             case '9':
-                if (copiadora(parseInt(op[1], 16)) != copiadora(parseInt(op[2], 16)) + copiadora(parseInt(op[3], 16))) {
+                if (copiadora(parseInt(op[1], 16)) != copiadora(parseInt(op[2], 16))) {
                     return instrucao.indice + 0x004;
                 }
             default:
