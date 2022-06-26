@@ -28,11 +28,10 @@ function Disassembler(instrucao, registradores, setRegistradores) {
         // faz é nada
         return Instrucoes.Vazio(instrucao.indice);
       }
-      break;
     case '1':
       // pula pro endereço descrito na instrucao
       // TODO: Tem q trocar tudo esses console.log() por funções reais
-      return Instrucoes.StrHex(op);
+      return Instrucoes.StrHex(op[1] + op[2] + op[3]);
     case '2':
       // manda pra uma subrotina
       console.log("call " + op[1]+op[2]+op[3]);
