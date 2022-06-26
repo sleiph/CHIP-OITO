@@ -41,14 +41,14 @@ const Instrucoes = {
         return parseInt(op[1] + op[2] + op[3], 16);
     },
 
-    // Manipulação de variáveis
+    // Variáveis
     /// ex. Opcode: 6XNN
     setRegistrar : function(op, instrucao, registradores, setRegistradores) {
         let ope = parseInt(op[1], 16);
         let valor = parseInt(op.slice(-2), 16);
         let copia = [...registradores];
         copiadora[ope] = valor;
-        this.Update(copia, copiadora, setRegistradores)
+        this.UpdateRegistradores(copia, copiadora, setRegistradores)
         return instrucao + 0x002;
     },
 
@@ -58,7 +58,7 @@ const Instrucoes = {
         let valor = parseInt(op.slice(-2), 16);
         let copia = [...registradores];
         copiadora[ope] += valor;
-        this.Update(copia, copiadora, setRegistradores)
+        this.UpdateRegistradores(copia, copiadora, setRegistradores)
         return instrucao + 0x002;
     },
 
@@ -68,7 +68,7 @@ const Instrucoes = {
         let ope2 = parseInt(op[2], 16);
         let copia = [...registradores];
         copiadora[ope1] = copiadora[ope2];
-        this.Update(copia, copiadora, setRegistradores)
+        this.UpdateRegistradores(copia, copiadora, setRegistradores)
         return instrucao + 0x002;
     },
 
@@ -79,7 +79,7 @@ const Instrucoes = {
         let copia = [...registradores];
         let valor = parseInt(copiadora[ope1], 16) | parseInt(copiadora[ope2], 16);
         copiadora[ope1] = valor;
-        this.Update(copia, copiadora, setRegistradores)
+        this.UpdateRegistradores(copia, copiadora, setRegistradores)
         return instrucao + 0x002;
     },
 
@@ -90,7 +90,7 @@ const Instrucoes = {
         let copia = [...registradores];
         let valor = parseInt(copiadora[ope1], 16) & parseInt(copiadora[ope2], 16);
         copiadora[ope1] = valor;
-        this.Update(copia, copiadora, setRegistradores)
+        this.UpdateRegistradores(copia, copiadora, setRegistradores)
         return instrucao + 0x002;
     },
 
@@ -101,7 +101,7 @@ const Instrucoes = {
         let copia = [...registradores];
         let valor = parseInt(copiadora[ope1], 16) ^ parseInt(copiadora[ope2], 16);
         copiadora[ope1] = valor;
-        this.Update(copia, copiadora, setRegistradores)
+        this.UpdateRegistradores(copia, copiadora, setRegistradores)
         return instrucao + 0x002;
     },
 
@@ -115,7 +115,7 @@ const Instrucoes = {
         if (copiadora[ope1] > parseInt(255, 16)) {
             copiadora[15] = parseInt(1, 16);
         }
-        this.Update(copia, copiadora, setRegistradores)
+        this.UpdateRegistradores(copia, copiadora, setRegistradores)
         return instrucao + 0x002;
     },
 
@@ -129,7 +129,7 @@ const Instrucoes = {
         if (copiadora[ope1] > parseInt(255, 16)) {
             copiadora[15] = 0;
         }
-        this.Update(copia, copiadora, setRegistradores)
+        this.UpdateRegistradores(copia, copiadora, setRegistradores)
         return instrucao + 0x002;
     },
 
@@ -155,11 +155,37 @@ const Instrucoes = {
         if (copiadora[ope1] > parseInt(255, 16)) {
             copiadora[15] = 0;
         }
-        this.Update(copia, copiadora, setRegistradores)
+        this.UpdateRegistradores(copia, copiadora, setRegistradores)
         return instrucao + 0x002;
     },
 
     // Condicionais
+    setJump : function(op, instrucao, registradores, setRegistradores){
+        switch(op[0]){
+            case '3':
+                if (parseInt(op[1], 16) === parseInt(op[2], 16) + parseInt(op[3], 16)) {
+                    return instrucao.indice + 0x004;
+                }
+                break;
+            case '4':
+                if (parseInt(op[1], 16) !== parseInt(op[2], 16) + parseInt(op[3], 16)) {
+                    return instrucao.indice + 0x004;
+                }
+                break;
+            case '5':
+                if (parseInt(op[1], 16) === parseInt(op[2], 16)) {
+                    return instrucao.indice + 0x004;
+                }
+                break;
+            case '9':
+                if (parseInt(op[1], 16) !== parseInt(op[2], 16) + parseInt(op[3], 16)) {
+                    return instrucao.indice + 0x004;
+                }
+                break;
+            default:
+                return instrucao.indice + 0x002;
+        }
+    },
 
   
     // Display
