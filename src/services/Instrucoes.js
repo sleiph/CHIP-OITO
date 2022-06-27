@@ -140,31 +140,51 @@ const Instrucoes = {
         this.UpdateRegistradores(copia, copiadora, setRegistradores)
         return instrucao + 0x002;
     },
+
+    setRightShift : function(op, instrucao, registradores, setRegistradores) {
+        let ope1 = parseInt(op[1], 16);
+        let copia = [...registradores];
+        let valor = parseInt(copiadora[ope1], 16) >> 1;
+        copiadora[ope1] = valor;
+        this.UpdateRegistradores(copia, copiadora, setRegistradores)
+        return instrucao + 0x002;
+    },
+
+    setLeftShift : function(op, instrucao, registradores, setRegistradores) {
+        let ope1 = parseInt(op[1], 16);
+        let copia = [...registradores];
+        let valor = parseInt(copiadora[ope1], 16) >> 1;
+        copiadora[ope1] = valor;
+        this.UpdateRegistradores(copia, copiadora, setRegistradores)
+        return instrucao + 0x002;
+    },
   
     // Condicionais
     setJump : function(op, instrucao, registradores, setRegistradores){
+        let ope = parseInt(op[1], 16);
+        let valor = parseInt(op.slice(-2), 16);
         switch(op[0]) {
             case '3':
                 /// ex. Opcode: 3XNN
-                if (copiadora(parseInt(op[1], 16)) === parseInt(op.slice(-2), 16)) {
+                if (copiadora[ope] === valor) {
                     return instrucao.indice + 0x004;
                 }
                 return instrucao.indice + 0x002;
             case '4':
                 /// ex. Opcode: 4XNN
-                if (copiadora(parseInt(op[1], 16)) !== parseInt(op.slice(-2), 16)) {
+                if (copiadora[ope] != valor) {
                     return instrucao.indice + 0x004;
                 }
                 return instrucao.indice + 0x002;
             case '5':
                 /// ex. Opcode: 5XY5
-                if (copiadora(parseInt(op[1], 16)) === copiadora(parseInt(op[2], 16))) {
+                if (copiadora[ope] === copiadora[valor]) {
                     return instrucao.indice + 0x004;
                 }
                 return instrucao.indice + 0x002;
             case '9':
                 /// ex. Opcode: 9XY0
-                if (copiadora(parseInt(op[1], 16)) !== copiadora(parseInt(op[2], 16))) {
+                if (copiadora[ope] !== copiadora[valor]) {
                     return instrucao.indice + 0x004;
                 }
                 return instrucao.indice + 0x002;

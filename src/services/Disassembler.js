@@ -52,8 +52,6 @@ function Disassembler(instrucao, registradores, setRegistradores) {
       // operações com as variaveis
       switch(op[3]) {
         case '0':
-          //console.log("V"+op[1] + " = V" + op[2]);
-          //return instrucao.indice + 0x002;
           return Instrucoes.setIgual(op, instrucao.indice, registradores, setRegistradores);
         case '1':
           return Instrucoes.setOR(op, instrucao.indice, registradores, setRegistradores);
@@ -62,23 +60,17 @@ function Disassembler(instrucao, registradores, setRegistradores) {
         case '3':
           return Instrucoes.setXOR(op, instrucao.indice, registradores, setRegistradores);
         case '4':
-          //console.log("V"+op[1] + " += V" + op[2]);
-          //return instrucao.indice + 0x002;
           return Instrucoes.setAddop(op, instrucao.indice, registradores, setRegistradores);
         case '5':
-          //console.log("V"+op[1] + " -= V" + op[2]);
-          //return instrucao.indice + 0x002;
           return Instrucoes.setSubop(op, instrucao.indice, registradores, setRegistradores);
         case '6':
           console.log("V"+op[1] + " >>= 1");
-          return instrucao.indice + 0x002;
+          return Instrucoes.setRightShift(op, instrucao.indice, registradores, setRegistradores);
         case '7':
-          //console.log("V"+op[1] + " = V" + op[2] + " - V" + op[1]);
-          //return instrucao.indice + 0x002;
           return Instrucoes.setRestop(op, instrucao.indice, registradores, setRegistradores);
         case 'e':
           console.log("V"+op[1] + " <<= 1");
-          return instrucao.indice + 0x002;
+          return Instrucoes.setRightShift(op, instrucao.indice, registradores, setRegistradores);
         default:
           console.log("8 e alguma coisa...");
       }
