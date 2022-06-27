@@ -172,7 +172,7 @@ const Instrucoes = {
                 return instrucao.indice + 0x002;
             case '4':
                 /// ex. Opcode: 4XNN
-                if (copiadora[ope] != valor) {
+                if (copiadora[ope] !== valor) {
                     return instrucao.indice + 0x004;
                 }
                 return instrucao.indice + 0x002;
