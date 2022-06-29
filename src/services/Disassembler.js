@@ -11,6 +11,10 @@ function Disassembler(instrucao, registradores, setRegistradores) {
 
   let op = instrucao.op;
 
+  let ope1 = parseInt(op[1], 16);
+  let ope2 = parseInt(op[2], 16);
+  let valor = parseInt(op.slice(-2), 16);
+
   switch(op[0]) {
     case '0':
       if (op[2]==='e') {
@@ -41,36 +45,36 @@ function Disassembler(instrucao, registradores, setRegistradores) {
     case '4':
     case '5':
     case '9':
-      return Instrucoes.setJump(op, instrucao.indice, registradores, setRegistradores);
+      return Instrucoes.setJump(op, ope1, valor, instrucao.indice, registradores, setRegistradores);
     case '6':
       // atribui o valor de uma das variaveis
-      return Instrucoes.setRegistrar(op, instrucao.indice, registradores, setRegistradores);
+      return Instrucoes.setRegistrar(ope1, valor, instrucao.indice, registradores, setRegistradores);
     case '7':
       // adiciona ao valor de uma variavel
-      return Instrucoes.setAdd(op, instrucao.indice, registradores, setRegistradores);
+      return Instrucoes.setAdd(ope1, valor, instrucao.indice, registradores, setRegistradores);
     case '8':
       // operações com as variaveis
       switch(op[3]) {
         case '0':
-          return Instrucoes.setIgual(op, instrucao.indice, registradores, setRegistradores);
+          return Instrucoes.setIgual(ope1, ope2, instrucao.indice, registradores, setRegistradores);
         case '1':
-          return Instrucoes.setOR(op, instrucao.indice, registradores, setRegistradores);
+          return Instrucoes.setOR(ope1, ope2, instrucao.indice, registradores, setRegistradores);
         case '2':
-          return Instrucoes.setAND(op, instrucao.indice, registradores, setRegistradores);
+          return Instrucoes.setAND(ope1, ope2, instrucao.indice, registradores, setRegistradores);
         case '3':
-          return Instrucoes.setXOR(op, instrucao.indice, registradores, setRegistradores);
+          return Instrucoes.setXOR(ope1, ope2, instrucao.indice, registradores, setRegistradores);
         case '4':
-          return Instrucoes.setAddop(op, instrucao.indice, registradores, setRegistradores);
+          return Instrucoes.setAddop(ope1, ope2, instrucao.indice, registradores, setRegistradores);
         case '5':
-          return Instrucoes.setSubop(op, instrucao.indice, registradores, setRegistradores);
+          return Instrucoes.setSubop(ope1, ope2, instrucao.indice, registradores, setRegistradores);
         case '6':
           console.log("V"+op[1] + " >>= 1");
-          return Instrucoes.setRightShift(op, instrucao.indice, registradores, setRegistradores);
+          return Instrucoes.setRightShift(ope1, instrucao.indice, registradores, setRegistradores);
         case '7':
-          return Instrucoes.setRestop(op, instrucao.indice, registradores, setRegistradores);
+          return Instrucoes.setRestop(ope1, ope2, instrucao.indice, registradores, setRegistradores);
         case 'e':
           console.log("V"+op[1] + " <<= 1");
-          return Instrucoes.setRightShift(op, instrucao.indice, registradores, setRegistradores);
+          return Instrucoes.setRightShift(ope1, instrucao.indice, registradores, setRegistradores);
         default:
           console.log("8 e alguma coisa...");
       }
