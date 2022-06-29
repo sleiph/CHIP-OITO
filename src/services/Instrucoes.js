@@ -137,7 +137,7 @@ const Instrucoes = {
     },
   
     // Condicionais
-    setJump : function(op, ope1, valor, instrucao, registradores, setRegistradores){
+    setJump : function(op, ope1, valor, instrucao){
         switch(op[0]) {
             case '3':
                 /// ex. Opcode: 3XNN

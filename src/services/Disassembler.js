@@ -45,7 +45,7 @@ function Disassembler(instrucao, registradores, setRegistradores) {
     case '4':
     case '5':
     case '9':
-      return Instrucoes.setJump(op, ope1, valor, instrucao.indice, registradores, setRegistradores);
+      return Instrucoes.setJump(op, ope1, valor, instrucao.indice);
     case '6':
       // atribui o valor de uma das variaveis
       return Instrucoes.setRegistrar(ope1, valor, instrucao.indice, registradores, setRegistradores);
