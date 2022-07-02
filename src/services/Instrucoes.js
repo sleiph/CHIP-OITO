@@ -190,6 +190,8 @@ const Instrucoes = {
       
     // Timers
 
+    // Memória
+
 }
 
 export default Instrucoes;
