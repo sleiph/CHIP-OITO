@@ -10,26 +10,28 @@ function Disassembler(instrucao, registradores, setRegistradores) {
   console.log(instrucao);
 
   let op = instrucao.op;
-
   let ope1 = parseInt(op[1], 16);
   let ope2 = parseInt(op[2], 16);
-  let valor = parseInt(op.slice(-2), 16);
+  let valor = parseInt(op.slice(-2), 16) % 256;
 
   switch(op[0]) {
     case '0':
       if (op[2]==='e') {
         if (op[3]==='0') {
           // limpa a tela
+          //00e0
           return Instrucoes.LimpaTela(instrucao.indice);
         }
         else if (op[3]==='e') {
           // TODO: vai voltar pra linha que chamou a subrotina, mas
           // por enquanto só volta pra primeira instrucao
-          return Instrucoes.Retorna(instrucao.indice);
+          //00ee
+          return Instrucoes.Retorna();
         }
       }
       else {
         // faz é nada
+        // 0NNN
         return Instrucoes.Vazio(instrucao.indice);
       }
     case '1':
@@ -39,7 +41,9 @@ function Disassembler(instrucao, registradores, setRegistradores) {
     case '2':
       // manda pra uma subrotina
       console.log("call " + op[1]+op[2]+op[3]);
-      return instrucao.indice + 0x002;
+      //posicao = instrucao + 0x002;
+      //return Instrucoes.StrHex(op[1] + op[2] + op[3]);
+      return Instrucoes.StrRot(op[1] + op[2] + op[3], instrucao.indice);
     // condicionais
     case '3':
     case '4':
@@ -74,7 +78,7 @@ function Disassembler(instrucao, registradores, setRegistradores) {
           return Instrucoes.setRestop(ope1, ope2, instrucao.indice, registradores, setRegistradores);
         case 'e':
           console.log("V"+op[1] + " <<= 1");
-          return Instrucoes.setRightShift(ope1, instrucao.indice, registradores, setRegistradores);
+          return Instrucoes.setLeftShift(ope1, instrucao.indice, registradores, setRegistradores);
         default:
           console.log("8 e alguma coisa...");
       }

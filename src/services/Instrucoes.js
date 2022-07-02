@@ -1,4 +1,5 @@
 let copiadora = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
+let posicao; 
 const Instrucoes = {
 
     // Melhoria de código
@@ -18,14 +19,18 @@ const Instrucoes = {
     },
 
     /// ex. Opcode: 00EE
-    Retorna : function(anterior) {
-        //return 0x200;
-        return anterior + 0x002;
+    Retorna : function() {
+        return posicao;
     },
 
     /// ex. Opcode: 1NNN
     StrHex : function(x) {
-        console.log("goto " + x);
+        return parseInt(x, 16);
+    },
+
+    /// ex. Opcode: 2NNN
+    StrRot : function(x, instrucao) {
+        posicao = instrucao + 0x002;
         return parseInt(x, 16);
     },
 
@@ -57,7 +62,7 @@ const Instrucoes = {
     /// ex. Opcode: 8XY1
     setOR : function(ope1, ope2, instrucao, registradores, setRegistradores) {
         let copia = [...registradores];
-        copiadora[ope1] = parseInt(copiadora[ope1], 16) | parseInt(copiadora[ope2], 16);
+        copiadora[ope1] = (parseInt(copiadora[ope1], 16) | parseInt(copiadora[ope2], 16)) % 256;
         this.UpdateRegistradores(copia, copiadora, setRegistradores)
         return instrucao + 0x002;
     },
@@ -65,8 +70,8 @@ const Instrucoes = {
     /// ex. Opcode: 8XY2
     setAND : function(ope1, ope2, instrucao, registradores, setRegistradores) {
         let copia = [...registradores];
-        let valor = parseInt(copiadora[ope1], 16) & parseInt(copiadora[ope2], 16);
-        copiadora[ope1] = valor;
+        let duo = (parseInt(copiadora[ope1], 16) & parseInt(copiadora[ope2], 16))  % 256;
+        copiadora[ope1] = duo;
         this.UpdateRegistradores(copia, copiadora, setRegistradores)
         return instrucao + 0x002;
     },
@@ -74,8 +79,8 @@ const Instrucoes = {
     /// ex. Opcode: 8XY3
     setXOR : function(ope1, ope2, instrucao, registradores, setRegistradores) {
         let copia = [...registradores];
-        let valor = parseInt(copiadora[ope1], 16) ^ parseInt(copiadora[ope2], 16);
-        copiadora[ope1] = valor;
+        let duo = (parseInt(copiadora[ope1], 16) ^ parseInt(copiadora[ope2], 16) % 256);
+        copiadora[ope1] = duo;
         this.UpdateRegistradores(copia, copiadora, setRegistradores)
         return instrucao + 0x002;
     },
@@ -84,12 +89,12 @@ const Instrucoes = {
     setAddop : function(ope1, ope2, instrucao, registradores, setRegistradores) { 
         //VF is set to 1 when there's a carry, and to 0 when there is not.
         let copia = [...registradores];
-        copiadora[ope1] += copiadora[ope2];
-        if (copiadora[ope1] > parseInt(255, 16)) {
+        if (copiadora[ope1] + copiadora[ope2] > parseInt(255, 16)) {
             copiadora[15] = parseInt(1, 16);
-            console.log(copiadora[15]);
+        } else{
+            copiadora[15] = 0;  
         }
-        console.log(copia);
+        copiadora[ope1] += copiadora[ope2] % 256;
         this.UpdateRegistradores(copia, copiadora, setRegistradores)
         return instrucao + 0x002;
     },
@@ -98,12 +103,21 @@ const Instrucoes = {
     setSubop : function(ope1, ope2, instrucao, registradores, setRegistradores) { 
         //VF is set to 0 when there's a borrow, and 1 when there is not.
         let copia = [...registradores];
-        copiadora[ope1] -= copiadora[ope2];
-        if (copiadora[ope1] > parseInt(255, 16)) {
-            copiadora[15] = 0;
-            console.log(copiadora[15]);
+        if (copiadora[ope1] - copiadora[ope2] < 0) {
+            copiadora[ope1] = 256% copiadora[ope2];
+            copiadora[15] = 1;            
+        } else {
+            copiadora[ope1] -= copiadora[ope2];
+            copiadora[15] = 0;   
         }
-        console.log(copia);
+        this.UpdateRegistradores(copia, copiadora, setRegistradores)
+        return instrucao + 0x002;
+    },
+
+    /// ex. Opcode: 8XY6   
+    setRightShift : function(ope1, instrucao, registradores, setRegistradores) {
+        let copia = [...registradores];
+        copiadora[ope1] = parseInt(copiadora[ope1], 16) >> 1;
         this.UpdateRegistradores(copia, copiadora, setRegistradores)
         return instrucao + 0x002;
     },
@@ -121,14 +135,8 @@ const Instrucoes = {
         this.UpdateRegistradores(copia, copiadora, setRegistradores)
         return instrucao + 0x002;
     },
-
-    setRightShift : function(ope1, instrucao, registradores, setRegistradores) {
-        let copia = [...registradores];
-        copiadora[ope1] = parseInt(copiadora[ope1], 16) >> 1;
-        this.UpdateRegistradores(copia, copiadora, setRegistradores)
-        return instrucao + 0x002;
-    },
-
+     
+    /// ex. Opcode: 8XYE
     setLeftShift : function(ope1, instrucao, registradores, setRegistradores) {
         let copia = [...registradores];
         copiadora[ope1] = parseInt(copiadora[ope1], 16) << 1;
