@@ -140,31 +140,34 @@ const Instrucoes = {
     setJump : function(op, ope1, valor, instrucao){
         switch(op[0]) {
             case '3':
+                //console.log(ope1);
+                console.log(op);
                 /// ex. Opcode: 3XNN
                 if (copiadora[ope1] === valor) {
-                    return instrucao.indice + 0x004;
+                    console.log("foi");
+                    return instrucao + 0x004;
                 }
-                return instrucao.indice + 0x002;
+                return instrucao + 0x002;
             case '4':
                 /// ex. Opcode: 4XNN
                 if (copiadora[ope1] !== valor) {
-                    return instrucao.indice + 0x004;
+                    return instrucao + 0x004;
                 }
-                return instrucao.indice + 0x002;
+                return instrucao + 0x002;
             case '5':
                 /// ex. Opcode: 5XY5
                 if (copiadora[ope1] === copiadora[valor]) {
-                    return instrucao.indice + 0x004;
+                    return instrucao + 0x004;
                 }
-                return instrucao.indice + 0x002;
+                return instrucao+ 0x002;
             case '9':
                 /// ex. Opcode: 9XY0
                 if (copiadora[ope1] !== copiadora[valor]) {
-                    return instrucao.indice + 0x004;
+                    return instrucao + 0x004;
                 }
-                return instrucao.indice + 0x002;
+                return instrucao + 0x002;
             default:
-                return instrucao.indice + 0x002;
+                return instrucao + 0x002;
         }
     },
   
