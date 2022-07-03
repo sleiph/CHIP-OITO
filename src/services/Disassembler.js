@@ -5,13 +5,14 @@ import Instrucoes from './Instrucoes';
  * de acordo com a Opcode table na wiki
  * https://en.wikipedia.org/wiki/CHIP-8
  */
-function Disassembler(instrucao, registradores, setRegistradores) {
+function Disassembler(instrucao, registradores, setRegistradores, display, setDisplay) {
   console.log(instrucao.indice.toString(16));
   console.log(instrucao);
 
   let op = instrucao.op;
   let ope1 = parseInt(op[1], 16);
   let ope2 = parseInt(op[2], 16);
+  let n = parseInt(op[3], 16);
   let valor = parseInt(op.slice(-2), 16) % 256;
 
   switch(op[0]) {
@@ -20,11 +21,10 @@ function Disassembler(instrucao, registradores, setRegistradores) {
         if (op[3]==='0') {
           // limpa a tela
           //00e0
-          return Instrucoes.LimpaTela(instrucao.indice);
+          return Instrucoes.LimpaTela(instrucao.indice, setDisplay);
         }
         else if (op[3]==='e') {
-          // TODO: vai voltar pra linha que chamou a subrotina, mas
-          // por enquanto só volta pra primeira instrucao
+          // volta pra linha que chamou a subrotina
           //00ee
           return Instrucoes.Retorna();
         }
@@ -34,15 +34,13 @@ function Disassembler(instrucao, registradores, setRegistradores) {
         // 0NNN
         return Instrucoes.Vazio(instrucao.indice);
       }
+    break;
     case '1':
       // pula pro endereço descrito na instrucao
-      // TODO: Tem q trocar tudo esses console.log() por funções reais
       return Instrucoes.StrHex(op[1] + op[2] + op[3]);
     case '2':
       // manda pra uma subrotina
       console.log("call " + op[1]+op[2]+op[3]);
-      //posicao = instrucao + 0x002;
-      //return Instrucoes.StrHex(op[1] + op[2] + op[3]);
       return Instrucoes.StrRot(op[1] + op[2] + op[3], instrucao.indice);
     // condicionais
     case '3':
@@ -55,7 +53,7 @@ function Disassembler(instrucao, registradores, setRegistradores) {
       return Instrucoes.setRegistrar(ope1, valor, instrucao.indice, registradores, setRegistradores);
     case '7':
       // adiciona ao valor de uma variavel
-      return Instrucoes.setAdd(ope1, valor, instrucao.indice, registradores, setRegistradores);
+      return Instrucoes.setAdd(ope1, valor, instrucao.indice, setRegistradores);
     case '8':
       // operações com as variaveis
       switch(op[3]) {
@@ -98,7 +96,7 @@ function Disassembler(instrucao, registradores, setRegistradores) {
     case 'd':
       // desenha na tela
       console.log("draw(V" + op[1] + ", V" + op[2] + ", " + op[3] + ")");
-      return instrucao.indice + 0x002;
+      return Instrucoes.Desenha(instrucao.indice, ope1, ope2, n, setDisplay);
     case 'e':
       // entrada de teclado
       if (op[3]==='e')
