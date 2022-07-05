@@ -15,6 +15,7 @@ function Disassembler(instrucao, registradores, setRegistradores, display, setDi
   let ope3 = parseInt(op[3], 16);
   let n = parseInt(op[3], 16);
   let valor = parseInt(op.slice(-2), 16) % 256;
+  let timer = Instrucoes.updateTimer();
 
   switch(op[0]) {
     case '0':
@@ -118,8 +119,7 @@ function Disassembler(instrucao, registradores, setRegistradores, display, setDi
           return instrucao.indice + 0x002;
         case '5':
           // seta timers
-          if (op[2] === '1')
-            console.log("delay_timer(V" + op[1] + ")");
+          if (op[2] === '1') return Instrucoes.setTimer(ope1, instrucao.indice);
           else if (op[2] === '5')
             console.log("reg_dump(V" + op[1] + ", &I)");
           else if (op[2] === '6')
@@ -127,10 +127,9 @@ function Disassembler(instrucao, registradores, setRegistradores, display, setDi
           else
             console.log("F alguma coisa 5...");
           return instrucao.indice + 0x002;
-        case '7':
-          // usa os timers
-          console.log("V" + op[1] + " = get_delay()");
-          return instrucao.indice + 0x002;
+          case '7':
+            // usa os timers
+            return Instrucoes.useTimer(ope1, timer, instrucao.indice, registradores, setRegistradores);
         case '8':
           // toca um somzin
           console.log("sound_timer(V" + op[1] + ")");

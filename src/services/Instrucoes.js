@@ -2,6 +2,8 @@
 let copiadora = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
 let display = Array.from(Array(32), () => Array.from(Array(64), () => 0));
 let copiaDisplay = [...display];
+let trueTimer = 0;
+let subtimer;
 
 let sprites = [
     [ // um quadradinho
@@ -244,14 +246,37 @@ const Instrucoes = {
         let vY = copiadora[y];
         this.UpdateDisplay(setDisplay, sprites[0], vX, vY, n)
         return anterior + 0x002;
-    }
+    },
 
 
     // Teclado
     
 
     // Timers
+    useTimer : function(ope1, timer, instrucao, registradores, setRegistradores){
+        let copia = [...registradores];
+        copiadora[ope1] = timer;
+        this.UpdateRegistradores(copia, copiadora, setRegistradores);
+        return instrucao + 0x002;
+    },
 
+    setTimer : function(ope1, instrucao){
+        timer = copiadora[ope1];
+        return instrucao + 0x002;
+    },
+
+    updateTimer : function () {
+        if (trueTimer > 0){
+            if (subtimer < 60) subtimer++;
+            else {
+                subtimer = 0;
+                trueTimer--;
+            }
+            console.log(trueTimer);
+        }
+        console.log(trueTimer);
+        return trueTimer;
+    }
 
     // Memória
 
