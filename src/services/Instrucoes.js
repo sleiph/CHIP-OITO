@@ -2,7 +2,7 @@
 let copiadora = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
 let display = Array.from(Array(32), () => Array.from(Array(64), () => 0));
 let copiaDisplay = [...display];
-let trueTimer = 0;
+let timer = 0;
 let subtimer;
 
 let sprites = [
@@ -253,7 +253,7 @@ const Instrucoes = {
     
 
     // Timers
-    useTimer : function(ope1, timer, instrucao, registradores, setRegistradores){
+    useTimer : function(ope1, instrucao, registradores, setRegistradores){
         let copia = [...registradores];
         copiadora[ope1] = timer;
         this.UpdateRegistradores(copia, copiadora, setRegistradores);
@@ -266,16 +266,16 @@ const Instrucoes = {
     },
 
     updateTimer : function () {
-        if (trueTimer > 0){
+        if (timer > 0){
             if (subtimer < 60) subtimer++;
             else {
                 subtimer = 0;
-                trueTimer--;
+                timer--;
             }
-            console.log(trueTimer);
+            console.log(timer);
         }
-        console.log(trueTimer);
-        return trueTimer;
+        console.log(timer);
+        return timer;
     }
 
     // Memória
