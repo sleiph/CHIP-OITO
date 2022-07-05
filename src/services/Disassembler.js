@@ -12,6 +12,7 @@ function Disassembler(instrucao, registradores, setRegistradores, display, setDi
   let op = instrucao.op;
   let ope1 = parseInt(op[1], 16);
   let ope2 = parseInt(op[2], 16);
+  let ope3 = parseInt(op[3], 16);
   let n = parseInt(op[3], 16);
   let valor = parseInt(op.slice(-2), 16) % 256;
 
@@ -87,12 +88,11 @@ function Disassembler(instrucao, registradores, setRegistradores, display, setDi
       return instrucao.indice + 0x002;
     case 'b':
       // pula pro endereço V0 + instrucao enviada
-      console.log("pula pra " + op[1] + op[2] + op[3] + " + V0");
-      return instrucao.indice + 0x002;
+      return Instrucoes.setNext(ope1 + ope2 + ope3);
     case 'c':
       // atribui um valor aleatorio pra uma variavel
       console.log("V" + op[1] + " = rand() & " + op[2] + op[3]);
-      return instrucao.indice + 0x002;
+      return Instrucoes.setRandom(ope1, valor, instrucao.indice, registradores, setRegistradores);
     case 'd':
       // desenha na tela
       console.log("draw(V" + op[1] + ", V" + op[2] + ", " + op[3] + ")");

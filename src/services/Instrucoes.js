@@ -218,6 +218,17 @@ const Instrucoes = {
                 return instrucao + 0x002;
         }
     },
+
+    setNext : function(next){
+        return next + copiadora[0];
+    },
+
+    setRandom : function(ope1, valor, instrucao, registradores, setRegistradores) {
+        let copia = [...registradores];
+        copiadora[ope1] = (Math.floor(Math.random(2) * 256) & valor) % 256;
+        this.UpdateRegistradores(copia, copiadora, setRegistradores);
+        return instrucao + 0x002;
+    },
   
 
     // Display
