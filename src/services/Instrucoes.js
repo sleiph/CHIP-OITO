@@ -253,7 +253,7 @@ const Instrucoes = {
     
 
     // Timers
-    useTimer : function(ope1, instrucao, registradores, setRegistradores){
+    registraTimer : function(ope1, instrucao, registradores, setRegistradores){
         let copia = [...registradores];
         copiadora[ope1] = timer;
         this.UpdateRegistradores(copia, copiadora, setRegistradores);
@@ -267,12 +267,11 @@ const Instrucoes = {
 
     updateTimer : function () {
         if (timer > 0){
-            if (subtimer < 60) subtimer++;
+            if (subtimer < 60)  subtimer++;
             else {
                 subtimer = 0;
                 timer--;
             }
-            console.log(timer);
         }
         console.log(timer);
         return timer;

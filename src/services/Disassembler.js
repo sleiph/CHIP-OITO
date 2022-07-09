@@ -129,7 +129,7 @@ function Disassembler(instrucao, registradores, setRegistradores, display, setDi
           return instrucao.indice + 0x002;
           case '7':
             // usa os timers
-            return Instrucoes.useTimer(ope1, instrucao.indice, registradores, setRegistradores);
+            return Instrucoes.registraTimer(ope1, instrucao.indice, registradores, setRegistradores);
         case '8':
           // toca um somzin
           console.log("sound_timer(V" + op[1] + ")");
