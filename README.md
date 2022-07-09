@@ -2,6 +2,14 @@
 
 Emulador de [CHIP-8](https://en.wikipedia.org/wiki/CHIP-8), vai ser criado provavelmente em javaScript, com React, talvez em C++, quem sabe?
 
+## Fazer
+
+* VF needs to be 1 (set Adop, Subop, Restop)
+* Button who pauses evreything
+* Unitary tests
+* Keyboard
+
+
 ## Instruções
 Precisa do Node e NPM pra rodar, versão mais atual possível (04-02-2022).
 
