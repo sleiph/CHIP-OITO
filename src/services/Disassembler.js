@@ -5,7 +5,7 @@ import Instrucoes from './Instrucoes';
  * de acordo com a Opcode table na wiki
  * https://en.wikipedia.org/wiki/CHIP-8
  */
-function Disassembler(instrucao, registradores, setRegistradores, display, setDisplay) {
+function Disassembler(instrucao, setRegistradores, setDisplay) {
   console.log(instrucao.indice.toString(16));
   console.log(instrucao);
 
@@ -52,7 +52,7 @@ function Disassembler(instrucao, registradores, setRegistradores, display, setDi
       return Instrucoes.setJump(op, ope1, valor, instrucao.indice);
     case '6':
       // atribui o valor de uma das variaveis
-      return Instrucoes.setRegistrar(ope1, valor, instrucao.indice, registradores, setRegistradores);
+      return Instrucoes.setRegistrar(ope1, valor, instrucao.indice, setRegistradores);
     case '7':
       // adiciona ao valor de uma variavel
       return Instrucoes.setAdd(ope1, valor, instrucao.indice, setRegistradores);
@@ -60,25 +60,25 @@ function Disassembler(instrucao, registradores, setRegistradores, display, setDi
       // operações com as variaveis
       switch(op[3]) {
         case '0':
-          return Instrucoes.setIgual(ope1, ope2, instrucao.indice, registradores, setRegistradores);
+          return Instrucoes.setIgual(ope1, ope2, instrucao.indice, setRegistradores);
         case '1':
-          return Instrucoes.setOR(ope1, ope2, instrucao.indice, registradores, setRegistradores);
+          return Instrucoes.setOR(ope1, ope2, instrucao.indice, setRegistradores);
         case '2':
-          return Instrucoes.setAND(ope1, ope2, instrucao.indice, registradores, setRegistradores);
+          return Instrucoes.setAND(ope1, ope2, instrucao.indice, setRegistradores);
         case '3':
-          return Instrucoes.setXOR(ope1, ope2, instrucao.indice, registradores, setRegistradores);
+          return Instrucoes.setXOR(ope1, ope2, instrucao.indice, setRegistradores);
         case '4':
-          return Instrucoes.setAddop(ope1, ope2, instrucao.indice, registradores, setRegistradores);
+          return Instrucoes.setAddop(ope1, ope2, instrucao.indice, setRegistradores);
         case '5':
-          return Instrucoes.setSubop(ope1, ope2, instrucao.indice, registradores, setRegistradores);
+          return Instrucoes.setSubop(ope1, ope2, instrucao.indice, setRegistradores);
         case '6':
           console.log("V"+op[1] + " >>= 1");
-          return Instrucoes.setRightShift(ope1, instrucao.indice, registradores, setRegistradores);
+          return Instrucoes.setRightShift(ope1, instrucao.indice, setRegistradores);
         case '7':
-          return Instrucoes.setRestop(ope1, ope2, instrucao.indice, registradores, setRegistradores);
+          return Instrucoes.setRestop(ope1, ope2, instrucao.indice, setRegistradores);
         case 'e':
           console.log("V"+op[1] + " <<= 1");
-          return Instrucoes.setLeftShift(ope1, instrucao.indice, registradores, setRegistradores);
+          return Instrucoes.setLeftShift(ope1, instrucao.indice, setRegistradores);
         default:
           console.log("8 e alguma coisa...");
       }
@@ -93,7 +93,7 @@ function Disassembler(instrucao, registradores, setRegistradores, display, setDi
     case 'c':
       // atribui um valor aleatorio pra uma variavel
       console.log("V" + op[1] + " = rand() & " + op[2] + op[3]);
-      return Instrucoes.setRandom(ope1, valor, instrucao.indice, registradores, setRegistradores);
+      return Instrucoes.setRandom(ope1, valor, instrucao.indice, setRegistradores);
     case 'd':
       // desenha na tela
       console.log("draw(V" + op[1] + ", V" + op[2] + ", " + op[3] + ")");
@@ -129,7 +129,7 @@ function Disassembler(instrucao, registradores, setRegistradores, display, setDi
           return instrucao.indice + 0x002;
           case '7':
             // usa os timers
-            return Instrucoes.registraTimer(ope1, instrucao.indice, registradores, setRegistradores);
+            return Instrucoes.registraTimer(ope1, instrucao.indice, setRegistradores);
         case '8':
           // toca um somzin
           console.log("sound_timer(V" + op[1] + ")");

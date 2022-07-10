@@ -79,7 +79,7 @@ function Home(  ) {
     let tratado = Tratamento(conteudo);
     setInstrucoes(tratado);
 
-    Apontador(tratado, registradores, setRegistradores, display, setDisplay);
+    Apontador(tratado, setRegistradores, setDisplay);
   };
   /// lê o arquivo carregado pelo usuario
   const handleFileChosen = (file) => {
