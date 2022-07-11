@@ -97,7 +97,7 @@ function Disassembler(instrucao, setRegistradores, setDisplay) {
     case 'd':
       // desenha na tela
       console.log("draw(V" + op[1] + ", V" + op[2] + ", " + op[3] + ")");
-      return Instrucoes.Desenha(instrucao.indice, ope1, ope2, n, setDisplay);
+      return Instrucoes.Desenha(instrucao.indice, ope1, ope2, n, setDisplay, setRegistradores);
     case 'e':
       // entrada de teclado
       if (op[3]==='e')

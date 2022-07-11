@@ -51,9 +51,10 @@ const Instrucoes = {
         registradores = copia;
     },
 
-    UpdateDisplay : function(setDisplay, sprite, x, y, n) {
+    UpdateDisplay : function(setDisplay, sprite, x, y, n, copia) {
         for (let i=0; i<n; i++) {
             for (let j=0; j<8; j++) {
+                if (display[(y+i)%32][(x+j)%64] != 0) copia[15] = 1;
                 display[(y+i)%32][(x+j)%64] = sprite[i][j]
             }
         }
@@ -262,10 +263,13 @@ const Instrucoes = {
     },
 
     /// ex. Opcode: DXYN
-    Desenha : function (anterior, x, y, n, setDisplay) {
+    Desenha : function (anterior, x, y, n, setDisplay, setRegistradores) {
+        let copia = [...registradores];
         let vX = registradores[x];
         let vY = registradores[y];
-        this.UpdateDisplay(setDisplay, sprites[0], vX, vY, n)
+        copia[15] = 0;
+        this.UpdateDisplay(setDisplay, sprites[0], vX, vY, n, copia)
+        this.UpdateRegistradores(copia, setRegistradores);
         return anterior + 0x002;
     },
 
