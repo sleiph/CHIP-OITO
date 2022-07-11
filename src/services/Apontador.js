@@ -6,8 +6,11 @@ import Disassembler from "./Disassembler";
  */
  let i = 0x200;
  let op;
+ let tempo = 500;
+
 function Apontador(ops, setRegistradores, setDisplay) {
-  setInterval( function() {aponta(ops, setRegistradores, setDisplay)}, 500);
+  setTimeout(() => { console.log("World!"); }, 5000);
+  setInterval( function() {aponta(ops, setRegistradores, setDisplay)}, tempo);
 }
 
 function aponta(opsx, setRegistradores, setDisplay) {

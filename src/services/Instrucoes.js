@@ -42,7 +42,7 @@ let posicao;
 
 const Instrucoes = {
     redSignal : function () {
-        console.log("isso vai ser um pause");
+        console.log("eu tentei");
       },
       
     // Melhoria de código
@@ -54,7 +54,7 @@ const Instrucoes = {
     UpdateDisplay : function(setDisplay, sprite, x, y, n, copia) {
         for (let i=0; i<n; i++) {
             for (let j=0; j<8; j++) {
-                if (display[(y+i)%32][(x+j)%64] != 0) copia[15] = 1;
+                if (display[(y+i)%32][(x+j)%64] != 0 && sprite) copia[15] = 1;
                 display[(y+i)%32][(x+j)%64] = sprite[i][j]
             }
         }
