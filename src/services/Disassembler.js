@@ -15,7 +15,7 @@ function Disassembler(instrucao, setRegistradores, setDisplay) {
   let ope3 = parseInt(op[3], 16);
   let n = parseInt(op[3], 16);
   let valor = parseInt(op.slice(-2), 16) % 256;
-  let timer = Instrucoes.updateTimer();
+  Instrucoes.updateTimer();
 
   switch(op[0]) {
     case '0':

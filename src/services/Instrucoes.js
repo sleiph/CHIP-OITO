@@ -41,12 +41,16 @@ let sprites = [
 let posicao;
 
 const Instrucoes = {
-
+    redSignal : function () {
+        console.log("isso vai ser um pause");
+      },
+      
     // Melhoria de código
     UpdateRegistradores : function(copia, setRegistradores) {
         setRegistradores(copia);
         registradores = copia;
     },
+
     UpdateDisplay : function(setDisplay, sprite, x, y, n) {
         for (let i=0; i<n; i++) {
             for (let j=0; j<8; j++) {
@@ -55,6 +59,7 @@ const Instrucoes = {
         }
         setDisplay(display);
     },
+    
     updateTimer : function () {
         if (timer > 0){
             if (subtimer < 60)  subtimer++;

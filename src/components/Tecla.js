@@ -1,4 +1,5 @@
-import styled from 'styled-components'
+import styled from 'styled-components';
+import Instrucoes from '../services/Instrucoes.js';
 
 const TeclaDiv = styled.div`
     flex: 1;
@@ -40,6 +41,11 @@ function Tecla( {valor} ) {
         console.log(event.key);
     }
   }  
+
+  document.addEventListener('keydown', (event) => {
+    if (valarray.includes(event.key)) console.log(event.key);
+    else if (event.key == 'p') Instrucoes.redSignal();
+  });
 
   return (
     <TeclaDiv onKeyDown = {handleAnswerChange} tabIndex = "0">
