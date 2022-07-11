@@ -140,7 +140,7 @@ D0 14 - draw(V0,V1, 4)
 ##### 6
 23 34 - call(334)
 ##### 8
-3F 01 - if (VF == 1) then skip
+3F 01 - if (VF == 1) then skip // esse aq
 ##### A - end subrotina
 00 EE - return
 ##### C - subrotina

@@ -150,6 +150,7 @@ const Instrucoes = {
     setAddop : function(ope1, ope2, instrucao, setRegistradores) { 
         //VF is set to 1 when there's a carry, and to 0 when there is not.
         let copia = [...registradores];
+        console.log('foi1');
         if (copia[ope1] + copia[ope2] > parseInt(255, 16)) {
             copia[15] = parseInt(1, 16);
         } else{
@@ -164,6 +165,7 @@ const Instrucoes = {
     setSubop : function(ope1, ope2, instrucao, setRegistradores) { 
         //VF is set to 0 when there's a borrow, and 1 when there is not.
         let copia = [...registradores];
+        console.log('foi2');
         if (copia[ope1] - copia[ope2] < 0) {
             copia[ope1] = 256% copia[ope2];
             copia[15] = 1;            
@@ -187,9 +189,12 @@ const Instrucoes = {
     setRestop : function(ope1, ope2, instrucao, setRegistradores){
         //VF is set to 0 when there's a borrow, and 1 when there is not.
         let copia = [...registradores];
+        console.log('foi3');
         copia[ope1] = copia[ope2] - copia[ope1];
         if (copia[ope1] > parseInt(255, 16)) {
             copia[15] = 0;
+        } else {
+            copia[15] = 1;
         }
         this.UpdateRegistradores(copia, setRegistradores);
         return instrucao + 0x002;
