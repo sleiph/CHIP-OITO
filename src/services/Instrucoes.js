@@ -4,6 +4,7 @@ let display = Array.from(Array(32), () => Array.from(Array(64), () => 0));
 let copiaDisplay = [...display];
 let timer = 0;
 let subtimer;
+let go = true;
 
 let sprites = [
     [ // um quadradinho
@@ -41,9 +42,13 @@ let sprites = [
 let posicao;
 
 const Instrucoes = {
-    redSignal : function () {
-        console.log("eu tentei");
-      },
+    redSignal : function (signal) {
+        go = signal;
+    },
+
+    sendSignal : function(){
+        return go;
+    },
       
     // Melhoria de código
     UpdateRegistradores : function(copia, setRegistradores) {

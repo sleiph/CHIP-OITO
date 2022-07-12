@@ -1,4 +1,5 @@
 import Disassembler from "./Disassembler";
+import Instrucoes from "./Instrucoes";
 
 /**
  * Cicla entre as instruções, pedindo a próxima até que o programa termine
@@ -6,16 +7,16 @@ import Disassembler from "./Disassembler";
  */
  let i = 0x200;
  let op;
- let tempo = 500;
 
 function Apontador(ops, setRegistradores, setDisplay) {
-  setTimeout(() => { console.log("World!"); }, 5000);
-  setInterval( function() {aponta(ops, setRegistradores, setDisplay)}, tempo);
+  setInterval( function() {aponta(ops, setRegistradores, setDisplay)}, 500);
 }
 
 function aponta(opsx, setRegistradores, setDisplay) {
-  op = { 'indice':i, 'op':opsx[i] }
-  i = Disassembler(op, setRegistradores, setDisplay);
+  if (Instrucoes.sendSignal()) {
+    op = { 'indice':i, 'op':opsx[i] }
+    i = Disassembler(op, setRegistradores, setDisplay);
+  } 
 }
 
 export default Apontador;
