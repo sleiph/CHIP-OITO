@@ -59,8 +59,16 @@ const Instrucoes = {
     UpdateDisplay : function(setDisplay, sprite, x, y, n, copia) {
         for (let i=0; i<n; i++) {
             for (let j=0; j<8; j++) {
-                if (display[(y+i)%32][(x+j)%64] != 0 && sprite) copia[15] = 1;
-                display[(y+i)%32][(x+j)%64] = sprite[i][j]
+                //if (display[(y+i)%32][(x+j)%64] != 0) copia[15] = 1;
+                //else copia[15] = 0;
+                //display[(y+i)%32][(x+j)%64] = sprite[i][j];
+                if (display[(y+i)%32][(x+j)%64] != 0) {
+                    display[(y+i)%32][(x+j)%64] = sprite[i][j];
+                    if (display[(y+i)%32][(x+j)%64] == 0) copia[15] = 1;
+                    else copia[15] = 0;
+                } else {
+                    display[(y+i)%32][(x+j)%64] = sprite[i][j];
+                }
             }
         }
         setDisplay(display);
@@ -272,7 +280,6 @@ const Instrucoes = {
         let copia = [...registradores];
         let vX = registradores[x];
         let vY = registradores[y];
-        copia[15] = 0;
         this.UpdateDisplay(setDisplay, sprites[0], vX, vY, n, copia)
         this.UpdateRegistradores(copia, setRegistradores);
         return anterior + 0x002;
