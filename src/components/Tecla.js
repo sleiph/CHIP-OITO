@@ -44,8 +44,7 @@ function Tecla( {valor} ) {
 
   document.addEventListener('keydown', (event) => {
     if (valarray.includes(event.key)) console.log(event.key);
-    else if (event.key == 'p') Instrucoes.redSignal(false);
-    else if (event.key == 'o') Instrucoes.redSignal(true);
+    else if (event.key == 'p') Instrucoes.redSignal();
   });
 
   return (
