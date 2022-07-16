@@ -23,11 +23,12 @@ O servidor fica ativo na [porta 3000](http://localhost:3000/).
 Um arquivo "binário" pra testes pode ser encontrado [aqui](./src/data/pong.txt).
 
 ## Fazer
-
-* VF needs to be 1 (set Adop, Subop, Restop)
-* Button who pauses evreything
+* Make the font
+* make FX29
+* Debug
+* make FX18
 * Unitary tests
-* Keyboard
+* Update Keyboard
 
 * Escrever arquivos binários, se a gente for deixar o jogador editar as roms
     - [Writing Byte Array To Binary File Javascript](https://stackoverflow.com/questions/26244126/writing-byte-array-to-binary-file-javascript)
