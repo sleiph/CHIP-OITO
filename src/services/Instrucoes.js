@@ -1,6 +1,7 @@
 // constantes e variaveis
 let registradores = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
 let display = Array.from(Array(32), () => Array.from(Array(64), () => 0));
+let Indice = 0;
 let copiaDisplay = [...display];
 let timer = 0;
 let subtimer;
@@ -70,13 +71,15 @@ const Instrucoes = {
     UpdateDisplay : function(setDisplay, sprite, x, y, n, copia) {
         for (let i=0; i<n; i++) {
             for (let j=0; j<8; j++) {
-                let pixel = display[(y+i)%32][(x+j)%64];
-                if (pixel === 1 && sprite[i][j] === 1) {
-                    pixel = 0;
-                    copia[15] = 1;
+                //if (display[(y+i)%32][(x+j)%64] != 0) copia[15] = 1;
+                //else copia[15] = 0;
+                //display[(y+i)%32][(x+j)%64] = sprite[i][j];
+                if (display[(y+i)%32][(x+j)%64] != 0) {
+                    display[(y+i)%32][(x+j)%64] = sprite[i][j];
+                    if (display[(y+i)%32][(x+j)%64] == 0) copia[15] = 1;
+                    else copia[15] = 0;
                 } else {
-                    pixel = sprite[i][j];
-                    copia[15] = 0;
+                    display[(y+i)%32][(x+j)%64] = sprite[i][j];
                 }
             }
         }
@@ -314,7 +317,18 @@ const Instrucoes = {
     },
 
     // Memória
+    //ANNN
+    setIndico : function(x, instrucao, setIndice){
+        setIndice(x);
+        Indice = x;
+        return instrucao + 0x002;
+    },
 
+    setAddIndice : function(ope1, instrucao, setIndice) {
+        setIndice(registradores[ope1]);
+        Indice = registradores[ope1];
+        return instrucao + 0x002;
+    },
 }
 
 export default Instrucoes;

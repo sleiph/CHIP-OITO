@@ -8,14 +8,14 @@ import Instrucoes from "./Instrucoes";
  let i = 0x200;
  let op;
 
-function Apontador(ops, setRegistradores, setDisplay) {
-  setInterval( function() {aponta(ops, setRegistradores, setDisplay)}, 500);
+function Apontador(ops, setRegistradores, setDisplay, setIndice) {
+  setInterval( function() {aponta(ops, setRegistradores, setDisplay, setIndice)}, 500);
 }
 
-function aponta(opsx, setRegistradores, setDisplay) {
+function aponta(opsx, setRegistradores, setDisplay, setIndice) {
   if (Instrucoes.sendSignal()) {
     op = { 'indice':i, 'op':opsx[i] }
-    i = Disassembler(op, setRegistradores, setDisplay);
+    i = Disassembler(op, setRegistradores, setDisplay, setIndice);
   } 
 }
 

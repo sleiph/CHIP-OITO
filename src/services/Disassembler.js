@@ -5,7 +5,7 @@ import Instrucoes from './Instrucoes';
  * de acordo com a Opcode table na wiki
  * https://en.wikipedia.org/wiki/CHIP-8
  */
-function Disassembler(instrucao, setRegistradores, setDisplay) {
+function Disassembler(instrucao, setRegistradores, setDisplay, setIndice) {
   console.log(instrucao.indice.toString(16));
   console.log(instrucao);
 
@@ -85,8 +85,7 @@ function Disassembler(instrucao, setRegistradores, setDisplay) {
       return instrucao.indice + 0x002;
     case 'a':
       // muda o valor do apontador (I)
-      console.log("I = " + op[1] + op[2] + op[3]);
-      return instrucao.indice + 0x002;
+      return Instrucoes.setIndico(ope1 + ope2 + ope3, instrucao.indice, setIndice);
     case 'b':
       // pula pro endereço V0 + instrucao enviada
       return Instrucoes.setNext(ope1 + ope2 + ope3);
@@ -145,7 +144,7 @@ function Disassembler(instrucao, setRegistradores, setDisplay) {
         case 'e':
           // adiciona o valor de uma variavel ao apontador
           console.log("I += V" + op[1]);
-          return instrucao.indice + 0x002;
+          return Instrucoes.setAddIndice(ope1, instrucao.indice, setIndice);
         default:
           // só pra garantir
           console.log("F total");

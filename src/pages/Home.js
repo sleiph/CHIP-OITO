@@ -67,7 +67,8 @@ function Home(  ) {
 
   // hooks
   const [instrucoes, setInstrucoes] = useState([]);
-  const[registradores, setRegistradores] = useState(regs)
+  const[registradores, setRegistradores] = useState(regs);
+  const [indice, setIndice] = useState(0);
   const [display, setDisplay] = useState(tela);
 
   // tratamento da entrada de arquivo (rom)
@@ -79,7 +80,7 @@ function Home(  ) {
     let tratado = Tratamento(conteudo);
     setInstrucoes(tratado);
 
-    Apontador(tratado, setRegistradores, setDisplay);
+    Apontador(tratado, setRegistradores, setDisplay, setIndice);
   };
   /// lê o arquivo carregado pelo usuario
   const handleFileChosen = (file) => {
