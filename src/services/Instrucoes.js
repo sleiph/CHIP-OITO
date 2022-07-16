@@ -4,9 +4,6 @@ let display = Array.from(Array(32), () => Array.from(Array(64), () => 0));
 let copiaDisplay = [...display];
 let timer = 0;
 let subtimer;
-let go = true;
-let controlePause = true;
-let timerPause = 0;
 
 let sprites = [
     [ // um quadradinho
@@ -43,23 +40,7 @@ let sprites = [
 
 let posicao;
 
-
-
-if (timerPause > 120) controlePause = true;
-
 const Instrucoes = {
-    redSignal : function () {
-        if (controlePause) {
-            go = !go;
-            controlePause = false;
-        }
-    },
-
-    sendSignal : function(){
-        if (!controlePause) timerPause++;
-        if (timerPause > 10) controlePause = true;
-        return go;
-    },
       
     // Melhoria de código
     UpdateRegistradores : function(copia, setRegistradores) {
@@ -70,12 +51,11 @@ const Instrucoes = {
     UpdateDisplay : function(setDisplay, sprite, x, y, n, copia) {
         for (let i=0; i<n; i++) {
             for (let j=0; j<8; j++) {
-                let pixel = display[(y+i)%32][(x+j)%64];
-                if (pixel === 1 && sprite[i][j] === 1) {
-                    pixel = 0;
+                if (display[(y+i)%32][(x+j)%64] === 1 && sprite[i][j] === 1) {
+                    display[(y+i)%32][(x+j)%64] = 0;
                     copia[15] = 1;
                 } else {
-                    pixel = sprite[i][j];
+                    display[(y+i)%32][(x+j)%64] = sprite[i][j];
                     copia[15] = 0;
                 }
             }

@@ -3,7 +3,9 @@ import React, { useState } from 'react';
 import Display from '../components/Display';
 import OPCodes from '../components/OPCodes';
 import Teclado from '../components/Teclado';
+
 import Apontador from '../services/Apontador';
+import Inputs from '../services/Inputs';
 import Tratamento from '../services/Tratamento';
 
 import styled from 'styled-components'
@@ -24,6 +26,14 @@ const Cartucho = styled.div`
   grid-template-columns: 1fr 3fr;
   align-items: center;
 `
+
+document.addEventListener('keydown', (event) => {
+  if (event.key === 'p')
+    Inputs.redSignal();
+  else {
+    Inputs.Teclou(event.key)
+  }
+});
 
 function Home(  ) {
 
