@@ -70,15 +70,13 @@ const Instrucoes = {
     UpdateDisplay : function(setDisplay, sprite, x, y, n, copia) {
         for (let i=0; i<n; i++) {
             for (let j=0; j<8; j++) {
-                //if (display[(y+i)%32][(x+j)%64] != 0) copia[15] = 1;
-                //else copia[15] = 0;
-                //display[(y+i)%32][(x+j)%64] = sprite[i][j];
-                if (display[(y+i)%32][(x+j)%64] != 0) {
-                    display[(y+i)%32][(x+j)%64] = sprite[i][j];
-                    if (display[(y+i)%32][(x+j)%64] == 0) copia[15] = 1;
-                    else copia[15] = 0;
+                let pixel = display[(y+i)%32][(x+j)%64];
+                if (pixel === 1 && sprite[i][j] === 1) {
+                    pixel = 0;
+                    copia[15] = 1;
                 } else {
-                    display[(y+i)%32][(x+j)%64] = sprite[i][j];
+                    pixel = sprite[i][j];
+                    copia[15] = 0;
                 }
             }
         }
