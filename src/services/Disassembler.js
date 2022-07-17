@@ -136,7 +136,7 @@ function Disassembler(instrucao, setRegistradores, setDisplay, setIndice) {
         case '9':
           // seta um sprite na memoria
           console.log("I = sprite_addr[V" + op[1] + "]");
-          return instrucao.indice + 0x002;
+          return Instrucoes.registraIndice(ope1, instrucao.indice, setIndice);
         case 'a':
           // espera até que o usuario aperte uma tecla
           console.log("V" + op[1] + " = get_key()");

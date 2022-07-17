@@ -13,7 +13,7 @@ function Apontador(ops, setRegistradores, setDisplay, setIndice) {
 }
 
 function aponta(opsx, setRegistradores, setDisplay, setIndice) {
-  if (Instrucoes.sendSignal()) {
+  if (Inputs.sendSignal()) {
     op = { 'indice':i, 'op':opsx[i] }
     i = Disassembler(op, setRegistradores, setDisplay, setIndice);
   } 
