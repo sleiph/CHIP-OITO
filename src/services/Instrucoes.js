@@ -5,9 +5,6 @@ let Indice = 0;
 let copiaDisplay = [...display];
 let timer = 0;
 let subtimer;
-let go = true;
-let controlePause = true;
-let timerPause = 0;
 
 let sprites = [
     [ // um quadradinho
@@ -44,23 +41,7 @@ let sprites = [
 
 let posicao;
 
-
-
-if (timerPause > 120) controlePause = true;
-
 const Instrucoes = {
-    redSignal : function () {
-        if (controlePause) {
-            go = !go;
-            controlePause = false;
-        }
-    },
-
-    sendSignal : function(){
-        if (!controlePause) timerPause++;
-        if (timerPause > 10) controlePause = true;
-        return go;
-    },
       
     // Melhoria de código
     UpdateRegistradores : function(copia, setRegistradores) {

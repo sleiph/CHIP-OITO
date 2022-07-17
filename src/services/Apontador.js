@@ -1,5 +1,5 @@
 import Disassembler from "./Disassembler";
-import Instrucoes from "./Instrucoes";
+import Inputs from "./Inputs";
 
 /**
  * Cicla entre as instruções, pedindo a próxima até que o programa termine

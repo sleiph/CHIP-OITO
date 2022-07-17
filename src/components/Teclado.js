@@ -42,24 +42,24 @@ function Teclado(  ) {
   return (
     <TecladoDiv>
         <NumDiv>
-            <Tecla valor="1"/>
-            <Tecla valor="2"/>
-            <Tecla valor="3"/>
-            <Tecla valor="4"/>
-            <Tecla valor="5"/>
-            <Tecla valor="6"/>
-            <Tecla valor="7"/>
-            <Tecla valor="8"/>
-            <Tecla valor="9"/>
-            <Tecla valor="0"/>
+            <Tecla chave="0" tecla="0" />
+            <Tecla chave="1" tecla="1" />
+            <Tecla chave="2" tecla="2" />
+            <Tecla chave="3" tecla="3" />
+            <Tecla chave="4" tecla="4" />
+            <Tecla chave="5" tecla="5" />
+            <Tecla chave="6" tecla="6" />
+            <Tecla chave="7" tecla="7" />
+            <Tecla chave="8" tecla="8" />
+            <Tecla chave="9" tecla="9" />
         </NumDiv>
         <AlfaDiv>
-            <Tecla valor="A"/>
-            <Tecla valor="B"/>
-            <Tecla valor="C"/>
-            <Tecla valor="D"/>
-            <Tecla valor="E"/>
-            <Tecla valor="F"/>
+            <Tecla chave="A" tecla="q" />
+            <Tecla chave="B" tecla="w" />
+            <Tecla chave="C" tecla="e" />
+            <Tecla chave="D" tecla="a" />
+            <Tecla chave="E" tecla="s" />
+            <Tecla chave="F" tecla="d"/>
         </AlfaDiv>
         
     </TecladoDiv>
