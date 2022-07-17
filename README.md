@@ -23,10 +23,9 @@ O servidor fica ativo na [porta 3000](http://localhost:3000/).
 Um arquivo "binário" pra testes pode ser encontrado [aqui](./src/data/pong.txt).
 
 ## Fazer
-* Make the font
-* make FX29
 * Debug
 * make FX18
+* make FX33
 * Unitary tests
 * Update Keyboard
 
