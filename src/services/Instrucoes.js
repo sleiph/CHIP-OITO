@@ -1,3 +1,4 @@
+import guns from '../data/Guns_N_Roses_Paradise_City.mp3';
 // constantes e variaveis
 let registradores = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
 let display = Array.from(Array(32), () => Array.from(Array(64), () => 0));
@@ -7,6 +8,7 @@ let timer = 0;
 let subtimer;
 let soundtimer = 0;
 let soundsubtimer;
+const sound = new Audio(guns);
 
 let sprites = [
     [ // 0x0
@@ -160,6 +162,7 @@ const Instrucoes = {
         }
 
         if (soundtimer > 0){
+            sound.play()
             if (soundsubtimer < 60)  soundsubtimer++;
             else {
                 soundsubtimer = 0;
@@ -196,6 +199,7 @@ const Instrucoes = {
     // Variáveis
     /// ex. Opcode: 6XNN
     setRegistrar : function(ope1, valor, instrucao, setRegistradores) {
+        sound.play()
         let copia = [...registradores];
         copia[ope1] = valor;
         this.UpdateRegistradores(copia, setRegistradores);
