@@ -1,6 +1,7 @@
 import guns from '../data/Guns_N_Roses_Paradise_City.mp3';
 // constantes e variaveis
 let registradores = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
+let saveState = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
 let display = Array.from(Array(32), () => Array.from(Array(64), () => 0));
 let Indice = 0;
 let copiaDisplay = [...display];
@@ -167,8 +168,9 @@ const Instrucoes = {
             else {
                 soundsubtimer = 0;
                 soundtimer--;
+                if (soundtimer <= 0) sound.pause();
             }
-        }
+        } 
         console.log(soundtimer);
         return timer;
     },
