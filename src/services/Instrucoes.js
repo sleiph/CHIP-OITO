@@ -1,7 +1,7 @@
 // constantes e variaveis
 let registradores = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
 let display = Array.from(Array(32), () => Array.from(Array(64), () => 0));
-let Indice = 0;
+let indice = 0;
 let copiaDisplay = [...display];
 let timer = 0;
 let subtimer;
@@ -165,22 +165,21 @@ const Instrucoes = {
         registradores = copia;
     },
 
-    UpdateDisplay : function(setDisplay, sprite, x, y, n, copia) {
+    UpdateDisplay : function(setDisplay, sprite, x, y, n, setRegistradores) {
+        let copia = [...registradores];
         for (let i=0; i<n; i++) {
             for (let j=0; j<8; j++) {
-                //if (display[(y+i)%32][(x+j)%64] != 0) copia[15] = 1;
-                //else copia[15] = 0;
-                //display[(y+i)%32][(x+j)%64] = sprite[i][j];
-                if (display[(y+i)%32][(x+j)%64] != 0) {
-                    display[(y+i)%32][(x+j)%64] = sprite[i][j];
-                    if (display[(y+i)%32][(x+j)%64] == 0) copia[15] = 1;
-                    else copia[15] = 0;
-                } else {
-                    display[(y+i)%32][(x+j)%64] = sprite[i][j];
+                if (display[(y+i)%32][(x+j)%64] === 1 && sprite[i][j] === 1) {
+                    display[(y+i)%32][(x+j)%64] = 0;
+                    copia[15] = 1;
+                } else if (display[(y+i)%32][(x+j)%64] === 0 && sprite[i][j] === 1) {
+                    display[(y+i)%32][(x+j)%64] = 1;
+                    copia[15] = 0;
                 }
             }
         }
         setDisplay(display);
+        this.UpdateRegistradores(copia, setRegistradores);
     },
     
     updateTimer : function () {
@@ -394,11 +393,9 @@ const Instrucoes = {
 
     /// ex. Opcode: DXYN
     Desenha : function (anterior, x, y, n, setDisplay, setRegistradores) {
-        let copia = [...registradores];
         let vX = registradores[x];
         let vY = registradores[y];
-        this.UpdateDisplay(setDisplay, sprites[0], vX, vY, n, copia)
-        this.UpdateRegistradores(copia, setRegistradores);
+        this.UpdateDisplay(setDisplay, sprites[0], vX, vY, n, setRegistradores)
         return anterior + 0x002;
     },
 
@@ -421,29 +418,33 @@ const Instrucoes = {
         return instrucao + 0x002;
     },
 
+    // Som
+    /// ex. Opcode: FX18
     setSound : function(ope1, instrucao){
         soundtimer = registradores[ope1];
         return instrucao + 0x002;
     },
 
     // Memória
-    //ANNN
+    /// ex. Opcode: ANNN
     setIndico : function(x, instrucao, setIndice){
         setIndice(x);
-        Indice = x;
+        indice = x;
         return instrucao + 0x002;
     },
 
+    /// ex. Opcode: FX1E
     registraIndice : function(ope1, instrucao, setIndice) {
         const indicando = registradores[ope1];
         setIndice(indicando);
-        Indice = indicando;
+        indice = indicando;
         return instrucao + 0x002;
     },
 
+    /// ex. Opcode: FX29
     setAddIndice : function(ope1, instrucao, setIndice) {
         setIndice(registradores[ope1]);
-        Indice = registradores[ope1];
+        indice = registradores[ope1];
         return instrucao + 0x002;
     },
 }

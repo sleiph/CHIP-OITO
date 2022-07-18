@@ -131,8 +131,7 @@ function Disassembler(instrucao, setRegistradores, setDisplay, setIndice) {
             return Instrucoes.registraTimer(ope1, instrucao.indice, setRegistradores);
         case '8':
           // toca um somzin
-          console.log("sound_timer(V" + op[1] + ")");
-          return instrucao.indice + 0x002;
+          return Instrucoes.setSound(ope1, instrucao.indice);
         case '9':
           // seta um sprite na memoria
           console.log("I = sprite_addr[V" + op[1] + "]");
