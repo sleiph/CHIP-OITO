@@ -1,7 +1,7 @@
 // constantes e variaveis
 let registradores = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
 let display = Array.from(Array(32), () => Array.from(Array(64), () => 0));
-let indice = 0;
+let Indice = 0;
 let copiaDisplay = [...display];
 let timer = 0;
 let subtimer;
@@ -9,38 +9,6 @@ let soundtimer = 0;
 let soundsubtimer;
 
 let sprites = [
-    /*antigo
-    [ // um quadradinho
-        [1,0,0,0,0,0,0,0],
-        [0,0,0,0,0,0,0,0],
-        [0,0,0,0,0,0,0,0],
-        [0,0,0,0,0,0,0,0],
-        [0,0,0,0,0,0,0,0],
-        [0,0,0,0,0,0,0,0],
-        [0,0,0,0,0,0,0,0],
-        [0,0,0,0,0,0,0,0]
-    ],
-    [ // um quadradão
-        [1,1,1,1,1,1,1,1],
-        [1,1,1,1,1,1,1,1],
-        [1,1,1,1,1,1,1,1],
-        [1,1,1,1,1,1,1,1],
-        [1,1,1,1,1,1,1,1],
-        [1,1,1,1,1,1,1,1],
-        [1,1,1,1,1,1,1,1],
-        [1,1,1,1,1,1,1,1]
-    ],
-    [ // space-invader só de exemplo
-        [0,0,0,1,1,0,0,0],
-        [0,0,1,1,1,1,0,0],
-        [0,1,1,1,1,1,1,0],
-        [1,1,0,1,1,0,1,1],
-        [1,1,1,1,1,1,1,1],
-        [0,0,1,0,0,1,0,0],
-        [0,1,0,1,1,0,1,0],
-        [1,0,1,0,0,1,0,1]
-    ]
-    */
     [ // 0x0
         [1,1,1,1,0,0,0,0],
         [1,0,0,1,0,0,0,0],
@@ -132,7 +100,7 @@ let sprites = [
         [1,0,0,0,0,0,0,0],
         [1,1,1,1,0,0,0,0]
     ],
-    [ // 0xd
+    [ // 0xD
         [1,1,1,1,0,0,0,0],
         [0,1,0,1,0,0,0,0],
         [0,1,0,1,0,0,0,0],
@@ -153,7 +121,7 @@ let sprites = [
         [1,0,0,0,0,0,0,0],
         [1,0,0,0,0,0,0,0]
     ]
-] // esse arquivo ta ficando gigante
+]
 
 let posicao;
 
@@ -402,6 +370,7 @@ const Instrucoes = {
 
     // Teclado
     
+    
 
     // Timers
     /// ex. Opcode: FX07
@@ -429,7 +398,7 @@ const Instrucoes = {
     /// ex. Opcode: ANNN
     setIndico : function(x, instrucao, setIndice){
         setIndice(x);
-        indice = x;
+        Indice = x;
         return instrucao + 0x002;
     },
 
@@ -437,14 +406,14 @@ const Instrucoes = {
     registraIndice : function(ope1, instrucao, setIndice) {
         const indicando = registradores[ope1];
         setIndice(indicando);
-        indice = indicando;
+        Indice = indicando;
         return instrucao + 0x002;
     },
 
     /// ex. Opcode: FX29
     setAddIndice : function(ope1, instrucao, setIndice) {
         setIndice(registradores[ope1]);
-        indice = registradores[ope1];
+        Indice = registradores[ope1];
         return instrucao + 0x002;
     },
 }
