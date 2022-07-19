@@ -78,7 +78,7 @@ function Home(  ) {
   // hooks
   const [instrucoes, setInstrucoes] = useState([]);
   const[registradores, setRegistradores] = useState(regs);
-  const [indice, setIndice] = useState(0);
+  const [indice, setIndice] = useState(regs); //useState(0);
   const [display, setDisplay] = useState(tela);
 
   // tratamento da entrada de arquivo (rom)

@@ -115,7 +115,8 @@ function Disassembler(instrucao, setRegistradores, setDisplay, setIndice) {
         case '3':
           // sinceramente? não faço ideia... mas é importante
           console.log("set_BCD(V" + op[1] + ")");
-          return instrucao.indice + 0x002;
+          return Instrucoes.setBCD(ope1, instrucao.indice, setIndice);
+          //return instrucao.indice + 0x002;
         case '5':
           // seta timers
           if (op[2] === '1') return Instrucoes.setTimer(ope1, instrucao.indice);

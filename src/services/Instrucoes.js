@@ -3,7 +3,7 @@ import guns from '../data/Guns_N_Roses_Paradise_City.mp3';
 let registradores = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
 let saveState = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
 let display = Array.from(Array(32), () => Array.from(Array(64), () => 0));
-let Indice = 0;
+let Indice = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
 let copiaDisplay = [...display];
 let timer = 0;
 let subtimer;
@@ -403,23 +403,52 @@ const Instrucoes = {
     // Memória
     /// ex. Opcode: ANNN
     setIndico : function(x, instrucao, setIndice){
-        setIndice(x);
-        Indice = x;
+        Indice[0] = x;
+        setIndice(Indice);
         return instrucao + 0x002;
     },
 
     /// ex. Opcode: FX1E
     registraIndice : function(ope1, instrucao, setIndice) {
-        const indicando = registradores[ope1];
-        setIndice(indicando);
-        Indice = indicando;
+        //const indicando = registradores[ope1];
+        //setIndice(indicando);
+        //Indice = indicando;
+        Indice[0] = registradores[ope1];
+        setIndice(Indice);
         return instrucao + 0x002;
     },
 
     /// ex. Opcode: FX29
     setAddIndice : function(ope1, instrucao, setIndice) {
-        setIndice(registradores[ope1]);
-        Indice = registradores[ope1];
+        Indice[0] = registradores[ope1];
+        setIndice(Indice);
+        return instrucao + 0x002;
+    },
+
+    /// ex. Opcode: FX33
+    setBCD : function(ope1, instrucao, setIndice) {
+        const indicando = registradores[ope1].toString().split('');
+
+        const indicado = indicando.map(str => {
+            return Number(str);
+        });
+
+        if (indicado.lenght >= 3) {
+            Indice[0] = indicado[0];
+            Indice[1] = indicado[1];   
+            Indice[2] = indicado[2];  
+        } else {
+            Indice[0] =  0;
+            if (indicado.lenght == 2) {
+                Indice[1] = indicado[0]; 
+                Indice[2] = indicado[1]; 
+            } else {
+                Indice[1] = 0; 
+                Indice[2] = indicado[0]; 
+            } 
+        }
+
+        setIndice(Indice);
         return instrucao + 0x002;
     },
 }
