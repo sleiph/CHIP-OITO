@@ -114,16 +114,13 @@ function Disassembler(instrucao, setRegistradores, setDisplay, setIndice) {
       switch(op[3]) {
         case '3':
           // sinceramente? não faço ideia... mas é importante
-          console.log("set_BCD(V" + op[1] + ")");
           return Instrucoes.setBCD(ope1, instrucao.indice, setIndice);
           //return instrucao.indice + 0x002;
         case '5':
           // seta timers
           if (op[2] === '1') return Instrucoes.setTimer(ope1, instrucao.indice);
-          else if (op[2] === '5')
-            console.log("reg_dump(V" + op[1] + ", &I)");
-          else if (op[2] === '6')
-            console.log("reg_load(V" + op[1] + ", &I)");
+          else if (op[2] === '5') return Instrucoes.save(ope1, instrucao.indice, setIndice);
+          else if (op[2] === '6') return Instrucoes.load(ope1, instrucao.indice, setRegistradores);
           else
             console.log("F alguma coisa 5...");
           return instrucao.indice + 0x002;

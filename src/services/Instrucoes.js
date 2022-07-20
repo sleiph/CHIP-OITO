@@ -451,6 +451,27 @@ const Instrucoes = {
         setIndice(Indice);
         return instrucao + 0x002;
     },
+
+    /// ex. Opcode: FX55
+    save : function(ope1, instrucao, setIndice) { 
+        for (let i = 0; i <= ope1; i++) {
+            //saveState[i] = registradores[i];
+            Indice[i] = registradores[i];
+        }
+        setIndice(Indice);
+        return instrucao + 0x002;
+    },
+
+    /// ex. Opcode: FX65
+    load : function(ope1, instrucao, setRegistradores) { 
+        let copia = [...registradores];
+        for (let i = 0; i <= ope1; i++) {
+            //copia[i] = saveState[i];
+            copia[i] = Indice[i];
+        }
+        this.UpdateRegistradores(copia, setRegistradores);
+        return instrucao + 0x002;
+    }
 }
 
 export default Instrucoes;
