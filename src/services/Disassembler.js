@@ -137,7 +137,7 @@ function Disassembler(instrucao, setRegistradores, setDisplay, setIndice) {
         case 'a':
           // espera até que o usuario aperte uma tecla
           console.log("V" + op[1] + " = get_key()");
-          return instrucao.indice + 0x002;
+          return Instrucoes.aperta(ope1, instrucao.indice);
         case 'e':
           // adiciona o valor de uma variavel ao apontador
           console.log("I += V" + op[1]);

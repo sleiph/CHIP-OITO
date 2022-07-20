@@ -1,7 +1,7 @@
 import guns from '../data/Guns_N_Roses_Paradise_City.mp3';
 // constantes e variaveis
 let registradores = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
-let saveState = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
+//let saveState = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
 let display = Array.from(Array(32), () => Array.from(Array(64), () => 0));
 let Indice = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
 let copiaDisplay = [...display];
@@ -9,6 +9,9 @@ let timer = 0;
 let subtimer;
 let soundtimer = 0;
 let soundsubtimer;
+let save;
+let wait = false;
+let apertando = false;
 const sound = new Audio(guns);
 
 let sprites = [
@@ -375,8 +378,9 @@ const Instrucoes = {
 
 
     // Teclado
-    
-    
+    registraTecla() {
+        if (wait) apertando = true;
+    },
 
     // Timers
     /// ex. Opcode: FX07
@@ -416,6 +420,15 @@ const Instrucoes = {
         Indice[0] = registradores[ope1];
         setIndice(Indice);
         return instrucao + 0x002;
+    },
+
+    aperta : function(ope1, instrucao) { // há duvidas aqui 
+        wait = true;
+        if (apertando == false) return instrucao;
+        wait = false;
+        apertando = false;
+        //savebutton = registradores[ope1];
+        return instrucao + 0x002;  
     },
 
     /// ex. Opcode: FX29

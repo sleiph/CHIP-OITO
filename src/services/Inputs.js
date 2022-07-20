@@ -1,3 +1,5 @@
+import Instrucoes from "./Instrucoes";
+
 let go = true;
 let controlePause = true;
 let timerPause = 0;
@@ -63,6 +65,7 @@ const Inputs = {
         } else if (tecla === "d") {
             console.log("F");
         }
+        Instrucoes.registraTecla();
     }
 }
 
