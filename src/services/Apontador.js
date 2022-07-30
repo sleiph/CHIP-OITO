@@ -12,10 +12,10 @@ function Apontador(ops, setRegistradores, setDisplay, setIndice) {
   setInterval( function() {aponta(ops, setRegistradores, setDisplay, setIndice)}, 500);
 }
 
-function aponta(opsx, setRegistradores, setDisplay, setIndice) {
+function aponta(ops, setRegistradores, setDisplay, setIndice) {
   if (Inputs.sendSignal()) {
-    op = { 'indice':i, 'op':opsx[i] }
-    i = Disassembler(op, setRegistradores, setDisplay, setIndice);
+    op = { 'indice':i, 'op':ops[i] }
+    i = Disassembler(op, setRegistradores, setDisplay, setIndice, ops);
   } 
 }
 

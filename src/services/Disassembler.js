@@ -5,7 +5,7 @@ import Instrucoes from './Instrucoes';
  * de acordo com a Opcode table na wiki
  * https://en.wikipedia.org/wiki/CHIP-8
  */
-function Disassembler(instrucao, setRegistradores, setDisplay, setIndice) {
+function Disassembler(instrucao, setRegistradores, setDisplay, setIndice, ops) {
   console.log(instrucao.indice.toString(16));
   console.log(instrucao);
 
@@ -13,6 +13,7 @@ function Disassembler(instrucao, setRegistradores, setDisplay, setIndice) {
   let ope1 = parseInt(op[1], 16);
   let ope2 = parseInt(op[2], 16);
   let ope3 = parseInt(op[3], 16);
+  let x = parseInt(op[1] + op[2] + op[3], 16);
   let n = parseInt(op[3], 16);
   let valor = parseInt(op.slice(-2), 16) % 256;
   Instrucoes.updateTimer();
@@ -85,10 +86,10 @@ function Disassembler(instrucao, setRegistradores, setDisplay, setIndice) {
       return instrucao.indice + 0x002;
     case 'a':
       // muda o valor do apontador (I)
-      return Instrucoes.setIndico(ope1 + ope2 + ope3, instrucao.indice, setIndice);
+      return Instrucoes.setIndico(x, instrucao.indice, setIndice);
     case 'b':
       // pula pro endereço V0 + instrucao enviada
-      return Instrucoes.setNext(ope1 + ope2 + ope3);
+      return Instrucoes.setNext(x);
     case 'c':
       // atribui um valor aleatorio pra uma variavel
       console.log("V" + op[1] + " = rand() & " + op[2] + op[3]);
@@ -96,7 +97,7 @@ function Disassembler(instrucao, setRegistradores, setDisplay, setIndice) {
     case 'd':
       // desenha na tela
       console.log("draw(V" + op[1] + ", V" + op[2] + ", " + op[3] + ")");
-      return Instrucoes.Desenha(instrucao.indice, ope1, ope2, n, setDisplay, setRegistradores);
+      return Instrucoes.Desenha(instrucao.indice, ope1, ope2, n, setDisplay, setRegistradores, ops);
     case 'e':
       // entrada de teclado
       if (op[3]==='e')
@@ -114,8 +115,8 @@ function Disassembler(instrucao, setRegistradores, setDisplay, setIndice) {
       switch(op[3]) {
         case '3':
           // sinceramente? não faço ideia... mas é importante
-          return Instrucoes.setBCD(ope1, instrucao.indice, setIndice);
-          //return instrucao.indice + 0x002;
+          //return Instrucoes.setBCD(ope1, instrucao.indice, setIndice);
+          return instrucao.indice + 0x002;
         case '5':
           // seta timers
           if (op[2] === '1') return Instrucoes.setTimer(ope1, instrucao.indice);

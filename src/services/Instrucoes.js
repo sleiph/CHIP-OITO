@@ -1,9 +1,9 @@
 import guns from '../data/Guns_N_Roses_Paradise_City.mp3';
 // constantes e variaveis
 let registradores = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
-//let saveState = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
+let saveState = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
 let display = Array.from(Array(32), () => Array.from(Array(64), () => 0));
-let Indice = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
+let Indice = 0;
 let copiaDisplay = [...display];
 let timer = 0;
 let subtimer;
@@ -141,6 +141,7 @@ const Instrucoes = {
 
     UpdateDisplay : function(setDisplay, sprite, x, y, n, setRegistradores) {
         let copia = [...registradores];
+        console.log(sprite);
         for (let i=0; i<n; i++) {
             for (let j=0; j<8; j++) {
                 if (display[(y+i)%32][(x+j)%64] === 1 && sprite[i][j] === 1) {
@@ -178,6 +179,26 @@ const Instrucoes = {
         return timer;
     },
 
+    updateOps : function(ops){
+        let sprite = [];
+        for (let k = 0; k < ops.length; k++){
+            let separador = ops[k].split("");
+            let retorno = [];
+            for (let i = 0; i < separador.length; i++) {
+                separador[i] = parseInt(separador[i], 16).toString(2).padStart(4 ,'0');
+                if (separador[i].length > 0) {
+                    for(let j = 0; j < separador[i].length; j++) {
+                        const temp= separador[i];
+                        retorno.push(parseInt(temp[j]));
+                    }
+                }
+                else retorno.push(parseInt(separador[i]));
+            }
+            sprite.push(retorno);
+        }
+        return sprite;
+    },
+
     // Instruções e subrotinas
     /// ex. Opcode: ONNN
     Vazio : function(anterior) {
@@ -204,7 +225,7 @@ const Instrucoes = {
     // Variáveis
     /// ex. Opcode: 6XNN
     setRegistrar : function(ope1, valor, instrucao, setRegistradores) {
-        sound.play()
+        //sound.play()
         let copia = [...registradores];
         copia[ope1] = valor;
         this.UpdateRegistradores(copia, setRegistradores);
@@ -369,13 +390,18 @@ const Instrucoes = {
     },
 
     /// ex. Opcode: DXYN
-    Desenha : function (anterior, x, y, n, setDisplay, setRegistradores) {
+    Desenha : function (anterior, x, y, n, setDisplay, setRegistradores, ops) {
         let vX = registradores[x];
         let vY = registradores[y];
-        this.UpdateDisplay(setDisplay, sprites[0], vX, vY, n, setRegistradores)
+        let nemo = [];
+        for (let i = 0; i < 16; i+=2) {
+            if (ops[Indice + i] != undefined && ops[Indice + i] != null) nemo.push(ops[Indice + i]);
+            else nemo.push("8000");
+        }
+        const opsx = this.updateOps(nemo);
+        this.UpdateDisplay(setDisplay, opsx, vX, vY, n, setRegistradores)
         return anterior + 0x002;
     },
-
 
     // Teclado
     registraTecla() {
@@ -407,17 +433,14 @@ const Instrucoes = {
     // Memória
     /// ex. Opcode: ANNN
     setIndico : function(x, instrucao, setIndice){
-        Indice[0] = x;
+        Indice = x;
         setIndice(Indice);
         return instrucao + 0x002;
     },
 
     /// ex. Opcode: FX1E
     registraIndice : function(ope1, instrucao, setIndice) {
-        //const indicando = registradores[ope1];
-        //setIndice(indicando);
-        //Indice = indicando;
-        Indice[0] = registradores[ope1];
+        Indice = registradores[ope1];
         setIndice(Indice);
         return instrucao + 0x002;
     },
@@ -433,7 +456,7 @@ const Instrucoes = {
 
     /// ex. Opcode: FX29
     setAddIndice : function(ope1, instrucao, setIndice) {
-        Indice[0] = registradores[ope1];
+        Indice = registradores[ope1];
         setIndice(Indice);
         return instrucao + 0x002;
     },
@@ -468,8 +491,7 @@ const Instrucoes = {
     /// ex. Opcode: FX55
     save : function(ope1, instrucao, setIndice) { 
         for (let i = 0; i <= ope1; i++) {
-            //saveState[i] = registradores[i];
-            Indice[i] = registradores[i];
+            saveState[i] = registradores[i];
         }
         setIndice(Indice);
         return instrucao + 0x002;
@@ -479,8 +501,7 @@ const Instrucoes = {
     load : function(ope1, instrucao, setRegistradores) { 
         let copia = [...registradores];
         for (let i = 0; i <= ope1; i++) {
-            //copia[i] = saveState[i];
-            copia[i] = Indice[i];
+            copia[i] = saveState[i];
         }
         this.UpdateRegistradores(copia, setRegistradores);
         return instrucao + 0x002;

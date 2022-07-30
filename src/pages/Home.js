@@ -78,7 +78,7 @@ function Home(  ) {
   // hooks
   const [instrucoes, setInstrucoes] = useState([]);
   const[registradores, setRegistradores] = useState(regs);
-  const [indice, setIndice] = useState(regs); //useState(0);
+  const [indice, setIndice] = useState(); //useState(0);
   const [display, setDisplay] = useState(tela);
 
   // tratamento da entrada de arquivo (rom)
@@ -108,7 +108,7 @@ function Home(  ) {
           accept='.rom'
           onChange={e => handleFileChosen(e.target.files[0])}
         />
-        <OPCodes codigos={instrucoes} registradores={registradores} />
+        <OPCodes codigos={instrucoes} registradores={registradores} indice={indice}/>
       </Cartucho>
 
       <Display display={display} setDisplay={setDisplay} />

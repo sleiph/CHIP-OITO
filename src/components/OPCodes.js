@@ -11,25 +11,18 @@ const Instrucao = styled.span`
   margin: 0 12px;
 `
 
-function OPCodes( {codigos, registradores} ) {
+function OPCodes( {codigos, registradores, indice} ) {
   //let arrayCodigos = Object.values(codigos);
   let arrayRegistradores = Object.values(registradores);
   
   return (
-    <OPDiv>{ /*
-      arrayCodigos.map((op, i) => {
-        if (op.length == 4) {
-          return(
-            <Instrucao key={i}>{op}</Instrucao>
-          );
-        }
-      })*/
+    <OPDiv>{ 
       arrayRegistradores.map((reg, i) => {
           return(
             <Instrucao key={i}>{reg}</Instrucao>
           );
       })
-    }</OPDiv>
+    } <Instrucao>{indice}</Instrucao> </OPDiv>
   )
 }
 
