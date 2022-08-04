@@ -24,8 +24,7 @@ Um arquivo "binário" pra testes pode ser encontrado [aqui](./src/data/pong.txt)
 
 ## Fazer
 * Debug
-* make FX18
-* make FX33
+* A700 deve retornar algo
 * Unitary tests
 * Update Keyboard
 
