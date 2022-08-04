@@ -433,6 +433,7 @@ const Instrucoes = {
     // Memória
     /// ex. Opcode: ANNN
     setIndico : function(x, instrucao, setIndice){
+        if (x == 700 || x == 1792) console.log(x);
         Indice = x;
         setIndice(Indice);
         return instrucao + 0x002;
