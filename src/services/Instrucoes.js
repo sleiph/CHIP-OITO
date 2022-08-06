@@ -395,7 +395,8 @@ const Instrucoes = {
         let vY = registradores[y];
         let nemo = [];
         for (let i = 0; i < 16; i+=2) {
-            if (ops[Indice + i] != undefined && ops[Indice + i] != null) nemo.push(ops[Indice + i]);
+            if (ops[Indice + i] !== undefined && ops[Indice + i] !== null)
+                nemo.push(ops[Indice + i]);
             else nemo.push("8000");
         }
         const opsx = this.updateOps(nemo);
@@ -433,7 +434,8 @@ const Instrucoes = {
     // Memória
     /// ex. Opcode: ANNN
     setIndico : function(x, instrucao, setIndice){
-        if (x == 700 || x == 1792) console.log(x);
+        if (x === 700 || x === 1792)
+            console.log(x);
         Indice = x;
         setIndice(Indice);
         return instrucao + 0x002;
@@ -448,7 +450,8 @@ const Instrucoes = {
 
     aperta : function(ope1, instrucao) { // há duvidas aqui 
         wait = true;
-        if (apertando == false) return instrucao;
+        if (apertando === false)
+            return instrucao;
         wait = false;
         apertando = false;
         //savebutton = registradores[ope1];
@@ -476,7 +479,7 @@ const Instrucoes = {
             Indice[2] = indicado[2];  
         } else {
             Indice[0] =  0;
-            if (indicado.lenght == 2) {
+            if (indicado.lenght === 2) {
                 Indice[1] = indicado[0]; 
                 Indice[2] = indicado[1]; 
             } else {
