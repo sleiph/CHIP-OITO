@@ -131,6 +131,9 @@ let sprites = [
 
 let posicao;
 
+/**
+ * Instruções que serão usadas no disassembler e controle de memória
+ */
 const Instrucoes = {
       
     // Melhoria de código

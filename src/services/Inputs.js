@@ -6,6 +6,9 @@ let timerPause = 0;
 
 if (timerPause > 120) controlePause = true;
 
+/**
+ * Controla a entrada de comandos (teclado) do emulador
+ */
 const Inputs = {
     /**
      * Alterna entre estado de execução e pausa
