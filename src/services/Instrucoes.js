@@ -130,7 +130,6 @@ let sprites = [
 ]
 
 let posicao;
-
 const Instrucoes = {
       
     // Melhoria de código
@@ -158,24 +157,12 @@ const Instrucoes = {
     },
     
     updateTimer : function () {
-        if (timer > 0){
-            if (subtimer < 60)  subtimer++;
-            else {
-                subtimer = 0;
-                timer--;
-            }
-        }
+        if (timer > 0) timer--;
 
         if (soundtimer > 0){
             sound.play()
-            if (soundsubtimer < 60)  soundsubtimer++;
-            else {
-                soundsubtimer = 0;
-                soundtimer--;
-                if (soundtimer <= 0) sound.pause();
-            }
-        } 
-        console.log(soundtimer);
+            soundtimer--;
+        } else sound.pause();
         return timer;
     },
 
@@ -219,6 +206,10 @@ const Instrucoes = {
     StrRot : function(x, instrucao) {
         posicao = instrucao + 0x002;
         return parseInt(x, 16);
+    },
+
+    show : function() {
+      console.log("Timer: " + timer)
     },
 
 

@@ -8,6 +8,7 @@ import Instrucoes from './Instrucoes';
 function Disassembler(instrucao, setRegistradores, setDisplay, setIndice, ops) {
   console.log(instrucao.indice.toString(16));
   console.log(instrucao);
+  Instrucoes.show()
 
   let op = instrucao.op;
   let ope1 = parseInt(op[1], 16);
