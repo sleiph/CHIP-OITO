@@ -1,5 +1,6 @@
 import Disassembler from "./Disassembler";
 import Inputs from "./Inputs";
+import Instrucoes from './Instrucoes';
 
 /**
  * Cicla entre as instruções, pedindo a próxima até que o programa termine
@@ -16,6 +17,7 @@ function aponta(ops, setRegistradores, setDisplay, setIndice) {
   if (Inputs.sendSignal()) {
     op = { 'indice':i, 'op':ops[i] }
     i = Disassembler(op, setRegistradores, setDisplay, setIndice, ops);
+    Instrucoes.updateTimer();
   } 
 }
 
