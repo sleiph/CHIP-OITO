@@ -27,6 +27,7 @@ Um arquivo "binário" pra testes pode ser encontrado [aqui](./src/data/pong.txt)
 * A700 deve retornar algo
 * Unitary tests
 * Update Keyboard
+* Mostrar uma tela de debug quando clicar no header do emulador
 
 * Escrever arquivos binários, se a gente for deixar o jogador editar as roms
     - [Writing Byte Array To Binary File Javascript](https://stackoverflow.com/questions/26244126/writing-byte-array-to-binary-file-javascript)

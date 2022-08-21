@@ -6,6 +6,7 @@ import Teclado from '../components/Teclado';
 
 import Apontador from '../services/Apontador';
 import Inputs from '../services/Inputs';
+import Memoria from '../services/Memoria';
 import Tratamento from '../services/Tratamento';
 
 import styled from 'styled-components'
@@ -85,18 +86,18 @@ function Home(  ) {
   let fileReader;
   /// trata e manda o arquivo pra ser interpretado
   const handleFileRead = (e) => {
-    const conteudo = fileReader.result;
-    
-    let tratado = Tratamento(conteudo);
+    const buffer = fileReader.result;
+
+    let tratado = Memoria.CarregaInstrucoes(buffer);
     setInstrucoes(tratado);
 
-    Apontador(tratado, setRegistradores, setDisplay, setIndice);
+    Apontador.Comecar(setRegistradores, setDisplay, setIndice);
   };
   /// lê o arquivo carregado pelo usuario
-  const handleFileChosen = (file) => {
+  const handleFileChosen = (arquivo) => {
     fileReader = new FileReader();
     fileReader.onloadend = handleFileRead;
-    fileReader.readAsArrayBuffer(file);
+    fileReader.readAsArrayBuffer(arquivo);
   };
 
   return (

@@ -1,42 +1,32 @@
-/**
- * converte o buffer array recebido do arquivo pra uma string de hexs
- * @param {buffer} buffer
- * @returns array de hex
- */
-function buf2hex(buffer) {
-  return [...new Uint8Array(buffer)]
-    .map(x => x.toString(16).padStart(2, '0'))
-    .join('');
-}
+const Tratamento = {
 
-/**
- * 
- * @param {string} conteudo 
- * @returns objeto com posicao na memoria e instrucao
- */
-function criaPosicoes(bytes) {
-  let ops = {};
-  let posicao = 0x200;
+  /**
+   * converte o buffer inicial pra um array de bytes (ex.:'00100100')
+   * @param {buffer} buffer
+   * @returns array de bytes
+   */
+  BufferPraBin: function (buffer) {
+    return [...new Uint8Array(buffer)]
+      .map(x => this.IntPraBin(x));
+  },
 
-  for (let i=4; i<bytes.length; i+=4) {
-    ops[posicao] = bytes.slice(i-4, i);
-    posicao += 0x002;
+  /**
+   * Transforma um int em 8 caracteres binários
+   * @param {*} int ex.: 18
+   * @returns string com len 8, ex.: 00010010
+   */
+  IntPraBin: function (int) {
+    return int.toString(2).padStart(8, '0');
+  },
+
+  /**
+   * Transforma 8 caracteres binários em 2 hex
+   * @param {*} bin ex.: 00010010
+   * @returns ex.: 12
+   */
+  BinPraHex: function (bin) {
+    return parseInt(bin, 2).toString(16).padStart(2, '0');
   }
-  ops['limite'] = posicao;
-  
-  return ops;
-}
-
-/**
- * converte o binário do arquivo .rom pra um array de 4xn hexadecimais
- * @param {fileReader.result} buffer
- * @returns ex: { '0200': "6a02", '0202':"6b0c", ... ]
- */
-function Tratamento(conteudo) {
-  var buffer = new Uint8Array(conteudo).buffer;
-  var bytes = buf2hex(buffer);
-  
-  return criaPosicoes(bytes);
 }
 
 export default Tratamento;

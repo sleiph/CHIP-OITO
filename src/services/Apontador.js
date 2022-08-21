@@ -2,21 +2,30 @@ import Disassembler from "./Disassembler";
 import Inputs from "./Inputs";
 import Instrucoes from './Instrucoes';
 
-/**
+const Apontador = {
+  // velocidade das instruções em milisegundos
+  velocidade: 500,
+
+  /**
  * Cicla entre as instruções, pedindo a próxima até que o programa termine
  * @param {Object} ex:{0x200:6a02, 0x202:6b0c, ...} 
  */
- let i = 0x200;
- let op;
+  atual: 0x200,
 
-function Apontador(ops, setRegistradores, setDisplay, setIndice) {
-  setInterval( function() {aponta(ops, setRegistradores, setDisplay, setIndice)}, 500);
+  /**
+   * Começa a executar as instruções gravadas na memória
+   * @param {*} setRegistradores 
+   * @param {*} setDisplay 
+   * @param {*} setIndice 
+   */
+  Comecar: function (setRegistradores, setDisplay, setIndice) {
+    setInterval( function() {aponta(setRegistradores, setDisplay, setIndice)}, this.velocidade);
+  }
 }
 
-function aponta(ops, setRegistradores, setDisplay, setIndice) {
+function aponta(setRegistradores, setDisplay, setIndice) {
   if (Inputs.sendSignal()) {
-    op = { 'indice':i, 'op':ops[i] }
-    i = Disassembler(op, setRegistradores, setDisplay, setIndice, ops);
+    Apontador.atual = Disassembler(Apontador.atual, setRegistradores, setDisplay, setIndice);
     Instrucoes.updateTimer();
   } 
 }

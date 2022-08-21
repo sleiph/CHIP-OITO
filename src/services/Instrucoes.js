@@ -1,4 +1,5 @@
 import guns from '../data/Guns_N_Roses_Paradise_City.mp3';
+import Memoria from './Memoria';
 // constantes e variaveis
 let registradores = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
 let saveState = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
@@ -386,13 +387,13 @@ const Instrucoes = {
     },
 
     /// ex. Opcode: DXYN
-    Desenha : function (anterior, x, y, n, setDisplay, setRegistradores, ops) {
+    Desenha : function (anterior, x, y, n, setDisplay, setRegistradores) {
         let vX = registradores[x];
         let vY = registradores[y];
         let nemo = [];
         for (let i = 0; i < 16; i+=2) {
-            if (ops[Indice + i] !== undefined && ops[Indice + i] !== null)
-                nemo.push(ops[Indice + i]);
+            if (Memoria.posicoes[Indice + i].hex !== undefined && Memoria.posicoes[Indice + i].hex !== null)
+                nemo.push(Memoria.posicoes[Indice + i].hex);
             else nemo.push("8000");
         }
         const opsx = this.updateOps(nemo);
