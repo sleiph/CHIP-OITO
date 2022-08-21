@@ -26,6 +26,15 @@ const Tratamento = {
    */
   BinPraHex: function (bin) {
     return parseInt(bin, 2).toString(16).padStart(2, '0');
+  },
+
+  /**
+   * Transforma um hex em int...
+   * @param {*} hex 
+   * @returns 
+   */
+  HexPraInt: function (hex) {
+    return parseInt(hex, 16)
   }
 }
 

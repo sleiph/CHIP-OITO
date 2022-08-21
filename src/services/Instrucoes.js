@@ -1,5 +1,7 @@
 import guns from '../data/Guns_N_Roses_Paradise_City.mp3';
 import Memoria from './Memoria';
+import Tratamento from './Tratamento';
+
 // constantes e variaveis
 let registradores = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
 let saveState = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
@@ -178,7 +180,7 @@ const Instrucoes = {
             let separador = ops[k].split("");
             let retorno = [];
             for (let i = 0; i < separador.length; i++) {
-                separador[i] = parseInt(separador[i], 16).toString(2).padStart(4 ,'0');
+                separador[i] = Tratamento.HexPraInt(separador[i]).toString(2).padStart(4 ,'0');
                 if (separador[i].length > 0) {
                     for(let j = 0; j < separador[i].length; j++) {
                         const temp= separador[i];
@@ -205,13 +207,13 @@ const Instrucoes = {
 
     /// ex. Opcode: 1NNN
     StrHex : function(x) {
-        return parseInt(x, 16);
+        return Tratamento.HexPraInt(x);
     },
 
     /// ex. Opcode: 2NNN
     StrRot : function(x, instrucao) {
         posicao = instrucao + 0x002;
-        return parseInt(x, 16);
+        return Tratamento.HexPraInt(x);
     },
 
     show : function() {
@@ -248,7 +250,7 @@ const Instrucoes = {
     /// ex. Opcode: 8XY1
     setOR : function(ope1, ope2, instrucao, setRegistradores) {
         let copia = [...registradores];
-        copia[ope1] = (parseInt(copia[ope1], 16) | parseInt(copia[ope2], 16)) % 256;
+        copia[ope1] = (Tratamento.HexPraInt(copia[ope1]) | Tratamento.HexPraInt(copia[ope2])) % 256;
         this.UpdateRegistradores(copia, setRegistradores);
         return instrucao + 0x002;
     },
@@ -256,7 +258,7 @@ const Instrucoes = {
     /// ex. Opcode: 8XY2
     setAND : function(ope1, ope2, instrucao, setRegistradores) {
         let copia = [...registradores];
-        let duo = (parseInt(copia[ope1], 16) & parseInt(copia[ope2], 16))  % 256;
+        let duo = (Tratamento.HexPraInt(copia[ope1]) & Tratamento.HexPraInt(copia[ope2]))  % 256;
         copia[ope1] = duo;
         this.UpdateRegistradores(copia, setRegistradores);
         return instrucao + 0x002;
@@ -265,7 +267,7 @@ const Instrucoes = {
     /// ex. Opcode: 8XY3
     setXOR : function(ope1, ope2, instrucao, setRegistradores) {
         let copia = [...registradores];
-        let duo = (parseInt(copia[ope1], 16) ^ parseInt(copia[ope2], 16) % 256);
+        let duo = (Tratamento.HexPraInt(copia[ope1]) ^ Tratamento.HexPraInt(copia[ope2]) % 256);
         copia[ope1] = duo;
         this.UpdateRegistradores(copia, setRegistradores);
         return instrucao + 0x002;
@@ -276,8 +278,8 @@ const Instrucoes = {
         //VF is set to 1 when there's a carry, and to 0 when there is not.
         let copia = [...registradores];
         console.log('foi1');
-        if (copia[ope1] + copia[ope2] > parseInt(255, 16)) {
-            copia[15] = parseInt(1, 16);
+        if (copia[ope1] + copia[ope2] > Tratamento.HexPraInt(255)) {
+            copia[15] = Tratamento.HexPraInt(1);
         } else{
             copia[15] = 0;
         }
@@ -305,7 +307,7 @@ const Instrucoes = {
     /// ex. Opcode: 8XY6   
     setRightShift : function(ope1, instrucao, setRegistradores) {
         let copia = [...registradores];
-        copia[ope1] = parseInt(copia[ope1], 16) >> 1;
+        copia[ope1] = Tratamento.HexPraInt(copia[ope1]) >> 1;
         this.UpdateRegistradores(copia, setRegistradores);
         return instrucao + 0x002;
     },
@@ -316,7 +318,7 @@ const Instrucoes = {
         let copia = [...registradores];
         console.log('foi3');
         copia[ope1] = copia[ope2] - copia[ope1];
-        if (copia[ope1] > parseInt(255, 16)) {
+        if (copia[ope1] > Tratamento.HexPraInt(255)) {
             copia[15] = 0;
         } else {
             copia[15] = 1;
@@ -328,7 +330,7 @@ const Instrucoes = {
     /// ex. Opcode: 8XYE
     setLeftShift : function(ope1, instrucao, setRegistradores) {
         let copia = [...registradores];
-        copia[ope1] = parseInt(copia[ope1], 16) << 1;
+        copia[ope1] = Tratamento.HexPraInt(copia[ope1]) << 1;
         this.UpdateRegistradores(copia, setRegistradores);
         return instrucao + 0x002;
     },

@@ -1,5 +1,6 @@
 import Instrucoes from './Instrucoes';
 import Memoria from './Memoria';
+import Tratamento from './Tratamento';
 
 /**
  * recebe 4 chars hexadecimais e interpreta a instrução
@@ -10,13 +11,12 @@ function Disassembler(indice, setRegistradores, setDisplay, setIndice) {
   let op = Memoria.posicoes[indice].hex + Memoria.posicoes[indice+1].hex;
   console.log(indice, op);
   Instrucoes.show();
-
   
-  let ope1 = parseInt(op[1], 16);
-  let ope2 = parseInt(op[2], 16);
-  let x = parseInt(op[1] + op[2] + op[3], 16);
-  let n = parseInt(op[3], 16);
-  let valor = parseInt(Memoria.posicoes[indice+1].hex, 16);
+  let ope1 = Tratamento.HexPraInt(op[1]);
+  let ope2 = Tratamento.HexPraInt(op[2]);
+  let x = Tratamento.HexPraInt(op[1] + op[2] + op[3]);
+  let n = Tratamento.HexPraInt(op[3]);
+  let valor = Tratamento.HexPraInt(Memoria.posicoes[indice+1].hex);
 
   switch(op[0]) {
     case '0':

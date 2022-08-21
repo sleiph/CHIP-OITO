@@ -23,6 +23,7 @@ const Apontador = {
   }
 }
 
+// não consegui deixar essa funcao como parte da const Apontador...
 function aponta(setRegistradores, setDisplay, setIndice) {
   if (Inputs.sendSignal()) {
     Apontador.atual = Disassembler(Apontador.atual, setRegistradores, setDisplay, setIndice);
