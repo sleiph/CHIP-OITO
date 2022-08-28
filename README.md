@@ -1,6 +1,6 @@
 # CHIP-OITO
 
-Emulador de [CHIP-8](https://en.wikipedia.org/wiki/CHIP-8), vai ser criado provavelmente em javaScript, com React, talvez em C++, quem sabe?
+Emulador de [CHIP-8](https://en.wikipedia.org/wiki/CHIP-8), criado em javaScript, com React.
 
 ## Instruções
 Precisa do Node e NPM pra rodar, versão mais atual possível (04-02-2022).
@@ -20,17 +20,13 @@ npm start
 
 O servidor fica ativo na [porta 3000](http://localhost:3000/).
 
-Um arquivo "binário" pra testes pode ser encontrado [aqui](./src/data/pong.txt).
+Arquivos binários pra testes podem ser encontrados na [documentação](./documentacao).
 
 ## Fazer
-* Debug
+* Arrumar o timer
+* Implementar teclado
 * A700 deve retornar algo
-* Unitary tests
-* Update Keyboard
-* Mostrar uma tela de debug quando clicar no header do emulador
-
-* Escrever arquivos binários, se a gente for deixar o jogador editar as roms
-    - [Writing Byte Array To Binary File Javascript](https://stackoverflow.com/questions/26244126/writing-byte-array-to-binary-file-javascript)
+* Menu de Debug
 
 ## Referências
 
