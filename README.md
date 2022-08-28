@@ -27,6 +27,7 @@ Arquivos binários pra testes podem ser encontrados na [documentação](./docume
 * Implementar teclado
 * A700 deve retornar algo
 * Menu de Debug
+* Função de reset do videogame
 
 ## Referências
 

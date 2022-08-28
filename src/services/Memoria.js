@@ -1,5 +1,8 @@
 import Tratamento from "./Tratamento";
 
+/**
+ * guarda os valores da memória do chip 8, incluindo os transferidos do cartucho
+ */
 const Memoria = {
     posicoes: {
         // Fonte

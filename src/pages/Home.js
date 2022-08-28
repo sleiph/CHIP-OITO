@@ -31,8 +31,10 @@ const Cartucho = styled.div`
 document.addEventListener('keydown', (event) => {
   if (event.key === 'p')
     Inputs.redSignal();
+  else if (event.key == 'ArrowRight')
+    Inputs.proximo();
   else {
-    Inputs.Teclou(event.key)
+    Inputs.Teclou(event.key);
   }
 });
 
@@ -79,7 +81,7 @@ function Home(  ) {
   // hooks
   const [instrucoes, setInstrucoes] = useState([]);
   const[registradores, setRegistradores] = useState(regs);
-  const [indice, setIndice] = useState(); //useState(0);
+  const [indice, setIndice] = useState(0); //useState(0);
   const [display, setDisplay] = useState(tela);
 
   // tratamento da entrada de arquivo (rom)

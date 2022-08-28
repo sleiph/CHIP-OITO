@@ -11,15 +11,6 @@ const Tratamento = {
   },
 
   /**
-   * Transforma um int em 8 caracteres binários
-   * @param {*} int ex.: 18
-   * @returns string com len 8, ex.: 00010010
-   */
-  IntPraBin: function (int) {
-    return int.toString(2).padStart(8, '0');
-  },
-
-  /**
    * Transforma 8 caracteres binários em 2 hex
    * @param {*} bin ex.: 00010010
    * @returns ex.: 12
@@ -29,12 +20,30 @@ const Tratamento = {
   },
 
   /**
-   * Transforma um hex em int...
+   * Transforma um hex em int.
    * @param {*} hex 
    * @returns 
    */
   HexPraInt: function (hex) {
     return parseInt(hex, 16)
+  },
+
+  /**
+   * Transforma um int em 8 caracteres binários
+   * @param {*} int ex.: 18
+   * @returns string com len 8, ex.: 00010010
+   */
+   IntPraBin: function (int) {
+    return int.toString(2).padStart(8, '0');
+  },
+
+  /**
+   * Transforma um int em hex...
+   * @param {*} int 
+   * @returns 
+   */
+   IntPraHex: function (int) {
+    return int.toString(16);
   }
 }
 

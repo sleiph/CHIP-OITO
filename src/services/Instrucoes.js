@@ -9,10 +9,7 @@ let display = Array.from(Array(32), () => Array.from(Array(64), () => 0));
 let Indice = 0;
 let copiaDisplay = [...display];
 let timer = 0;
-let subtimer;
 let soundtimer = 0;
-let soundsubtimer;
-let save;
 let wait = false;
 let apertando = false;
 const sound = new Audio(guns);
@@ -20,7 +17,7 @@ const sound = new Audio(guns);
 let posicao;
 
 /**
- * Instruções que serão usadas no disassembler e controle de memória
+ * Instruções que serão usadas no disassembler
  */
 const Instrucoes = {
       
@@ -30,22 +27,28 @@ const Instrucoes = {
         registradores = copia;
     },
 
-    UpdateDisplay : function(setDisplay, sprite, x, y, n, setRegistradores) {
-        let copia = [...registradores];
-        console.log(sprite);
-        for (let i=0; i<n; i++) {
-            for (let j=0; j<8; j++) {
-                if (display[(y+i)%32][(x+j)%64] === 1 && sprite[i][j] === 1) {
-                    display[(y+i)%32][(x+j)%64] = 0;
-                    copia[15] = 1;
-                } else if (display[(y+i)%32][(x+j)%64] === 0 && sprite[i][j] === 1) {
-                    display[(y+i)%32][(x+j)%64] = 1;
-                    copia[15] = 0;
+    UpdateDisplay : function(x, y, sprite, setDisplay, setRegistradores) {
+        let copiaRegs = [...registradores];
+        let isUnset = false;
+
+        for (let i=0; i<sprite.length; i++) {
+            for (let j=0; j<sprite[i].length; j++) {
+                try {
+                    let original = parseInt(display[y+i][x+j]);
+                    display[y+i][x+j] = parseInt(sprite[i][j]);
+                    // VF is set to 1 if any screen pixels are flipped from set to unset when the sprite is drawn,
+                    if (original === 1 && sprite[i][j] === 0)
+                        isUnset = true;
+                } catch (e) {
+                    console.log('erro atualizando tela: ' + e);
+                    continue;
                 }
             }
         }
+        //and to 0 if that does not happen
+        copiaRegs[15] = isUnset ? 1 : 0;
         setDisplay(display);
-        this.UpdateRegistradores(copia, setRegistradores);
+        this.UpdateRegistradores(copiaRegs, setRegistradores);
     },
     
     updateTimer : function () {
@@ -56,26 +59,6 @@ const Instrucoes = {
             soundtimer--;
         } else sound.pause();
         return timer;
-    },
-
-    updateOps : function(ops){
-        let sprite = [];
-        for (let k = 0; k < ops.length; k++){
-            let separador = ops[k].split("");
-            let retorno = [];
-            for (let i = 0; i < separador.length; i++) {
-                separador[i] = Tratamento.HexPraInt(separador[i]).toString(2).padStart(4 ,'0');
-                if (separador[i].length > 0) {
-                    for(let j = 0; j < separador[i].length; j++) {
-                        const temp= separador[i];
-                        retorno.push(parseInt(temp[j]));
-                    }
-                }
-                else retorno.push(parseInt(separador[i]));
-            }
-            sprite.push(retorno);
-        }
-        return sprite;
     },
 
     // Instruções e subrotinas
@@ -118,7 +101,7 @@ const Instrucoes = {
     /// ex. Opcode: 7XNN
     setAdd : function(ope1, valor, instrucao, setRegistradores) {
         let copia = [...registradores];
-        copia[ope1] = (copia[ope1] + valor) %256;
+        copia[ope1] = (copia[ope1] + valor) % 256;
         this.UpdateRegistradores(copia, setRegistradores);
         return instrucao + 0x002;
     },
@@ -161,28 +144,26 @@ const Instrucoes = {
     setAddop : function(ope1, ope2, instrucao, setRegistradores) { 
         //VF is set to 1 when there's a carry, and to 0 when there is not.
         let copia = [...registradores];
-        console.log('foi1');
         if (copia[ope1] + copia[ope2] > Tratamento.HexPraInt(255)) {
-            copia[15] = Tratamento.HexPraInt(1);
-        } else{
+            copia[15] = 1;
+        } else {
             copia[15] = 0;
         }
-        copia[ope1] += copia[ope2] % 256;
+        copia[ope1] = (copia[ope1] + copia[ope2]) % 256;
         this.UpdateRegistradores(copia, setRegistradores);
         return instrucao + 0x002;
     },
 
     /// ex. Opcode: 8XY5
-    setSubop : function(ope1, ope2, instrucao, setRegistradores) { 
-        //VF is set to 0 when there's a borrow, and 1 when there is not.
+    setSubop : function(ope1, ope2, instrucao, setRegistradores) {
         let copia = [...registradores];
-        console.log('foi2');
-        if (copia[ope1] - copia[ope2] < 0) {
-            copia[ope1] = 256% copia[ope2];
-            copia[15] = 1;            
+        copia[ope1] -= copia[ope2];
+        //VF is set to 0 when there's a borrow, and 1 when there is not.
+        if (copia[ope1] < 0) {
+            copia[ope1] = 0xff + copia[ope1];
+            copia[15] = 1;
         } else {
-            copia[ope1] -= copia[ope2];
-            copia[15] = 0;   
+            copia[15] = 0;
         }
         this.UpdateRegistradores(copia, setRegistradores);
         return instrucao + 0x002;
@@ -259,7 +240,7 @@ const Instrucoes = {
     /// ex. Opcode: CXNN
     setRandom : function(ope1, valor, instrucao, setRegistradores) {
         let copia = [...registradores];
-        copia[ope1] = (Math.floor(Math.random(2) * 256) & valor) % 256;
+        copia[ope1] = (Math.floor(Math.random() * 256) & valor) % 256;
         this.UpdateRegistradores(copia, setRegistradores);
         return instrucao + 0x002;
     },
@@ -276,14 +257,17 @@ const Instrucoes = {
     Desenha : function (anterior, x, y, n, setDisplay, setRegistradores) {
         let vX = registradores[x];
         let vY = registradores[y];
-        let nemo = [];
-        for (let i = 0; i < 16; i+=2) {
-            if (Memoria.posicoes[Indice + i].hex !== undefined && Memoria.posicoes[Indice + i].hex !== null)
-                nemo.push(Memoria.posicoes[Indice + i].hex);
-            else nemo.push("8000");
+        let sprite = [];
+        for (let i = 0; i < n; i++) {
+            try {
+                sprite.push(Memoria.posicoes[Indice].bin);
+            } catch (e) {
+                console.log("Índice desconhecido da memória: " + Indice);
+                sprite.push('10000000');
+            }
+            
         }
-        const opsx = this.updateOps(nemo);
-        this.UpdateDisplay(setDisplay, opsx, vX, vY, n, setRegistradores)
+        this.UpdateDisplay(vX, vY, sprite, setDisplay, setRegistradores)
         return anterior + 0x002;
     },
 
@@ -325,8 +309,9 @@ const Instrucoes = {
     },
 
     /// ex. Opcode: FX1E
-    registraIndice : function(ope1, instrucao, setIndice) {
-        Indice = registradores[ope1];
+    setAddIndice : function(ope1, instrucao, setIndice) {
+        console.log(Indice, ope1, registradores[ope1]);
+        Indice = (Indice + registradores[ope1]) % 4096;
         setIndice(Indice);
         return instrucao + 0x002;
     },
@@ -342,7 +327,7 @@ const Instrucoes = {
     },
 
     /// ex. Opcode: FX29
-    setAddIndice : function(ope1, instrucao, setIndice) {
+    registraIndice : function(ope1, instrucao, setIndice) {
         Indice = registradores[ope1];
         setIndice(Indice);
         return instrucao + 0x002;

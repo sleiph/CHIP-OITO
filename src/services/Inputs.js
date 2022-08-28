@@ -1,22 +1,21 @@
 import Instrucoes from "./Instrucoes";
 
-let go = true;
-let controlePause = true;
-let timerPause = 0;
-
-if (timerPause > 120) controlePause = true;
-
 /**
  * Controla a entrada de comandos (teclado) do emulador
  */
 const Inputs = {
+    go : true,
+    controlePause : true,
+    timerPause : 0,
+    executarProximo : false,
+
     /**
      * Alterna entre estado de execução e pausa
      */
     redSignal : function () {
-        if (controlePause) {
-            go = !go;
-            controlePause = false;
+        if (this.controlePause) {
+            this.go = !this.go;
+            this.controlePause = false;
         }
     },
 
@@ -25,10 +24,15 @@ const Inputs = {
      * 
      * @returns se pode pausar ou não
      */
-    sendSignal : function(){
-        if (!controlePause) timerPause++;
-        if (timerPause > 10) controlePause = true;
-        return go;
+    sendSignal : function() {
+        if (!this.controlePause) this.timerPause++;
+        this.controlePause = true;
+        return this.go;
+    },
+
+    proximo: function() {
+        if (this.controlePause)
+            this.executarProximo = true;
     },
 
     /**
@@ -73,3 +77,5 @@ const Inputs = {
 }
 
 export default Inputs;
+
+if (Inputs.timerPause > 120) Inputs.controlePause = true;
