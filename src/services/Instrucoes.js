@@ -33,15 +33,12 @@ const Instrucoes = {
 
         for (let i=0; i<sprite.length; i++) {
             for (let j=0; j<sprite[i].length; j++) {
-                try {
+                if (x+j < 64 && y+i < 32) {
                     let original = parseInt(display[y+i][x+j]);
                     display[y+i][x+j] = parseInt(sprite[i][j]);
                     // VF is set to 1 if any screen pixels are flipped from set to unset when the sprite is drawn,
                     if (original === 1 && sprite[i][j] === 0)
                         isUnset = true;
-                } catch (e) {
-                    console.log('erro atualizando tela: ' + e);
-                    continue;
                 }
             }
         }
@@ -181,7 +178,6 @@ const Instrucoes = {
     setRestop : function(ope1, ope2, instrucao, setRegistradores){
         //VF is set to 0 when there's a borrow, and 1 when there is not.
         let copia = [...registradores];
-        console.log('foi3');
         copia[ope1] = copia[ope2] - copia[ope1];
         if (copia[ope1] > Tratamento.HexPraInt(255)) {
             copia[15] = 0;
@@ -255,8 +251,8 @@ const Instrucoes = {
 
     /// ex. Opcode: DXYN
     Desenha : function (anterior, x, y, n, setDisplay, setRegistradores) {
-        let vX = registradores[x];
-        let vY = registradores[y];
+        let vX = registradores[x]-1;
+        let vY = registradores[y]-1;
         let sprite = [];
         for (let i = 0; i < n; i++) {
             try {
@@ -301,8 +297,6 @@ const Instrucoes = {
     // Memória
     /// ex. Opcode: ANNN
     setIndico : function(x, instrucao, setIndice){
-        if (x === 700 || x === 1792)
-            console.log(x);
         Indice = x;
         setIndice(Indice);
         return instrucao + 0x002;
@@ -310,7 +304,6 @@ const Instrucoes = {
 
     /// ex. Opcode: FX1E
     setAddIndice : function(ope1, instrucao, setIndice) {
-        console.log(Indice, ope1, registradores[ope1]);
         Indice = (Indice + registradores[ope1]) % 4096;
         setIndice(Indice);
         return instrucao + 0x002;

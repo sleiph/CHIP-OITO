@@ -19,7 +19,7 @@ function OPCodes( {codigos, registradores, indice} ) {
     <OPDiv>{ 
       arrayRegistradores.map((reg, i) => {
           return(
-            <Instrucao key={i}>{'V' + i + ':' + reg.toString(16).padStart(2, '0').toUpperCase()}</Instrucao>
+            <Instrucao key={i}>{'V' + i.toString(16) + ':' + reg.toString(16).padStart(2, '0').toUpperCase()}</Instrucao>
           );
       })
     } <Instrucao>{'I:' + indice.toString(16).padStart(3, '0').toUpperCase()}</Instrucao> </OPDiv>
