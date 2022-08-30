@@ -34,7 +34,12 @@ const Instrucoes = {
         for (let i=0; i<sprite.length; i++) {
             for (let j=0; j<sprite[i].length; j++) {
                 if (x+j < 64 && y+i < 32) {
-                    let original = parseInt(display[y+i][x+j]);
+                    let original;
+                    try {
+                        original = parseInt(display[y+i][x+j]);
+                        } catch (e) {
+                        console.log("TypeError: " + Indice);
+                    }
                     display[y+i][x+j] = parseInt(sprite[i][j]);
                     // VF is set to 1 if any screen pixels are flipped from set to unset when the sprite is drawn,
                     if (original === 1 && sprite[i][j] === 0)
