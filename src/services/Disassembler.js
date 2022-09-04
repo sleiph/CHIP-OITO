@@ -108,15 +108,16 @@ function Disassembler(indice, setRegistradores, setDisplay, setIndice) {
       return indice + 0x002;
     case 'f':
       switch(op[3]) {
-        case '3':
-          // sinceramente? não faço ideia... mas é importante
-          //return Instrucoes.setBCD(ope1, instrucao.indice, setIndice);
-          return indice + 0x002;
+        case '3': //fx33
+          // transforma o valor decimal de Vx em hexadecimal e salva nas
+          // posicoes I, I+1 e I+2 da memoria
+          return Instrucoes.setBCD(ope1, indice);
         case '5':
           // seta timers
           if (op[2] === '1') return Instrucoes.setTimer(ope1, indice);
           else if (op[2] === '5') return Instrucoes.save(ope1, indice, setIndice);
-          else if (op[2] === '6') return Instrucoes.load(ope1, indice, setRegistradores);
+          else if (op[2] === '6') //fx65
+            return Instrucoes.load(ope1, indice, setRegistradores);
           else
             console.log("F alguma coisa 5...");
           return indice + 0x002;
@@ -126,10 +127,10 @@ function Disassembler(indice, setRegistradores, setDisplay, setIndice) {
         case '8':
           // toca um somzin
           return Instrucoes.setSound(ope1, indice);
-        case '9':
+        case '9': //fx29
           // seta um sprite na memoria
           return Instrucoes.registraIndice(ope1, indice, setIndice);
-        case 'a':
+        case 'a': //fx0a
           // espera até que o usuario aperte uma tecla
           return Instrucoes.aperta(ope1, indice);
         case 'e':

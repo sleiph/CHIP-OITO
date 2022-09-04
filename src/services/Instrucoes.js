@@ -37,7 +37,7 @@ const Instrucoes = {
                     let original;
                     try {
                         original = parseInt(display[y+i][x+j]);
-                        } catch (e) {
+                    } catch (e) {
                         console.log("TypeError: " + Indice);
                     }
                     display[y+i][x+j] = parseInt(sprite[i][j]);
@@ -171,7 +171,7 @@ const Instrucoes = {
         return instrucao + 0x002;
     },
 
-    /// ex. Opcode: 8XY6   
+    /// ex. Opcode: 8XY6
     setRightShift : function(ope1, instrucao, setRegistradores) {
         let copia = [...registradores];
         copia[ope1] = Tratamento.HexPraInt(copia[ope1]) >> 1;
@@ -217,7 +217,7 @@ const Instrucoes = {
                 }
                 return instrucao + 0x002;
             case '5':
-                /// ex. Opcode: 5XY5
+                /// ex. Opcode: 5XY0
                 if (registradores[ope1] === registradores[valor]) {
                     return instrucao + 0x004;
                 }
@@ -256,17 +256,16 @@ const Instrucoes = {
 
     /// ex. Opcode: DXYN
     Desenha : function (anterior, x, y, n, setDisplay, setRegistradores) {
-        let vX = registradores[x]-1;
-        let vY = registradores[y]-1;
+        let vX = registradores[x];
+        let vY = registradores[y];
         let sprite = [];
         for (let i = 0; i < n; i++) {
             try {
-                sprite.push(Memoria.posicoes[Indice].bin);
+                sprite.push(Memoria.posicoes[Indice+i].bin);
             } catch (e) {
                 console.log("Índice desconhecido da memória: " + Indice);
                 sprite.push('10000000');
             }
-            
         }
         this.UpdateDisplay(vX, vY, sprite, setDisplay, setRegistradores)
         return anterior + 0x002;
@@ -321,40 +320,30 @@ const Instrucoes = {
         wait = false;
         apertando = false;
         //savebutton = registradores[ope1];
-        return instrucao + 0x002;  
+        return instrucao + 0x002;
     },
 
     /// ex. Opcode: FX29
     registraIndice : function(ope1, instrucao, setIndice) {
-        Indice = registradores[ope1];
+        let x = registradores[ope1];
+        let pos = 0x050 + (x*5);
+        Indice = pos;
         setIndice(Indice);
         return instrucao + 0x002;
     },
 
     /// ex. Opcode: FX33
-    setBCD : function(ope1, instrucao, setIndice) {
-        const indicando = registradores[ope1].toString().split('');
-
-        const indicado = indicando.map(str => {
-            return Number(str);
-        });
-
-        if (indicado.lenght >= 3) {
-            Indice[0] = indicado[0];
-            Indice[1] = indicado[1];   
-            Indice[2] = indicado[2];  
-        } else {
-            Indice[0] =  0;
-            if (indicado.lenght === 2) {
-                Indice[1] = indicado[0]; 
-                Indice[2] = indicado[1]; 
-            } else {
-                Indice[1] = 0; 
-                Indice[2] = indicado[0]; 
-            } 
+    setBCD : function(vx, instrucao) {
+        let x = registradores[vx].toString().padStart(3, '0');
+        for (let i=0; i<3; i++) {
+            let temp = parseInt(x[i]);
+            let pos = {
+                bin: Tratamento.IntPraBin(temp),
+                hex: Tratamento.IntPraHex(temp)
+            }
+            Memoria.posicoes[Indice+i] = pos;
         }
 
-        setIndice(Indice);
         return instrucao + 0x002;
     },
 
@@ -371,7 +360,7 @@ const Instrucoes = {
     load : function(ope1, instrucao, setRegistradores) { 
         let copia = [...registradores];
         for (let i = 0; i <= ope1; i++) {
-            copia[i] = saveState[i];
+            copia[i] = Memoria.posicoes[Indice+i].hex;
         }
         this.UpdateRegistradores(copia, setRegistradores);
         return instrucao + 0x002;
