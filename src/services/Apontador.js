@@ -1,7 +1,7 @@
 import Disassembler from "./Disassembler";
 import Inputs from "./Inputs";
-import Instrucoes from './Instrucoes';
 import Memoria from "./Memoria";
+import Timer from "./Timer";
 import Tratamento from "./Tratamento";
 
 const Apontador = {
@@ -16,32 +16,31 @@ const Apontador = {
 
   /**
    * Começa a executar as instruções gravadas na memória
-   * @param {*} setRegistradores 
-   * @param {*} setDisplay 
-   * @param {*} setIndice 
    */
-  Comecar: function (setRegistradores, setDisplay, setIndice) {
-    setInterval( function() {aponta(setRegistradores, setDisplay, setIndice)}, this.velocidade);
+  Comecar: function (setRegistradores, setDisplay, setIndice, setTimers) {
+    setInterval(
+      function() {
+        aponta(setRegistradores, setDisplay, setIndice, setTimers)
+      }, this.velocidade
+    );
   }
 }
 
 // não consegui deixar essa funcao como parte da const Apontador...
-function aponta(setRegistradores, setDisplay, setIndice) {
-  if (Inputs.sendSignal()) {
-    Apontador.atual = Disassembler(Apontador.atual, setRegistradores, setDisplay, setIndice);
-    Instrucoes.updateTimer();
-
-    let op = Memoria.posicoes[Apontador.atual].hex + Memoria.posicoes[Apontador.atual+1].hex;
-    console.log(Tratamento.IntPraHex(Apontador.atual), op);
-  } else if (Inputs.executarProximo) {
-    Apontador.atual = Disassembler(Apontador.atual, setRegistradores, setDisplay, setIndice);
-    Instrucoes.updateTimer();
-    Inputs.executarProximo = false;
+function aponta(setRegistradores, setDisplay, setIndice, setTimers) {
+  // se o jogo não ta pausado
+  if (Inputs.sendSignal() || Inputs.executarProximo) {
+    Apontador.atual = Disassembler(Apontador.atual, setRegistradores, setDisplay, setIndice, setTimers);
+    
+    // se o jogador aperta pra executar só a proxima instrucao
+    if (Inputs.executarProximo)
+      Inputs.executarProximo = false;
 
     let op = Memoria.posicoes[Apontador.atual].hex + Memoria.posicoes[Apontador.atual+1].hex;
     console.log(Tratamento.IntPraHex(Apontador.atual), op);
   }
-  
+  // Atualiza os timers
+  Timer.tick();
 }
 
 export default Apontador;

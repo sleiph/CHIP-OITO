@@ -23,11 +23,11 @@ O servidor fica ativo na [porta 3000](http://localhost:3000/).
 Arquivos binários pra testes podem ser encontrados na [documentação](./documentacao).
 
 ## Fazer
-* Arrumar o timer
 * Implementar teclado
 * A700 deve retornar algo
 * Menu de Debug
 * Função de reset do videogame
+* Poder mudar o valor de qualquer registrador a qualquer momento
 
 ## Referências
 

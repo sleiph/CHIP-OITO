@@ -11,8 +11,7 @@ const Instrucao = styled.span`
   margin: 0 12px;
 `
 
-function OPCodes( {codigos, registradores, indice} ) {
-  //let arrayCodigos = Object.values(codigos);
+function Debug( {registradores, indice, timers} ) {
   let arrayRegistradores = Object.values(registradores);
   
   return (
@@ -22,8 +21,12 @@ function OPCodes( {codigos, registradores, indice} ) {
             <Instrucao key={i}>{'V' + i.toString(16) + ':' + reg.toString(16).padStart(2, '0').toUpperCase()}</Instrucao>
           );
       })
-    } <Instrucao>{'I:' + indice.toString(16).padStart(3, '0').toUpperCase()}</Instrucao> </OPDiv>
+    }
+      <Instrucao>{'I:' + indice.toString(16).padStart(3, '0').toUpperCase()}</Instrucao>
+      <Instrucao>{'DT:' + timers[0].toString(16).padStart(2, '0').toUpperCase()}</Instrucao>
+      <Instrucao>{'ST:' + timers[1].toString(16).padStart(2, '0').toUpperCase()}</Instrucao>
+    </OPDiv>
   )
 }
 
-export default OPCodes
+export default Debug;

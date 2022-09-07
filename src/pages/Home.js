@@ -1,13 +1,12 @@
 import React, { useState } from 'react';
 
 import Display from '../components/Display';
-import OPCodes from '../components/OPCodes';
+import Debug from '../components/Debug';
 import Teclado from '../components/Teclado';
 
 import Apontador from '../services/Apontador';
 import Inputs from '../services/Inputs';
 import Memoria from '../services/Memoria';
-import Tratamento from '../services/Tratamento';
 
 import styled from 'styled-components'
 
@@ -31,7 +30,7 @@ const Cartucho = styled.div`
 document.addEventListener('keydown', (event) => {
   if (event.key === 'p')
     Inputs.redSignal();
-  else if (event.key == 'ArrowRight')
+  else if (event.key === 'ArrowRight')
     Inputs.proximo();
   else {
     Inputs.Teclou(event.key);
@@ -79,21 +78,19 @@ function Home(  ) {
   const regs = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
 
   // hooks
-  const [instrucoes, setInstrucoes] = useState([]);
   const[registradores, setRegistradores] = useState(regs);
-  const [indice, setIndice] = useState(0); //useState(0);
   const [display, setDisplay] = useState(tela);
+  const [indice, setIndice] = useState(0);
+  const [timers, setTimers] = useState([0, 0]);
 
   // tratamento da entrada de arquivo (rom)
   let fileReader;
   /// trata e manda o arquivo pra ser interpretado
   const handleFileRead = (e) => {
     const buffer = fileReader.result;
-
-    let tratado = Memoria.CarregaInstrucoes(buffer);
-    setInstrucoes(tratado);
-
-    Apontador.Comecar(setRegistradores, setDisplay, setIndice);
+    // transforma o arquivo em instrucoes
+    Memoria.CarregaInstrucoes(buffer);
+    Apontador.Comecar(setRegistradores, setDisplay, setIndice, setTimers);
   };
   /// lê o arquivo carregado pelo usuario
   const handleFileChosen = (arquivo) => {
@@ -111,7 +108,7 @@ function Home(  ) {
           accept='.rom'
           onChange={e => handleFileChosen(e.target.files[0])}
         />
-        <OPCodes codigos={instrucoes} registradores={registradores} indice={indice}/>
+        <Debug registradores={registradores} indice={indice} timers={timers}/>
       </Cartucho>
 
       <Display display={display} setDisplay={setDisplay} />

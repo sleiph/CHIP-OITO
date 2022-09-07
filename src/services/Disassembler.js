@@ -7,10 +7,8 @@ import Tratamento from './Tratamento';
  * de acordo com a Opcode table na wiki
  * https://en.wikipedia.org/wiki/CHIP-8
  */
-function Disassembler(indice, setRegistradores, setDisplay, setIndice) {
+function Disassembler(indice, setRegistradores, setDisplay, setIndice, setTimers) {
   let op = Memoria.posicoes[indice].hex + Memoria.posicoes[indice+1].hex;
-
-  Instrucoes.show();
   
   let ope1 = Tratamento.HexPraInt(op[1]);
   let ope2 = Tratamento.HexPraInt(op[2]);
@@ -88,7 +86,7 @@ function Disassembler(indice, setRegistradores, setDisplay, setIndice) {
       // pula pro endereço V0 + instrucao enviada
       return Instrucoes.setNext(x);
     case 'c':
-      // atribui um valor aleatorio pra uma variavel
+      // atribui um valor aleatorio pra o registrador[x]
       return Instrucoes.setRandom(ope1, valor, indice, setRegistradores);
     case 'd':
       // desenha na tela
@@ -114,8 +112,10 @@ function Disassembler(indice, setRegistradores, setDisplay, setIndice) {
           return Instrucoes.setBCD(ope1, indice);
         case '5':
           // seta timers
-          if (op[2] === '1') return Instrucoes.setTimer(ope1, indice);
-          else if (op[2] === '5') return Instrucoes.save(ope1, indice, setIndice);
+          if (op[2] === '1') //fx15
+            return Instrucoes.setTimer(ope1, indice, setTimers);
+          else if (op[2] === '5') //fx55
+            return Instrucoes.save(ope1, indice, setIndice);
           else if (op[2] === '6') //fx65
             return Instrucoes.load(ope1, indice, setRegistradores);
           else
@@ -126,7 +126,7 @@ function Disassembler(indice, setRegistradores, setDisplay, setIndice) {
             return Instrucoes.registraTimer(ope1, indice, setRegistradores);
         case '8':
           // toca um somzin
-          return Instrucoes.setSound(ope1, indice);
+          return Instrucoes.setSound(ope1, indice, setTimers);
         case '9': //fx29
           // seta um sprite na memoria
           return Instrucoes.registraIndice(ope1, indice, setIndice);
@@ -144,7 +144,7 @@ function Disassembler(indice, setRegistradores, setDisplay, setIndice) {
     default:
       console.log("instrução " + op + " não entendida");
   }
-  // volta pro começo das instruções
+  // volta pro começo das instruções, não deve acontecer normalmente
   return 0x200;
 }
 

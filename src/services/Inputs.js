@@ -6,8 +6,9 @@ import Instrucoes from "./Instrucoes";
 const Inputs = {
     go : true,
     controlePause : true,
-    timerPause : 0,
     executarProximo : false,
+    apertando: false,
+    wait: false,
 
     /**
      * Alterna entre estado de execução e pausa
@@ -72,10 +73,12 @@ const Inputs = {
         } else if (tecla === "d") {
             console.log("F");
         }
-        Instrucoes.registraTecla();
-    }
+        this.registraTecla();
+    },
+    registraTecla() {
+        if (this.wait)
+            this.apertando = true;
+    },
 }
 
 export default Inputs;
-
-if (Inputs.timerPause > 120) Inputs.controlePause = true;

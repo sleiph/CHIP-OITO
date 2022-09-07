@@ -1,18 +1,13 @@
-import guns from '../data/Guns_N_Roses_Paradise_City.mp3';
+import Inputs from './Inputs';
 import Memoria from './Memoria';
+import Timer from './Timer';
 import Tratamento from './Tratamento';
 
 // constantes e variaveis
 let registradores = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
-let saveState = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
 let display = Array.from(Array(32), () => Array.from(Array(64), () => 0));
-let Indice = 0;
 let copiaDisplay = [...display];
-let timer = 0;
-let soundtimer = 0;
-let wait = false;
-let apertando = false;
-const sound = new Audio(guns);
+let Indice = 0;
 
 let posicao;
 
@@ -32,36 +27,22 @@ const Instrucoes = {
         let isUnset = false;
 
         for (let i=0; i<sprite.length; i++) {
-            for (let j=0; j<sprite[i].length; j++) {
+            for (let j=0; j<8; j++) {
                 if (x+j < 64 && y+i < 32) {
-                    let original;
-                    try {
-                        original = parseInt(display[y+i][x+j]);
-                    } catch (e) {
-                        console.log("TypeError: " + Indice);
-                    }
-                    display[y+i][x+j] = parseInt(sprite[i][j]);
+                    let original = parseInt(display[y+i][x+j]);
+                    display[y+i][x+j] ^= parseInt(sprite[i][j]);
                     // VF is set to 1 if any screen pixels are flipped from set to unset when the sprite is drawn,
-                    if (original === 1 && sprite[i][j] === 0)
+                    if (original === 1 && parseInt(display[y+i][x+j]) === 0)
                         isUnset = true;
                 }
             }
         }
         //and to 0 if that does not happen
         copiaRegs[15] = isUnset ? 1 : 0;
-        setDisplay(display);
         this.UpdateRegistradores(copiaRegs, setRegistradores);
+        setDisplay(display);
     },
-    
-    updateTimer : function () {
-        if (timer > 0) timer--;
 
-        if (soundtimer > 0){
-            sound.play()
-            soundtimer--;
-        } else sound.pause();
-        return timer;
-    },
 
     // Instruções e subrotinas
     /// ex. Opcode: ONNN
@@ -85,15 +66,10 @@ const Instrucoes = {
         return Tratamento.HexPraInt(x);
     },
 
-    show : function() {
-      console.log("Timer: " + timer)
-    },
-
 
     // Variáveis
     /// ex. Opcode: 6XNN
     setRegistrar : function(ope1, valor, instrucao, setRegistradores) {
-        //sound.play()
         let copia = [...registradores];
         copia[ope1] = valor;
         this.UpdateRegistradores(copia, setRegistradores);
@@ -267,34 +243,32 @@ const Instrucoes = {
                 sprite.push('10000000');
             }
         }
+        console.log(vX, vY, sprite);
         this.UpdateDisplay(vX, vY, sprite, setDisplay, setRegistradores)
         return anterior + 0x002;
     },
 
-    // Teclado
-    registraTecla() {
-        if (wait) apertando = true;
-    },
-
     // Timers
     /// ex. Opcode: FX07
-    registraTimer : function(ope1, instrucao, setRegistradores){
+    registraTimer : function(ope1, instrucao, setRegistradores) {
         let copia = [...registradores];
-        copia[ope1] = timer;
+        copia[ope1] = Timer.DT;
         this.UpdateRegistradores(copia, setRegistradores);
         return instrucao + 0x002;
     },
 
     /// ex. Opcode: FX15
-    setTimer : function(ope1, instrucao){
-        timer = registradores[ope1];
+    setTimer : function(ope1, instrucao, setTimers) {
+        Timer.DT = registradores[ope1];
+        Timer.setHook(setTimers);
         return instrucao + 0x002;
     },
 
     // Som
     /// ex. Opcode: FX18
-    setSound : function(ope1, instrucao){
-        soundtimer = registradores[ope1];
+    setSound : function(ope1, instrucao, setTimers) {
+        Timer.ST = registradores[ope1];
+        Timer.setHook(setTimers);
         return instrucao + 0x002;
     },
 
@@ -313,12 +287,13 @@ const Instrucoes = {
         return instrucao + 0x002;
     },
 
+    /// ex. Opcode: FX0A
     aperta : function(ope1, instrucao) { // há duvidas aqui 
-        wait = true;
-        if (apertando === false)
-            return instrucao;
-        wait = false;
-        apertando = false;
+        Inputs.wait = true;
+        if (Inputs.apertando === false)
+            return instrucao + 0x004;
+        Inputs.wait = false;
+        Inputs.apertando = false;
         //savebutton = registradores[ope1];
         return instrucao + 0x002;
     },
@@ -343,16 +318,19 @@ const Instrucoes = {
             }
             Memoria.posicoes[Indice+i] = pos;
         }
-
         return instrucao + 0x002;
     },
 
     /// ex. Opcode: FX55
     save : function(ope1, instrucao, setIndice) { 
         for (let i = 0; i <= ope1; i++) {
-            saveState[i] = registradores[i];
+            let temp = registradores[i];
+            let pos = {
+                bin: Tratamento.IntPraBin(temp),
+                hex: Tratamento.IntPraHex(temp)
+            }
+            Memoria.posicoes[Indice+i] = pos;
         }
-        setIndice(Indice);
         return instrucao + 0x002;
     },
 
