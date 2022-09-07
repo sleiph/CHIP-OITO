@@ -93,17 +93,14 @@ function Disassembler(indice, setRegistradores, setDisplay, setIndice, setTimers
       return Instrucoes.Desenha(indice, ope1, ope2, n, setDisplay, setRegistradores);
     case 'e':
       // entrada de teclado
-      if (op[3]==='e')
+      if (op[3]==='e') //ex9e
         // skipa a proxima instrucao se a tecla pedida tiver sendo apertada
-        console.log("if (key() === " + op[1] + ")");
-      else if (op[3]==='1')
+        return Instrucoes.isApertando(indice);
+      else if (op[3]==='1') //exa1
         // skipa a proxima instrucao se a tecla pedida NÃO tiver sendo apertada
-        console.log("if (key() != " + op[1] + ")");
-      else {
-        // sei lá...
-        console.log("E e alguma coisa...");
-      }
-      return indice + 0x002;
+        return Instrucoes.isNotApertando(indice);
+      else
+        return indice + 0x002;
     case 'f':
       switch(op[3]) {
         case '3': //fx33
@@ -115,7 +112,7 @@ function Disassembler(indice, setRegistradores, setDisplay, setIndice, setTimers
           if (op[2] === '1') //fx15
             return Instrucoes.setTimer(ope1, indice, setTimers);
           else if (op[2] === '5') //fx55
-            return Instrucoes.save(ope1, indice, setIndice);
+            return Instrucoes.save(ope1, indice);
           else if (op[2] === '6') //fx65
             return Instrucoes.load(ope1, indice, setRegistradores);
           else
@@ -132,7 +129,7 @@ function Disassembler(indice, setRegistradores, setDisplay, setIndice, setTimers
           return Instrucoes.registraIndice(ope1, indice, setIndice);
         case 'a': //fx0a
           // espera até que o usuario aperte uma tecla
-          return Instrucoes.aperta(ope1, indice);
+          return Instrucoes.esperarTecla(ope1, indice);
         case 'e':
           // adiciona o valor de uma variavel ao apontador
           return Instrucoes.setAddIndice(ope1, indice, setIndice);

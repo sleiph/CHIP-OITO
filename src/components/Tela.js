@@ -15,7 +15,7 @@ const PixelDiv = styled.div`
 
 `
 
-function Display( { display, setDisplay } ) {
+function Tela( { display, setDisplay } ) {
 
   return (
     <DisplayDiv>{
@@ -34,4 +34,4 @@ function Display( { display, setDisplay } ) {
   )
 }
 
-export default Display;
+export default Tela;

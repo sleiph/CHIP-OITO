@@ -28,6 +28,7 @@ Arquivos binários pra testes podem ser encontrados na [documentação](./docume
 * Menu de Debug
 * Função de reset do videogame
 * Poder mudar o valor de qualquer registrador a qualquer momento
+* Da pra deixar só um `return anterior + 0x002;`, em vez um pra cada instrucao
 
 ## Referências
 

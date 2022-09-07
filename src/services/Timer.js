@@ -5,14 +5,15 @@ const Timer = {
     ST: 0,
     Hook: '',
     track: new Audio(guns),
+    velocidade: 2,
 
     tick: function () {
         if (this.DT > 0) {
-            this.DT--;
+            this.DT-=this.velocidade;
             this.updateTimers();
         }
         if (this.ST > 0) {
-            this.ST--;
+            this.ST-=this.velocidade;
             this.updateTimers();
 
             if (!this.isTocando(this.track))

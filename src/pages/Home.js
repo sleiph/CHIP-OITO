@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-import Display from '../components/Display';
+import Tela from '../components/Tela';
 import Debug from '../components/Debug';
 import Teclado from '../components/Teclado';
 
@@ -111,7 +111,7 @@ function Home(  ) {
         <Debug registradores={registradores} indice={indice} timers={timers}/>
       </Cartucho>
 
-      <Display display={display} setDisplay={setDisplay} />
+      <Tela display={display} setDisplay={setDisplay} />
       <Teclado />
       
     </Container>

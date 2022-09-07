@@ -4,6 +4,10 @@ import Tratamento from "./Tratamento";
  * guarda os valores da memória do chip 8, incluindo os transferidos do cartucho
  */
 const Memoria = {
+    // vai guardar o número de instruções no cartucho + 0x200
+    TamanhoCartucho: 0x200,
+    Indice: 0x200,
+
     posicoes: {
         // Fonte
         /// 0
@@ -103,8 +107,6 @@ const Memoria = {
         0x09E: {bin: '10000000', hex: 0x080},
         0x09F: {bin: '10000000', hex: 0x080},
     },
-    // vai guardar o número de instruções no cartucho + 0x200
-    TamanhoCartucho: 0x200,
 
     /**
      * Recebe um buffer da rom e carrega as instruções na memoria

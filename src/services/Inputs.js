@@ -1,13 +1,14 @@
-import Instrucoes from "./Instrucoes";
+import Tratamento from "./Tratamento";
 
 /**
  * Controla a entrada de comandos (teclado) do emulador
  */
 const Inputs = {
+    teclas: ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "q", "w", "e", "a", "s", "d"],
     go : true,
     controlePause : true,
     executarProximo : false,
-    apertando: false,
+    apertada: '',
     wait: false,
 
     /**
@@ -26,11 +27,13 @@ const Inputs = {
      * @returns se pode pausar ou não
      */
     sendSignal : function() {
-        if (!this.controlePause) this.timerPause++;
         this.controlePause = true;
         return this.go;
     },
 
+    /**
+     * Chama só a próxima instrução
+     */
     proximo: function() {
         if (this.controlePause)
             this.executarProximo = true;
@@ -40,45 +43,12 @@ const Inputs = {
      * Executa ações do teclado
      */
     Teclou : function(tecla) {
-        if (tecla === "0") {
-            console.log("0");
-        } else if (tecla === "1") {
-            console.log("1");
-        } else if (tecla === "2") {
-            console.log("2");
-        } else if (tecla === "3") {
-            console.log("3");
-        } else if (tecla === "4") {
-            console.log("4");
-        } else if (tecla === "5") {
-            console.log("5");
-        } else if (tecla === "6") {
-            console.log("6");
-        } else if (tecla === "7") {
-            console.log("7");
-        } else if (tecla === "8") {
-            console.log("8");
-        } else if (tecla === "9") {
-            console.log("9");
-        } else if (tecla === "q") {
-            console.log("A");
-        } else if (tecla === "w") {
-            console.log("B");
-        } else if (tecla === "e") {
-            console.log("C");
-        } else if (tecla === "a") {
-            console.log("D");
-        } else if (tecla === "s") {
-            console.log("E");
-        } else if (tecla === "d") {
-            console.log("F");
+        let indice = this.teclas.indexOf(tecla);
+        if (indice !== -1) {
+            this.apertando = Tratamento.IntPraHex(indice);
+            console.log(this.apertando);
         }
-        this.registraTecla();
-    },
-    registraTecla() {
-        if (this.wait)
-            this.apertando = true;
-    },
+    }
 }
 
 export default Inputs;
