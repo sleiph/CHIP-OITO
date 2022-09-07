@@ -4,30 +4,28 @@ import Memoria from "./Memoria";
 import Timer from "./Timer";
 import Tratamento from "./Tratamento";
 
+/**
+ * Cicla entre as instruções, pedindo a próxima até que o programa termine
+ */
 const Apontador = {
   // delay entre instruções em milisegundos
   velocidade: 50,
-
-  /**
- * Cicla entre as instruções, pedindo a próxima até que o programa termine
- * @param {Object} ex:{0x200:6a02, 0x202:6b0c, ...} 
- */
   atual: 0x200,
 
   /**
    * Começa a executar as instruções gravadas na memória
    */
-  Comecar: function (setRegistradores, setDisplay, setIndice, setTimers) {
+  Comecar: function (setRegistradores, setDisplay, setIndice, setTimers, setInstrucao) {
     setInterval(
       function() {
-        aponta(setRegistradores, setDisplay, setIndice, setTimers)
+        aponta(setRegistradores, setDisplay, setIndice, setTimers, setInstrucao)
       }, this.velocidade
     );
   }
 }
 
 // não consegui deixar essa funcao como parte da const Apontador...
-function aponta(setRegistradores, setDisplay, setIndice, setTimers) {
+function aponta(setRegistradores, setDisplay, setIndice, setTimers, setInstrucao) {
   // se o jogo não ta pausado
   if (Inputs.sendSignal() || Inputs.executarProximo) {
     Apontador.atual = Disassembler(Apontador.atual, setRegistradores, setDisplay, setIndice, setTimers);
@@ -37,7 +35,7 @@ function aponta(setRegistradores, setDisplay, setIndice, setTimers) {
       Inputs.executarProximo = false;
 
     let op = Memoria.posicoes[Apontador.atual].hex + Memoria.posicoes[Apontador.atual+1].hex;
-    console.log(Tratamento.IntPraHex(Apontador.atual), op);
+    setInstrucao([Tratamento.IntPraHex(Apontador.atual), op]);
   }
   // Atualiza os timers
   Timer.tick();

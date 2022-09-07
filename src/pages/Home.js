@@ -82,6 +82,7 @@ function Home(  ) {
   const [display, setDisplay] = useState(tela);
   const [indice, setIndice] = useState(0);
   const [timers, setTimers] = useState([0, 0]);
+  const [instrucao, setInstrucao] = useState([512, '----']);
 
   // tratamento da entrada de arquivo (rom)
   let fileReader;
@@ -90,7 +91,7 @@ function Home(  ) {
     const buffer = fileReader.result;
     // transforma o arquivo em instrucoes
     Memoria.CarregaInstrucoes(buffer);
-    Apontador.Comecar(setRegistradores, setDisplay, setIndice, setTimers);
+    Apontador.Comecar(setRegistradores, setDisplay, setIndice, setTimers, setInstrucao);
   };
   /// lê o arquivo carregado pelo usuario
   const handleFileChosen = (arquivo) => {
@@ -108,7 +109,12 @@ function Home(  ) {
           accept='.rom'
           onChange={e => handleFileChosen(e.target.files[0])}
         />
-        <Debug registradores={registradores} indice={indice} timers={timers}/>
+        <Debug
+          registradores={registradores}
+          indice={indice}
+          timers={timers}
+          instrucao={instrucao}
+        />
       </Cartucho>
 
       <Tela display={display} setDisplay={setDisplay} />
