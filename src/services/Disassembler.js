@@ -95,10 +95,10 @@ function Disassembler(indice, setRegistradores, setDisplay, setIndice, setTimers
       // entrada de teclado
       if (op[3]==='e') //ex9e
         // skipa a proxima instrucao se a tecla pedida tiver sendo apertada
-        return Instrucoes.isApertando(indice);
+        return Instrucoes.isApertando(ope1, indice);
       else if (op[3]==='1') //exa1
         // skipa a proxima instrucao se a tecla pedida NÃO tiver sendo apertada
-        return Instrucoes.isNotApertando(indice);
+        return Instrucoes.isNotApertando(ope1, indice);
       else
         return indice + 0x002;
     case 'f':

@@ -5,20 +5,23 @@ const Timer = {
     ST: 0,
     Hook: '',
     track: new Audio(guns),
-    velocidade: 2,
+    velocidade: 4,
 
     tick: function () {
         if (this.DT > 0) {
             this.DT-=this.velocidade;
             this.updateTimers();
-        }
+        } else if (this.DT > 0)
+            this.DT = 0;
         if (this.ST > 0) {
             this.ST-=this.velocidade;
             this.updateTimers();
 
             if (!this.isTocando(this.track))
                 this.track.play();
-        } else {
+        } else if (this.ST < 0)
+            this.ST = 0;
+        else {
             if (this.isTocando(this.track))
                 this.track.pause();
         }

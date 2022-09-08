@@ -9,7 +9,7 @@ import Tratamento from "./Tratamento";
  */
 const Apontador = {
   // delay entre instruções em milisegundos
-  velocidade: 50,
+  velocidade: 10,
   atual: 0x200,
 
   /**

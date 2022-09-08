@@ -77,7 +77,7 @@ const Instrucoes = {
     /// ex. Opcode: 8XY2
     setAND : function(ope1, ope2, instrucao, setRegistradores) {
         let copia = [...this.registradores];
-        let duo = (Tratamento.HexPraInt(copia[ope1]) & Tratamento.HexPraInt(copia[ope2]))  % 256;
+        let duo = copia[ope1] & copia[ope2];
         copia[ope1] = duo;
         this.UpdateRegistradores(copia, setRegistradores);
         return instrucao + 0x002;
@@ -96,12 +96,13 @@ const Instrucoes = {
     setAddop : function(ope1, ope2, instrucao, setRegistradores) { 
         //VF is set to 1 when there's a carry, and to 0 when there is not.
         let copia = [...this.registradores];
-        if (copia[ope1] + copia[ope2] > Tratamento.HexPraInt(255)) {
+        copia[ope1] = (copia[ope1] + copia[ope2]);
+        if (copia[ope1] > 255) {
+            copia[ope1] -= 256;
             copia[15] = 1;
         } else {
             copia[15] = 0;
         }
-        copia[ope1] = (copia[ope1] + copia[ope2]) % 256;
         this.UpdateRegistradores(copia, setRegistradores);
         return instrucao + 0x002;
     },
@@ -222,15 +223,21 @@ const Instrucoes = {
     },
 
     // Teclado
-    /// TODO: fazer essa aqui
     /// ex. Opcode: EX9E
-    isApertando : function (anterior) {
+    isApertando : function (ope1, anterior) {
+        if (Inputs.apertando &&
+            Tratamento.HexPraInt(Inputs.apertada) === this.registradores[ope1]) {
+                return anterior + 0x004;
+        }
         return anterior + 0x002;
     },
 
     /// TODO: fazer essa aqui
     /// ex. Opcode: EXA1
-    isNotApertando : function(anterior) {
+    isNotApertando : function(ope1, anterior) {
+        if (Tratamento.HexPraInt(Inputs.apertada) !== this.registradores[ope1]) {
+                return anterior + 0x004;
+        }
         return anterior + 0x002;
     },
 

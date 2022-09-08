@@ -27,14 +27,22 @@ const Cartucho = styled.div`
   align-items: center;
 `
 
+// ouve o teclado
 document.addEventListener('keydown', (event) => {
-  if (event.key === 'p')
-    Inputs.redSignal();
-  else if (event.key === 'ArrowRight')
-    Inputs.proximo();
-  else {
-    Inputs.Teclou(event.key);
+  if (!Inputs.apertando) {
+    if (event.key === 'p')
+      Inputs.redSignal();
+    else if (event.key === 'ArrowRight')
+      Inputs.proximo();
+    else {
+      Inputs.Teclou(event.key);
+    }
+    Inputs.apertando = true;
   }
+});
+document.addEventListener('keyup', (event) => {
+  Inputs.apertando = false;
+  Inputs.apertada = '';
 });
 
 function Home(  ) {

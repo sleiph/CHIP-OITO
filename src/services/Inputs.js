@@ -8,6 +8,7 @@ const Inputs = {
     go : true,
     controlePause : true,
     executarProximo : false,
+    apertando: false,
     apertada: '',
     wait: false,
 
@@ -43,10 +44,11 @@ const Inputs = {
      * Executa ações do teclado
      */
     Teclou : function(tecla) {
+        this.apertando = true;
         let indice = this.teclas.indexOf(tecla);
         if (indice !== -1) {
-            this.apertando = Tratamento.IntPraHex(indice);
-            console.log(this.apertando);
+            this.apertada = Tratamento.IntPraHex(indice);
+            console.log(this.apertada);
         }
     }
 }
