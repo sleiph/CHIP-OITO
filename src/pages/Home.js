@@ -114,7 +114,7 @@ function Home(  ) {
         <input
           type='file'
           id='file'
-          accept='.rom'
+          accept='.rom,.ch8'
           onChange={e => handleFileChosen(e.target.files[0])}
         />
         <Debug
