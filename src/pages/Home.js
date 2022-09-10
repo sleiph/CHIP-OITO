@@ -6,6 +6,7 @@ import Teclado from '../components/Teclado';
 
 import Apontador from '../services/Apontador';
 import Inputs from '../services/Inputs';
+import Instrucoes from '../services/Instrucoes';
 import Memoria from '../services/Memoria';
 
 import styled from 'styled-components'
@@ -97,6 +98,7 @@ function Home(  ) {
   /// trata e manda o arquivo pra ser interpretado
   const handleFileRead = (e) => {
     const buffer = fileReader.result;
+    Instrucoes.LimpaTela(0, setDisplay);
     // transforma o arquivo em instrucoes
     Memoria.CarregaInstrucoes(buffer);
     Apontador.Comecar(setRegistradores, setDisplay, setIndice, setTimers, setInstrucao);

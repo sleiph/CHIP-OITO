@@ -9,13 +9,14 @@ import Tratamento from "./Tratamento";
  */
 const Apontador = {
   // delay entre instruções em milisegundos
-  velocidade: 10,
+  velocidade: 0,
   atual: 0x200,
 
   /**
    * Começa a executar as instruções gravadas na memória
    */
   Comecar: function (setRegistradores, setDisplay, setIndice, setTimers, setInstrucao) {
+    console.log("resetou");
     setInterval(
       function() {
         aponta(setRegistradores, setDisplay, setIndice, setTimers, setInstrucao)
