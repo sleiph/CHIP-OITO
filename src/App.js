@@ -1,4 +1,5 @@
 import Home from './pages/Home'
+import Opening from './pages/Opening'
 
 import styled from 'styled-components'
 
@@ -13,7 +14,7 @@ const AppDiv = styled.div`
 function App() {
   return (
     <AppDiv>
-      <Home />
+      <Opening />
     </AppDiv>
   );
 }
