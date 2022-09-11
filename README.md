@@ -23,12 +23,21 @@ O servidor fica ativo na [porta 3000](http://localhost:3000/).
 Arquivos binários pra testes podem ser encontrados na [documentação](./documentacao).
 
 ## Fazer
-* Implementar teclado
-* A700 deve retornar algo
+
+* Tela de apresentação com informações de como jogar
 * Menu de Debug
 * Função de reset do videogame
+* melhorar **MUITO** a performance, pra rodar em uma velocidade boa
+* arrumar a FX0A e algumas instruções q ainda tão dando erro
+* adicionar uma rom de demonstração (sem direitos autorais de ninguém)
+* testar o teclado virtual
+
+### Extras
+
+* Otimizar o código
 * Poder mudar o valor de qualquer registrador a qualquer momento
-* Da pra deixar só um `return anterior + 0x002;`, em vez um pra cada instrucao
+* Mostrar pro usuário um pseudo-código das instruções no cartucho
+* mostrar no teclado que a tecla foi apertada.
 
 ## Referências
 
