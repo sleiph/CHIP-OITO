@@ -3,9 +3,7 @@ import React, { useState } from 'react';
 import Tela from '../components/Tela';
 import Debug from '../components/Debug';
 import Teclado from '../components/Teclado';
-
 import Apontador from '../services/Apontador';
-import Inputs from '../services/Inputs';
 import Instrucoes from '../services/Instrucoes';
 import Memoria from '../services/Memoria';
 
@@ -27,24 +25,6 @@ const Cartucho = styled.div`
   grid-template-columns: 1fr 3fr;
   align-items: center;
 `
-
-// ouve o teclado
-document.addEventListener('keydown', (event) => {
-  if (!Inputs.apertando) {
-    if (event.key === 'p')
-      Inputs.redSignal();
-    else if (event.key === 'ArrowRight')
-      Inputs.proximo();
-    else {
-      Inputs.Teclou(event.key);
-    }
-    Inputs.apertando = true;
-  }
-});
-document.addEventListener('keyup', (event) => {
-  Inputs.apertando = false;
-  Inputs.apertada = '';
-});
 
 function Home(  ) {
 

@@ -1,7 +1,9 @@
-import React from 'react';
-import Home from './pages/Home'
-import Opening from './pages/Opening'
-import styled from 'styled-components'
+import React, { useState } from 'react';
+
+import Home from './pages/Home';
+import Opening from './pages/Opening';
+import styled from 'styled-components';
+import Inputs from './services/Inputs';
 
 const AppDiv = styled.div`
   height: 100vh;
@@ -10,26 +12,32 @@ const AppDiv = styled.div`
   justify-content: center;
   align-items: center;
 `
-let where = "Opening";
-
-setTimeout(() => {
-  where = "Home";
-  App();
-}, "5000")
-
-const Path = () => {
-  if (where == "Opening") {
-    return <Opening/>
-  }  else {
-    console.log("segundo");
-    return <Home/>
-  }
-}
 
 function App() {
+  const [instrucoes, setInstrucoes] = useState(true);
+
+  // ouve o teclado
+  document.addEventListener('keydown', (event) => {
+    setInstrucoes(false);
+    if (!Inputs.apertando) {
+      if (event.key === 'p')
+        Inputs.redSignal();
+      else if (event.key === 'ArrowRight')
+        Inputs.proximo();
+      else {
+        Inputs.Teclou(event.key);
+      }
+      Inputs.apertando = true;
+    }
+  });
+  document.addEventListener('keyup', (event) => {
+    Inputs.apertando = false;
+    Inputs.apertada = '';
+  });
+
   return (
     <AppDiv>
-        {Path()}
+        { instrucoes ? <Opening/> : <Home/> }
     </AppDiv>
   );
 }
