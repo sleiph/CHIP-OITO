@@ -10,19 +10,26 @@ const AppDiv = styled.div`
   justify-content: center;
   align-items: center;
 `
-let Path = Opening;
+let where = "Opening";
 
 setTimeout(() => {
-  console.log("devia ter mudado");
-  Path = Home;
+  where = "Home";
   App();
-}, "2000")
+}, "5000")
+
+const Path = () => {
+  if (where == "Opening") {
+    return <Opening/>
+  }  else {
+    console.log("segundo");
+    return <Home/>
+  }
+}
 
 function App() {
-  console.log(Path);
   return (
     <AppDiv>
-        <Path />
+        {Path()}
     </AppDiv>
   );
 }
