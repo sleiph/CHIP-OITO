@@ -16,7 +16,6 @@ const Apontador = {
    * Começa a executar as instruções gravadas na memória
    */
   Comecar: function (setRegistradores, setDisplay, setIndice, setTimers, setInstrucao) {
-    console.log("resetou");
     setInterval(
       function() {
         aponta(setRegistradores, setDisplay, setIndice, setTimers, setInstrucao)

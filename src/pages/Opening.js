@@ -1,14 +1,25 @@
 import React from 'react';
-import styled from 'styled-components';
+import styled, { keyframes } from 'styled-components';
+let x = 0;
+
+const changeBack = keyframes`
+    0% { background-position:  0% 80%; }
+    50% { background-position: 80% 100%; }
+    100% { background-position: 0% 90%; }
+`
 
 const Container = styled.div`
-  width: 100%;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  background: linear-gradient(180deg, #000000 15%, #2da302 55%);
-  text-align: center;
-  font-family: "Bahnschrift"
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    background: linear-gradient(-45deg, #19f505, #70c269, #425e3f, #042601);
+    background-size: 400% 400%;
+    text-align: center;
+    font-family: "Bahnschrift";
+    animation-name: ${changeBack};
+    animation-duration: 8s;
+    animation-iteration-count: infinite;
 `
 
 const Title = styled.div`
@@ -23,7 +34,7 @@ const Subtitle = styled.div`
 
 const Text = styled.div`
     color: white;
-    font-size: 2em;
+    font-size: 1.5em;
     padding-top: 1em;
 `
 
