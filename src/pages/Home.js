@@ -78,7 +78,11 @@ function Home(  ) {
   /// trata e manda o arquivo pra ser interpretado
   const handleFileRead = (e) => {
     const buffer = fileReader.result;
+    setRegistradores(regs);
     Instrucoes.LimpaTela(0, setDisplay);
+    setIndice(0);
+    setTimers([0, 0]);
+    setInstrucao([512, '----']);
     // transforma o arquivo em instrucoes
     Memoria.CarregaInstrucoes(buffer);
     Apontador.Comecar(setRegistradores, setDisplay, setIndice, setTimers, setInstrucao);

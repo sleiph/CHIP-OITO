@@ -13,6 +13,8 @@ const AppDiv = styled.div`
   align-items: center;
 `
 
+let firstKey = false;
+
 function App() {
   const [instrucoes, setInstrucoes] = useState(true);
 
@@ -24,10 +26,14 @@ function App() {
         Inputs.redSignal();
       else if (event.key === 'ArrowRight')
         Inputs.proximo();
+      else if (event.key === 'o' && firstKey){
+        window.location.reload();
+      }
       else {
         Inputs.Teclou(event.key);
       }
       Inputs.apertando = true;
+      firstKey = true;
     }
   });
   document.addEventListener('keyup', (event) => {
