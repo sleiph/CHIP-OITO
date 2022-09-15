@@ -243,9 +243,15 @@ const Instrucoes = {
 
     /// TODO: fazer essa aqui
     /// ex. Opcode: FX0A
-    esperarTecla : function(ope1, instrucao) {
-        Inputs.redSignal();
-        return instrucao + 0x002;
+    esperarTecla : function(ope1, instrucao, setRegistradores) {
+        console.log("esperando");
+        if (Inputs.sendAnother()) {
+            let copia = [...this.registradores];
+            copia[ope1] = Inputs.greenSignal;
+            this.UpdateRegistradores(copia, setRegistradores);
+            return instrucao + 0x002;
+        }
+        return instrucao;
     },
 
     // Timers

@@ -129,7 +129,7 @@ function Disassembler(indice, setRegistradores, setDisplay, setIndice, setTimers
           return Instrucoes.registraIndice(ope1, indice, setIndice);
         case 'a': //fx0a
           // espera até que o usuario aperte uma tecla
-          return Instrucoes.esperarTecla(ope1, indice);
+          return Instrucoes.esperarTecla(ope1, indice, setRegistradores);
         case 'e':
           // adiciona o valor de uma variavel ao apontador
           return Instrucoes.setAddIndice(ope1, indice, setIndice);
