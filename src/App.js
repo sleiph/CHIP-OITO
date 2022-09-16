@@ -26,7 +26,7 @@ function App() {
         Inputs.redSignal();
       else if (event.key === 'ArrowRight')
         Inputs.proximo();
-      else if (event.key === 'o' && firstKey){
+      else if (event.key === 'h' && firstKey){
         window.location.reload();
       }
       else {

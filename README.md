@@ -38,6 +38,7 @@ Arquivos binários pra testes podem ser encontrados na [documentação](./docume
 * Poder mudar o valor de qualquer registrador a qualquer momento
 * Mostrar pro usuário um pseudo-código das instruções no cartucho
 * mostrar no teclado que a tecla foi apertada.
+* colocar os FPS
 
 ## Referências
 
