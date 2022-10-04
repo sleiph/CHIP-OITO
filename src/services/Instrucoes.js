@@ -1,6 +1,7 @@
 import Display from './Display';
 import Inputs from './Inputs';
 import Memoria from './Memoria';
+import Registros from './Registros';
 import Timer from './Timer';
 import Tratamento from './Tratamento';
 
@@ -9,14 +10,7 @@ import Tratamento from './Tratamento';
  */
 const Instrucoes = {
     // constantes e variaveis
-    registradores: [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
     posicaoSub: 0x200,
-      
-    // Melhoria de código
-    UpdateRegistradores : function(copia, setRegistradores) {
-        setRegistradores(copia);
-        this.registradores = copia;
-    },
 
     // Instruções e subrotinas
     /// ex. Opcode: ONNN
@@ -43,112 +37,98 @@ const Instrucoes = {
 
     // Variáveis
     /// ex. Opcode: 6XNN
-    setRegistrar : function(ope1, valor, instrucao, setRegistradores) {
-        let copia = [...this.registradores];
-        copia[ope1] = valor;
-        this.UpdateRegistradores(copia, setRegistradores);
+    setRegistrar : function(indice, valor, instrucao, setRegistradores) {
+        Registros.UpdateRegistradores(indice, valor, setRegistradores);
         return instrucao + 0x002;
     },
 
     /// ex. Opcode: 7XNN
-    setAdd : function(ope1, valor, instrucao, setRegistradores) {
-        let copia = [...this.registradores];
-        copia[ope1] = (copia[ope1] + valor) % 256;
-        this.UpdateRegistradores(copia, setRegistradores);
+    setAdd : function(indice, valor, instrucao, setRegistradores) {
+        let temp = (Registros.registradores[indice] + valor) % 256;
+        Registros.UpdateRegistradores(indice, temp, setRegistradores);
         return instrucao + 0x002;
     },
 
     /// ex. Opcode: 8XY0
-    setIgual : function(ope1, ope2, instrucao, setRegistradores){
-        let copia = [...this.registradores];
-        copia[ope1] = copia[ope2];
-        this.UpdateRegistradores(copia, setRegistradores);
+    setIgual : function(indice, ope2, instrucao, setRegistradores){
+        let temp = Registros.registradores[ope2];
+        Registros.UpdateRegistradores(indice, temp, setRegistradores);
         return instrucao + 0x002;
     },
 
     /// ex. Opcode: 8XY1
-    setOR : function(ope1, ope2, instrucao, setRegistradores) {
-        let copia = [...this.registradores];
-        copia[ope1] = (Tratamento.HexPraInt(copia[ope1]) | Tratamento.HexPraInt(copia[ope2])) % 256;
-        this.UpdateRegistradores(copia, setRegistradores);
+    setOR : function(indice, ope2, instrucao, setRegistradores) {
+        let temp = Registros.registradores[indice] | Registros.registradores[ope2];
+        Registros.UpdateRegistradores(indice, temp, setRegistradores);
         return instrucao + 0x002;
     },
 
     /// ex. Opcode: 8XY2
-    setAND : function(ope1, ope2, instrucao, setRegistradores) {
-        let copia = [...this.registradores];
-        let duo = copia[ope1] & copia[ope2];
-        copia[ope1] = duo;
-        this.UpdateRegistradores(copia, setRegistradores);
+    setAND : function(indice, ope2, instrucao, setRegistradores) {
+        let temp = Registros.registradores[indice] & Registros.registradores[ope2];
+        Registros.UpdateRegistradores(indice, temp, setRegistradores);
         return instrucao + 0x002;
     },
 
     /// ex. Opcode: 8XY3
-    setXOR : function(ope1, ope2, instrucao, setRegistradores) {
-        let copia = [...this.registradores];
-        let duo = (Tratamento.HexPraInt(copia[ope1]) ^ Tratamento.HexPraInt(copia[ope2]) % 256);
-        copia[ope1] = duo;
-        this.UpdateRegistradores(copia, setRegistradores);
+    setXOR : function(indice, ope2, instrucao, setRegistradores) {
+        let temp = Registros.registradores[indice] ^ Registros.registradores[ope2];
+        Registros.UpdateRegistradores(indice, temp, setRegistradores);
         return instrucao + 0x002;
     },
 
     /// ex. Opcode: 8XY4
-    setAddop : function(ope1, ope2, instrucao, setRegistradores) { 
+    setAddop : function(indice, ope2, instrucao, setRegistradores) { 
         //VF is set to 1 when there's a carry, and to 0 when there is not.
-        let copia = [...this.registradores];
-        copia[ope1] = (copia[ope1] + copia[ope2]);
-        if (copia[ope1] > 255) {
-            copia[ope1] -= 256;
-            copia[15] = 1;
+        let temp = (Registros.registradores[indice] + Registros.registradores[ope2]);
+        if (temp > 255) {
+            temp -= 256;
+            Registros.UpdateRegistradores(15, 1, setRegistradores);
         } else {
-            copia[15] = 0;
+            Registros.UpdateRegistradores(15, 0, setRegistradores);
         }
-        this.UpdateRegistradores(copia, setRegistradores);
+        Registros.UpdateRegistradores(indice, temp, setRegistradores);
         return instrucao + 0x002;
     },
 
     /// ex. Opcode: 8XY5
-    setSubop : function(ope1, ope2, instrucao, setRegistradores) {
-        let copia = [...this.registradores];
-        copia[ope1] -= copia[ope2];
+    setSubop : function(indice, ope2, instrucao, setRegistradores) {
+        let temp = Registros.registradores[indice] - Registros.registradores[ope2];
         //VF is set to 0 when there's a borrow, and 1 when there is not.
-        if (copia[ope1] < 0) {
-            copia[ope1] = 0xff + copia[ope1];
-            copia[15] = 1;
+        if (temp < 0) {
+            temp = 0xff + temp;
+            Registros.UpdateRegistradores(15, 1, setRegistradores);
         } else {
-            copia[15] = 0;
+            Registros.UpdateRegistradores(15, 0, setRegistradores);
         }
-        this.UpdateRegistradores(copia, setRegistradores);
+        Registros.UpdateRegistradores(indice, temp, setRegistradores);
         return instrucao + 0x002;
     },
 
     /// ex. Opcode: 8XY6
-    setRightShift : function(ope1, instrucao, setRegistradores) {
-        let copia = [...this.registradores];
-        copia[ope1] = Tratamento.HexPraInt(copia[ope1]) >> 1;
-        this.UpdateRegistradores(copia, setRegistradores);
+    setRightShift : function(indice, instrucao, setRegistradores) {
+        let temp = Registros.registradores[indice] >> 1;
+        Registros.UpdateRegistradores(indice, temp, setRegistradores);
         return instrucao + 0x002;
     },
 
     /// ex. Opcode: 8XY7
-    setRestop : function(ope1, ope2, instrucao, setRegistradores){
+    setRestop : function(indice, ope2, instrucao, setRegistradores){
         //VF is set to 0 when there's a borrow, and 1 when there is not.
-        let copia = [...this.registradores];
-        copia[ope1] = copia[ope2] - copia[ope1];
-        if (copia[ope1] > Tratamento.HexPraInt(255)) {
-            copia[15] = 0;
+        let temp = Registros.registradores[ope2] - Registros.registradores[indice];
+        if (temp > 255) {
+            Registros.UpdateRegistradores(15, 0, setRegistradores);
         } else {
-            copia[15] = 1;
+            Registros.UpdateRegistradores(15, 1, setRegistradores);
         }
-        this.UpdateRegistradores(copia, setRegistradores);
+        Registros.UpdateRegistradores(indice, temp, setRegistradores);
         return instrucao + 0x002;
     },
      
     /// ex. Opcode: 8XYE
-    setLeftShift : function(ope1, instrucao, setRegistradores) {
-        let copia = [...this.registradores];
-        copia[ope1] = Tratamento.HexPraInt(copia[ope1]) << 1;
-        this.UpdateRegistradores(copia, setRegistradores);
+    setLeftShift : function(indice, instrucao, setRegistradores) {
+        let temp = Registros.registradores[indice] << 1;
+        Registros.UpdateRegistradores(indice, temp, setRegistradores);
         return instrucao + 0x002;
     },
   
@@ -157,25 +137,25 @@ const Instrucoes = {
         switch(op[0]) {
             case '3':
                 /// ex. Opcode: 3XNN
-                if (this.registradores[ope1] === valor) {
+                if (Registros.registradores[ope1] === valor) {
                     return instrucao + 0x004;
                 }
                 return instrucao + 0x002;
             case '4':
                 /// ex. Opcode: 4XNN
-                if (this.registradores[ope1] !== valor) {
+                if (Registros.registradores[ope1] !== valor) {
                     return instrucao + 0x004;
                 }
                 return instrucao + 0x002;
             case '5':
                 /// ex. Opcode: 5XY0
-                if (this.registradores[ope1] === this.registradores[valor]) {
+                if (Registros.registradores[ope1] === Registros.registradores[valor]) {
                     return instrucao + 0x004;
                 }
                 return instrucao+ 0x002;
             case '9':
                 /// ex. Opcode: 9XY0
-                if (this.registradores[ope1] !== this.registradores[valor]) {
+                if (Registros.registradores[ope1] !== Registros.registradores[valor]) {
                     return instrucao + 0x004;
                 }
                 return instrucao + 0x002;
@@ -186,14 +166,13 @@ const Instrucoes = {
 
     /// ex. Opcode: BNNN
     setNext : function(next){
-        return next + this.registradores[0];
+        return next + Registros.registradores[0];
     },
 
     /// ex. Opcode: CXNN
-    setRandom : function(ope1, valor, anterior, setRegistradores) {
-        let copia = [...this.registradores];
-        copia[ope1] = (Math.floor(Math.random() * 256) & valor) % 256;
-        this.UpdateRegistradores(copia, setRegistradores);
+    setRandom : function(indice, valor, anterior, setRegistradores) {
+        let temp = (Math.floor(Math.random() * 256) & valor) % 256;
+        Registros.UpdateRegistradores(indice, temp, setRegistradores);
         return anterior + 0x002;
     },
   
@@ -207,16 +186,11 @@ const Instrucoes = {
 
     /// ex. Opcode: DXYN
     Desenha : function (anterior, x, y, n, setDisplay, setRegistradores) {
-        let vX = this.registradores[x];
-        let vY = this.registradores[y];
+        let vX = Registros.registradores[x];
+        let vY = Registros.registradores[y];
         let sprite = [];
         for (let i = 0; i < n; i++) {
-            try {
-                sprite.push(Memoria.posicoes[Memoria.Indice+i].bin);
-            } catch (e) {
-                console.log("Índice desconhecido da memória: " + Memoria.Indice);
-                sprite.push('10000000');
-            }
+            sprite.push(Memoria.posicoes[Memoria.Indice+i].bin);
         }
         Display.UpdateDisplay(vX, vY, sprite, setDisplay, setRegistradores)
         return anterior + 0x002;
@@ -226,7 +200,7 @@ const Instrucoes = {
     /// ex. Opcode: EX9E
     isApertando : function (ope1, anterior) {
         if (Inputs.apertando &&
-            Tratamento.HexPraInt(Inputs.apertada) === this.registradores[ope1]) {
+            Tratamento.HexPraInt(Inputs.apertada) === Registros.registradores[ope1]) {
                 return anterior + 0x004;
         }
         return anterior + 0x002;
@@ -235,7 +209,7 @@ const Instrucoes = {
     /// TODO: fazer essa aqui
     /// ex. Opcode: EXA1
     isNotApertando : function(ope1, anterior) {
-        if (Tratamento.HexPraInt(Inputs.apertada) !== this.registradores[ope1]) {
+        if (Tratamento.HexPraInt(Inputs.apertada) !== Registros.registradores[ope1]) {
                 return anterior + 0x004;
         }
         return anterior + 0x002;
@@ -246,9 +220,9 @@ const Instrucoes = {
     esperarTecla : function(ope1, instrucao, setRegistradores) {
         console.log("esperando");
         if (Inputs.sendAnother()) {
-            let copia = [...this.registradores];
+            let copia = [...Registros.registradores];
             copia[ope1] = Inputs.greenSignal;
-            this.UpdateRegistradores(copia, setRegistradores);
+            Registros.UpdateRegistradoresArr(copia, setRegistradores);
             return instrucao + 0x002;
         }
         return instrucao;
@@ -256,16 +230,15 @@ const Instrucoes = {
 
     // Timers
     /// ex. Opcode: FX07
-    registraTimer : function(ope1, instrucao, setRegistradores) {
-        let copia = [...this.registradores];
-        copia[ope1] = Timer.DT;
-        this.UpdateRegistradores(copia, setRegistradores);
+    registraTimer : function(indice, instrucao, setRegistradores) {
+        let temp = Timer.DT;
+        Registros.UpdateRegistradores(indice, temp, setRegistradores);
         return instrucao + 0x002;
     },
 
     /// ex. Opcode: FX15
     setTimer : function(ope1, instrucao, setTimers) {
-        Timer.DT = this.registradores[ope1];
+        Timer.DT = Registros.registradores[ope1];
         Timer.setHook(setTimers);
         return instrucao + 0x002;
     },
@@ -273,7 +246,7 @@ const Instrucoes = {
     // Som
     /// ex. Opcode: FX18
     setSound : function(ope1, instrucao, setTimers) {
-        Timer.ST = this.registradores[ope1];
+        Timer.ST = Registros.registradores[ope1];
         Timer.setHook(setTimers);
         return instrucao + 0x002;
     },
@@ -288,14 +261,14 @@ const Instrucoes = {
 
     /// ex. Opcode: FX1E
     setAddIndice : function(ope1, instrucao, setIndice) {
-        Memoria.Indice = (Memoria.Indice + this.registradores[ope1]) % 4096;
+        Memoria.Indice = (Memoria.Indice + Registros.registradores[ope1]) % 4096;
         setIndice(Memoria.Indice);
         return instrucao + 0x002;
     },
 
     /// ex. Opcode: FX29
     registraIndice : function(ope1, instrucao, setIndice) {
-        let x = this.registradores[ope1];
+        let x = Registros.registradores[ope1];
         let pos = 0x050 + (x*5);
         Memoria.Indice = pos;
         setIndice(Memoria.Indice);
@@ -304,7 +277,7 @@ const Instrucoes = {
 
     /// ex. Opcode: FX33
     setBCD : function(vx, instrucao) {
-        let x = this.registradores[vx].toString().padStart(3, '0');
+        let x = Registros.registradores[vx].toString().padStart(3, '0');
         for (let i=0; i<3; i++) {
             let temp = parseInt(x[i]);
             let pos = {
@@ -319,7 +292,7 @@ const Instrucoes = {
     /// ex. Opcode: FX55
     save : function(ope1, instrucao) { 
         for (let i = 0; i <= ope1; i++) {
-            let temp = this.registradores[i];
+            let temp = Registros.registradores[i];
             let pos = {
                 bin: Tratamento.IntPraBin(temp),
                 hex: Tratamento.IntPraHex(temp)
@@ -331,11 +304,11 @@ const Instrucoes = {
 
     /// ex. Opcode: FX65
     load : function(ope1, instrucao, setRegistradores) { 
-        let copia = [...this.registradores];
+        let copia = [...Registros.registradores];
         for (let i = 0; i <= ope1; i++) {
             copia[i] = Memoria.posicoes[Memoria.Indice+i].hex;
         }
-        this.UpdateRegistradores(copia, setRegistradores);
+        Registros.UpdateRegistradoresArr(copia, setRegistradores);
         return instrucao + 0x002;
     }
 }
