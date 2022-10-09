@@ -15,20 +15,20 @@ const Apontador = {
   /**
    * Começa a executar as instruções gravadas na memória
    */
-  Comecar: function (setRegistradores, setDisplay, setIndice, setTimers, setInstrucao) {
+  Comecar: function (setIndice, setTimers, setInstrucao) {
     setInterval(
       function() {
-        aponta(setRegistradores, setDisplay, setIndice, setTimers, setInstrucao)
+        aponta(setIndice, setTimers, setInstrucao)
       }, this.velocidade
     );
   }
 }
 
 // não consegui deixar essa funcao como parte da const Apontador...
-function aponta(setRegistradores, setDisplay, setIndice, setTimers, setInstrucao) {
+function aponta(setIndice, setTimers, setInstrucao) {
   // se o jogo não ta pausado
   if (Inputs.sendSignal() || Inputs.executarProximo) {
-    Apontador.atual = Disassembler(Apontador.atual, setRegistradores, setDisplay, setIndice, setTimers);
+    Apontador.atual = Disassembler(Apontador.atual, setIndice, setTimers);
     
     // se o jogador aperta pra executar só a proxima instrucao
     if (Inputs.executarProximo)

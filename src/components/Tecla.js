@@ -12,7 +12,7 @@ const TeclaDiv = styled.div`
         width: 100%;
         margin: 0;
         padding: 0;
-        color: #fff;
+        color: white;
         background-color: #3f956f;
         font-size: 16px;
         border-radius: 5px;
@@ -27,6 +27,8 @@ const TeclaDiv = styled.div`
     }
     button:active {
         transform: scale(0.98);
+        outline: solid #f20553;
+        outline-offset: -8px;
     }
 `
 
@@ -42,4 +44,4 @@ function Tecla( {chave, tecla} ) {
     )
 }
 
-export default Tecla
+export default Tecla;

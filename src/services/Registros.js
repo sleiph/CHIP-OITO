@@ -1,14 +1,19 @@
 const Registros = {
     registradores: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    setter: null,
 
-    UpdateRegistradoresArr : function(array, setRegistradores) {
-        setRegistradores(array);
-        this.registradores = array;
+    Iniciar: function(setter) {
+        this.setter = setter;
     },
 
-    UpdateRegistradores : function(indice, valor, setRegistradores) {
+    UpdateRegistradores : function(indice, valor) {
+        this.setter(this.registradores);
         this.registradores[indice] = valor;
-        setRegistradores(this.registradores);
+    },
+
+    UpdateRegistradoresArr : function(array) {
+        this.setter(array);
+        this.registradores = array;
     },
 }
 

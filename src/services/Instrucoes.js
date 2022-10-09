@@ -37,98 +37,98 @@ const Instrucoes = {
 
     // Variáveis
     /// ex. Opcode: 6XNN
-    setRegistrar : function(indice, valor, instrucao, setRegistradores) {
-        Registros.UpdateRegistradores(indice, valor, setRegistradores);
+    setRegistrar : function(indice, valor, instrucao) {
+        Registros.UpdateRegistradores(indice, valor);
         return instrucao + 0x002;
     },
 
     /// ex. Opcode: 7XNN
-    setAdd : function(indice, valor, instrucao, setRegistradores) {
+    setAdd : function(indice, valor, instrucao) {
         let temp = (Registros.registradores[indice] + valor) % 256;
-        Registros.UpdateRegistradores(indice, temp, setRegistradores);
+        Registros.UpdateRegistradores(indice, temp);
         return instrucao + 0x002;
     },
 
     /// ex. Opcode: 8XY0
-    setIgual : function(indice, ope2, instrucao, setRegistradores){
+    setIgual : function(indice, ope2, instrucao){
         let temp = Registros.registradores[ope2];
-        Registros.UpdateRegistradores(indice, temp, setRegistradores);
+        Registros.UpdateRegistradores(indice, temp);
         return instrucao + 0x002;
     },
 
     /// ex. Opcode: 8XY1
-    setOR : function(indice, ope2, instrucao, setRegistradores) {
+    setOR : function(indice, ope2, instrucao) {
         let temp = Registros.registradores[indice] | Registros.registradores[ope2];
-        Registros.UpdateRegistradores(indice, temp, setRegistradores);
+        Registros.UpdateRegistradores(indice, temp);
         return instrucao + 0x002;
     },
 
     /// ex. Opcode: 8XY2
-    setAND : function(indice, ope2, instrucao, setRegistradores) {
+    setAND : function(indice, ope2, instrucao) {
         let temp = Registros.registradores[indice] & Registros.registradores[ope2];
-        Registros.UpdateRegistradores(indice, temp, setRegistradores);
+        Registros.UpdateRegistradores(indice, temp);
         return instrucao + 0x002;
     },
 
     /// ex. Opcode: 8XY3
-    setXOR : function(indice, ope2, instrucao, setRegistradores) {
+    setXOR : function(indice, ope2, instrucao) {
         let temp = Registros.registradores[indice] ^ Registros.registradores[ope2];
-        Registros.UpdateRegistradores(indice, temp, setRegistradores);
+        Registros.UpdateRegistradores(indice, temp);
         return instrucao + 0x002;
     },
 
     /// ex. Opcode: 8XY4
-    setAddop : function(indice, ope2, instrucao, setRegistradores) { 
+    setAddop : function(indice, ope2, instrucao) { 
         //VF is set to 1 when there's a carry, and to 0 when there is not.
         let temp = (Registros.registradores[indice] + Registros.registradores[ope2]);
         if (temp > 255) {
             temp -= 256;
-            Registros.UpdateRegistradores(15, 1, setRegistradores);
+            Registros.UpdateRegistradores(15, 1);
         } else {
-            Registros.UpdateRegistradores(15, 0, setRegistradores);
+            Registros.UpdateRegistradores(15, 0);
         }
-        Registros.UpdateRegistradores(indice, temp, setRegistradores);
+        Registros.UpdateRegistradores(indice, temp);
         return instrucao + 0x002;
     },
 
     /// ex. Opcode: 8XY5
-    setSubop : function(indice, ope2, instrucao, setRegistradores) {
+    setSubop : function(indice, ope2, instrucao) {
         let temp = Registros.registradores[indice] - Registros.registradores[ope2];
         //VF is set to 0 when there's a borrow, and 1 when there is not.
         if (temp < 0) {
             temp = 0xff + temp;
-            Registros.UpdateRegistradores(15, 1, setRegistradores);
+            Registros.UpdateRegistradores(15, 1);
         } else {
-            Registros.UpdateRegistradores(15, 0, setRegistradores);
+            Registros.UpdateRegistradores(15, 0);
         }
-        Registros.UpdateRegistradores(indice, temp, setRegistradores);
+        Registros.UpdateRegistradores(indice, temp);
         return instrucao + 0x002;
     },
 
     /// ex. Opcode: 8XY6
-    setRightShift : function(indice, instrucao, setRegistradores) {
+    setRightShift : function(indice, instrucao) {
         let temp = Registros.registradores[indice] >> 1;
-        Registros.UpdateRegistradores(indice, temp, setRegistradores);
+        Registros.UpdateRegistradores(indice, temp);
         return instrucao + 0x002;
     },
 
     /// ex. Opcode: 8XY7
-    setRestop : function(indice, ope2, instrucao, setRegistradores){
+    setRestop : function(indice, ope2, instrucao){
         //VF is set to 0 when there's a borrow, and 1 when there is not.
         let temp = Registros.registradores[ope2] - Registros.registradores[indice];
         if (temp > 255) {
-            Registros.UpdateRegistradores(15, 0, setRegistradores);
+            Registros.UpdateRegistradores(15, 0);
         } else {
-            Registros.UpdateRegistradores(15, 1, setRegistradores);
+            Registros.UpdateRegistradores(15, 1);
         }
-        Registros.UpdateRegistradores(indice, temp, setRegistradores);
+        Registros.UpdateRegistradores(indice, temp);
         return instrucao + 0x002;
     },
      
     /// ex. Opcode: 8XYE
-    setLeftShift : function(indice, instrucao, setRegistradores) {
+    setLeftShift : function(indice, instrucao) {
         let temp = Registros.registradores[indice] << 1;
-        Registros.UpdateRegistradores(indice, temp, setRegistradores);
+        Registros.UpdateRegistradores(indice, temp);
         return instrucao + 0x002;
     },
   
@@ -170,29 +170,29 @@ const Instrucoes = {
     },
 
     /// ex. Opcode: CXNN
-    setRandom : function(indice, valor, anterior, setRegistradores) {
+    setRandom : function(indice, valor, anterior) {
         let temp = (Math.floor(Math.random() * 256) & valor) % 256;
-        Registros.UpdateRegistradores(indice, temp, setRegistradores);
+        Registros.UpdateRegistradores(indice, temp);
         return anterior + 0x002;
     },
   
 
     // Display
     /// ex. Opcode: 00E0
-    LimpaTela : function(anterior, setDisplay) {
-        setDisplay(Display.original);
+    LimpaTela : function(anterior) {
+        Display.LimpaTela();
         return anterior + 0x002;
     },
 
     /// ex. Opcode: DXYN
-    Desenha : function (anterior, x, y, n, setDisplay, setRegistradores) {
+    Desenha : function (anterior, x, y, n, setRegistradores) {
         let vX = Registros.registradores[x];
         let vY = Registros.registradores[y];
         let sprite = [];
         for (let i = 0; i < n; i++) {
             sprite.push(Memoria.posicoes[Memoria.Indice+i].bin);
         }
-        Display.UpdateDisplay(vX, vY, sprite, setDisplay, setRegistradores)
+        Display.UpdateDisplay(vX, vY, sprite, setRegistradores)
         return anterior + 0x002;
     },
 
@@ -217,12 +217,12 @@ const Instrucoes = {
 
     /// TODO: fazer essa aqui
     /// ex. Opcode: FX0A
-    esperarTecla : function(ope1, instrucao, setRegistradores) {
+    esperarTecla : function(ope1, instrucao) {
         console.log("esperando");
         if (Inputs.sendAnother()) {
             let copia = [...Registros.registradores];
             copia[ope1] = Inputs.greenSignal;
-            Registros.UpdateRegistradoresArr(copia, setRegistradores);
+            Registros.UpdateRegistradoresArr(copia);
             return instrucao + 0x002;
         }
         return instrucao;
@@ -230,9 +230,9 @@ const Instrucoes = {
 
     // Timers
     /// ex. Opcode: FX07
-    registraTimer : function(indice, instrucao, setRegistradores) {
+    registraTimer : function(indice, instrucao) {
         let temp = Timer.DT;
-        Registros.UpdateRegistradores(indice, temp, setRegistradores);
+        Registros.UpdateRegistradores(indice, temp);
         return instrucao + 0x002;
     },
 
@@ -303,12 +303,12 @@ const Instrucoes = {
     },
 
     /// ex. Opcode: FX65
-    load : function(ope1, instrucao, setRegistradores) { 
+    load : function(ope1, instrucao) { 
         let copia = [...Registros.registradores];
         for (let i = 0; i <= ope1; i++) {
             copia[i] = Memoria.posicoes[Memoria.Indice+i].hex;
         }
-        Registros.UpdateRegistradoresArr(copia, setRegistradores);
+        Registros.UpdateRegistradoresArr(copia);
         return instrucao + 0x002;
     }
 }

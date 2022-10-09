@@ -7,7 +7,7 @@ import Tratamento from './Tratamento';
  * de acordo com a Opcode table na wiki
  * https://en.wikipedia.org/wiki/CHIP-8
  */
-function Disassembler(indice, setRegistradores, setDisplay, setIndice, setTimers) {
+function Disassembler(indice, setIndice, setTimers) {
   let op = Memoria.posicoes[indice].hex + Memoria.posicoes[indice+1].hex;
   
   let ope1 = Tratamento.HexPraInt(op[1]);
@@ -22,7 +22,7 @@ function Disassembler(indice, setRegistradores, setDisplay, setIndice, setTimers
         if (op[3]==='0') {
           // limpa a tela
           //00e0
-          return Instrucoes.LimpaTela(indice, setDisplay);
+          return Instrucoes.LimpaTela(indice);
         }
         else if (op[3]==='e') {
           // volta pra linha que chamou a subrotina
@@ -50,31 +50,31 @@ function Disassembler(indice, setRegistradores, setDisplay, setIndice, setTimers
       return Instrucoes.setJump(op, ope1, valor, indice);
     case '6':
       // atribui o valor de uma das variaveis
-      return Instrucoes.setRegistrar(ope1, valor, indice, setRegistradores);
+      return Instrucoes.setRegistrar(ope1, valor, indice);
     case '7':
       // adiciona ao valor de uma variavel
-      return Instrucoes.setAdd(ope1, valor, indice, setRegistradores);
+      return Instrucoes.setAdd(ope1, valor, indice);
     case '8':
       // operações com as variaveis
       switch(op[3]) {
         case '0':
-          return Instrucoes.setIgual(ope1, ope2, indice, setRegistradores);
+          return Instrucoes.setIgual(ope1, ope2, indice);
         case '1':
-          return Instrucoes.setOR(ope1, ope2, indice, setRegistradores);
+          return Instrucoes.setOR(ope1, ope2, indice);
         case '2':
-          return Instrucoes.setAND(ope1, ope2, indice, setRegistradores);
+          return Instrucoes.setAND(ope1, ope2, indice);
         case '3':
-          return Instrucoes.setXOR(ope1, ope2, indice, setRegistradores);
+          return Instrucoes.setXOR(ope1, ope2, indice);
         case '4':
-          return Instrucoes.setAddop(ope1, ope2, indice, setRegistradores);
+          return Instrucoes.setAddop(ope1, ope2, indice);
         case '5':
-          return Instrucoes.setSubop(ope1, ope2, indice, setRegistradores);
+          return Instrucoes.setSubop(ope1, ope2, indice);
         case '6':
-          return Instrucoes.setRightShift(ope1, indice, setRegistradores);
+          return Instrucoes.setRightShift(ope1, indice);
         case '7':
-          return Instrucoes.setRestop(ope1, ope2, indice, setRegistradores);
+          return Instrucoes.setRestop(ope1, ope2, indice);
         case 'e':
-          return Instrucoes.setLeftShift(ope1, indice, setRegistradores);
+          return Instrucoes.setLeftShift(ope1, indice);
         default:
           console.log("8 e alguma coisa...");
       }
@@ -87,10 +87,10 @@ function Disassembler(indice, setRegistradores, setDisplay, setIndice, setTimers
       return Instrucoes.setNext(x);
     case 'c':
       // atribui um valor aleatorio pra o registrador[x]
-      return Instrucoes.setRandom(ope1, valor, indice, setRegistradores);
+      return Instrucoes.setRandom(ope1, valor, indice);
     case 'd':
       // desenha na tela
-      return Instrucoes.Desenha(indice, ope1, ope2, n, setDisplay, setRegistradores);
+      return Instrucoes.Desenha(indice, ope1, ope2, n);
     case 'e':
       // entrada de teclado
       if (op[3]==='e') //ex9e
@@ -114,13 +114,13 @@ function Disassembler(indice, setRegistradores, setDisplay, setIndice, setTimers
           else if (op[2] === '5') //fx55
             return Instrucoes.save(ope1, indice);
           else if (op[2] === '6') //fx65
-            return Instrucoes.load(ope1, indice, setRegistradores);
+            return Instrucoes.load(ope1, indice);
           else
             console.log("F alguma coisa 5...");
           return indice + 0x002;
           case '7':
             // usa os timers
-            return Instrucoes.registraTimer(ope1, indice, setRegistradores);
+            return Instrucoes.registraTimer(ope1, indice);
         case '8':
           // toca um somzin
           return Instrucoes.setSound(ope1, indice, setTimers);
@@ -129,7 +129,7 @@ function Disassembler(indice, setRegistradores, setDisplay, setIndice, setTimers
           return Instrucoes.registraIndice(ope1, indice, setIndice);
         case 'a': //fx0a
           // espera até que o usuario aperte uma tecla
-          return Instrucoes.esperarTecla(ope1, indice, setRegistradores);
+          return Instrucoes.esperarTecla(ope1, indice);
         case 'e':
           // adiciona o valor de uma variavel ao apontador
           return Instrucoes.setAddIndice(ope1, indice, setIndice);

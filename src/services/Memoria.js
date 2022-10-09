@@ -110,7 +110,6 @@ const Memoria = {
 
     /**
      * Recebe um buffer da rom e carrega as instruções na memoria
-     * @param {*} rom 
      */
      CarregaInstrucoes: function (rom) {
         let arrayBinario = Tratamento.BufferPraBin(rom);

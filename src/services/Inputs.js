@@ -1,4 +1,3 @@
-import { toHaveDisplayValue } from "@testing-library/jest-dom/dist/matchers";
 import Tratamento from "./Tratamento";
 
 /**
@@ -37,8 +36,6 @@ const Inputs = {
 
     /**
      * garante que o pause só seja executado uma vez
-     * 
-     * @returns se pode pausar ou não
      */
     sendSignal : function() {
         this.controlePause = true;
@@ -69,8 +66,7 @@ const Inputs = {
             if (this.bloquear) {
                 this.continuar = true;
                 this.msg = this.apertada; 
-            } 
-            console.log(this.apertada);
+            }
         }
     }
     

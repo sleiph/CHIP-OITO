@@ -3,8 +3,18 @@ import Registros from "./Registros";
 const Display = {
     pixels: Array.from(Array(32), () => Array.from(Array(64), () => 0)),
     original: Array.from(Array(32), () => Array.from(Array(64), () => 0)),
+    setter: null,
+    debug: false,
 
-    UpdateDisplay : function(x, y, sprite, setDisplay, setRegistradores) {
+    Iniciar: function(setter) {
+        this.setter = setter;
+    },
+
+    LimpaTela: function() {
+        this.setter(this.original);
+    },
+
+    UpdateDisplay : function(x, y, sprite) {
         let copiaRegs = [...Registros.registradores];
         let isUnset = false;
 
@@ -21,8 +31,8 @@ const Display = {
         }
         //and to 0 if that does not happen
         copiaRegs[15] = isUnset ? 1 : 0;
-        Registros.UpdateRegistradoresArr(copiaRegs, setRegistradores);
-        setDisplay(this.pixels);
+        Registros.UpdateRegistradoresArr(copiaRegs);
+        this.setter(this.pixels);
     },
 }
 

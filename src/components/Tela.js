@@ -12,10 +12,10 @@ const DisplayDiv = styled.div`
 `
 
 const PixelDiv = styled.div`
-
+  
 `
 
-function Tela( { display, setDisplay } ) {
+function Tela( { display } ) {
 
   return (
     <DisplayDiv>{

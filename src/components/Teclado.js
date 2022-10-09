@@ -66,4 +66,4 @@ function Teclado(  ) {
   )
 }
 
-export default Teclado
+export default Teclado;
