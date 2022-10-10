@@ -35,8 +35,8 @@ function aponta(setInstrucao) {
     if (Inputs.executarProximo)
       Inputs.executarProximo = false;
 
-    //let op = Memoria.posicoes[Apontador.atual].hex + Memoria.posicoes[Apontador.atual+1].hex;
-    //setInstrucao([Tratamento.IntPraHex(Apontador.atual), op]);
+    // esse hook q tá deixando ele lento, mas eh importante pro debug :(
+    //setInstrucao(Apontador.atual);
   }
   // Atualiza os timers
   Timer.tick();

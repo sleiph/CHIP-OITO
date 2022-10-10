@@ -7,6 +7,7 @@ const Memoria = {
     // vai guardar o número de instruções no cartucho + 0x200
     TamanhoCartucho: 0x200,
     Indice: 0x200,
+    mapa: [],
     setter: null,
 
     posicoes: {
@@ -122,6 +123,17 @@ const Memoria = {
             this.posicoes[this.TamanhoCartucho] = posicao;
             this.TamanhoCartucho += 0x001;
         });
+        this.Mapear();
+    },
+
+    /**
+     * Mapa usado no debug pra exibir as instruções do cartucho
+     */
+    Mapear: function() {
+        for (let i=0x201;i<this.TamanhoCartucho; i+=2) {
+            
+            this.mapa[i-1] = this.posicoes[i-1].hex + this.posicoes[i].hex;
+        }
     },
 
     UpdateIndice: function (x) {

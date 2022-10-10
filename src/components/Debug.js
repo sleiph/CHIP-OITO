@@ -1,8 +1,12 @@
-import styled from 'styled-components'
+import styled from 'styled-components';
+
+import Apontador from '../services/Apontador';
+import Memoria from '../services/Memoria';
+import Tratamento from '../services/Tratamento';
 
 const OPDiv = styled.div`
   position: absolute;
-  height: 420px;
+  height: 520px;
   max-width: 520px;
   top: 50%;
   left: 50%;
@@ -19,13 +23,24 @@ const Fundo = styled.div`
   opacity: .3;
   outline: solid #f55086;
   outline-offset: -8px;
+  z-index: -1000;
 `
 const Grupo = styled.div`
-  padding: 24px;
+  padding: 12px 24px;
   display: flex;
   flex-flow: wrap;
 `
-const Instrucao = styled.span`
+const Instrucoes = styled.div`
+  padding: 6px 24px;
+  max-height: 280px;
+  padding-bottom: 20px;
+  margin-bottom: 20px;
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: column;
+  overflow: overlay;
+`
+const Informacao = styled.span`
   text-align: center;
   margin: 0 16px 0 0;
 `
@@ -39,29 +54,34 @@ function Debug( {registradores, indice, timers, instrucao} ) {
       <Grupo>
         <h3>Debug:</h3>
       </Grupo>
-      <Grupo>
-        <Instrucao>{
-          'pos:0x' + instrucao[0].toString(16).padStart(3, '0').toUpperCase()
-        }</Instrucao>
-        <Instrucao>{
-          'inst:' + instrucao[1].toString(16).padStart(4, '0').toUpperCase()
-        }</Instrucao>
-      </Grupo>
+      <Instrucoes>
+        { 
+          Memoria.mapa.map((reg, i) => {
+            return(
+              <div key={i}>
+                <Informacao style={{outline: instrucao===i ? '1px solid rgba(0, 0, 0, 1)' : '0px solid rgba(0, 0, 0, 0)'}}>{
+                  "0x" + Tratamento.IntPraHex(i) + ': ' + reg.toString(16).padStart(2, '0').toUpperCase()
+                }</Informacao>
+              </div>
+            );
+          })
+        }
+      </Instrucoes>
       <Grupo>
         { 
           arrayRegistradores.map((reg, i) => {
             return(
-              <Instrucao key={i}>{
+              <Informacao key={i}>{
                 'V' + i.toString(16) + ':' + reg.toString(16).padStart(2, '0').toUpperCase()
-              }</Instrucao>
+              }</Informacao>
             );
           })
         }
       </Grupo>
       <Grupo>
-        <Instrucao>{'I:' + indice.toString(16).padStart(3, '0').toUpperCase()}</Instrucao>
-        <Instrucao>{'DT:' + timers[0].toString(16).padStart(2, '0').toUpperCase()}</Instrucao>
-        <Instrucao>{'ST:' + timers[1].toString(16).padStart(2, '0').toUpperCase()}</Instrucao>
+        <Informacao>{'I:' + indice.toString(16).padStart(3, '0').toUpperCase()}</Informacao>
+        <Informacao>{'DT:' + timers[0].toString(16).padStart(2, '0').toUpperCase()}</Informacao>
+        <Informacao>{'ST:' + timers[1].toString(16).padStart(2, '0').toUpperCase()}</Informacao>
       </Grupo>
     </OPDiv>
   )
