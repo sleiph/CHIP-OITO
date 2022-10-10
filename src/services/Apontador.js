@@ -15,27 +15,28 @@ const Apontador = {
   /**
    * Começa a executar as instruções gravadas na memória
    */
-  Comecar: function (setIndice, setTimers, setInstrucao) {
+  Comecar: function (setInstrucao) {
+    this.atual = 0x200;
     setInterval(
       function() {
-        aponta(setIndice, setTimers, setInstrucao)
+        aponta(setInstrucao)
       }, this.velocidade
     );
   }
 }
 
 // não consegui deixar essa funcao como parte da const Apontador...
-function aponta(setIndice, setTimers, setInstrucao) {
+function aponta(setInstrucao) {
   // se o jogo não ta pausado
   if (Inputs.sendSignal() || Inputs.executarProximo) {
-    Apontador.atual = Disassembler(Apontador.atual, setIndice, setTimers);
+    Apontador.atual = Disassembler(Apontador.atual);
     
     // se o jogador aperta pra executar só a proxima instrucao
     if (Inputs.executarProximo)
       Inputs.executarProximo = false;
 
-    let op = Memoria.posicoes[Apontador.atual].hex + Memoria.posicoes[Apontador.atual+1].hex;
-    setInstrucao([Tratamento.IntPraHex(Apontador.atual), op]);
+    //let op = Memoria.posicoes[Apontador.atual].hex + Memoria.posicoes[Apontador.atual+1].hex;
+    //setInstrucao([Tratamento.IntPraHex(Apontador.atual), op]);
   }
   // Atualiza os timers
   Timer.tick();

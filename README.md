@@ -58,3 +58,7 @@ Arquivos binários pra testes podem ser encontrados na [documentação](./docume
 3. Aplicação [instrução por instrução](/roms/pong/pong-instr.md) da tabela de opcodes em alguns [roms de CHIP-8](/roms).
 
 4. Estudo de prática das roms rodando em um [emulador de terceiros](https://github.com/massung/CHIP-8), que possui um sistema de debug.
+
+## Créditos
+
+Som por [qubodup](https://freesound.org/people/qubodup/sounds/67619/).

@@ -137,27 +137,23 @@ const Instrucoes = {
         switch(op[0]) {
             case '3':
                 /// ex. Opcode: 3XNN
-                if (Registros.registradores[ope1] === valor) {
+                if (Registros.registradores[ope1] === valor)
                     return instrucao + 0x004;
-                }
                 return instrucao + 0x002;
             case '4':
                 /// ex. Opcode: 4XNN
-                if (Registros.registradores[ope1] !== valor) {
+                if (Registros.registradores[ope1] !== valor)
                     return instrucao + 0x004;
-                }
                 return instrucao + 0x002;
             case '5':
                 /// ex. Opcode: 5XY0
-                if (Registros.registradores[ope1] === Registros.registradores[valor]) {
+                if (Registros.registradores[ope1] === Registros.registradores[valor])
                     return instrucao + 0x004;
-                }
                 return instrucao+ 0x002;
             case '9':
                 /// ex. Opcode: 9XY0
-                if (Registros.registradores[ope1] !== Registros.registradores[valor]) {
+                if (Registros.registradores[ope1] !== Registros.registradores[valor])
                     return instrucao + 0x004;
-                }
                 return instrucao + 0x002;
             default:
                 return instrucao + 0x002;
@@ -218,11 +214,9 @@ const Instrucoes = {
     /// TODO: fazer essa aqui
     /// ex. Opcode: FX0A
     esperarTecla : function(ope1, instrucao) {
-        console.log("esperando");
-        if (Inputs.sendAnother()) {
-            let copia = [...Registros.registradores];
-            copia[ope1] = Inputs.greenSignal;
-            Registros.UpdateRegistradoresArr(copia);
+        if (Inputs.apertando) {
+            let temp = Inputs.apertada;
+            Registros.UpdateRegistradores(ope1, temp);
             return instrucao + 0x002;
         }
         return instrucao;
@@ -237,41 +231,37 @@ const Instrucoes = {
     },
 
     /// ex. Opcode: FX15
-    setTimer : function(ope1, instrucao, setTimers) {
-        Timer.DT = Registros.registradores[ope1];
-        Timer.setHook(setTimers);
+    setTimer : function(ope1, instrucao) {
+        Timer.setDelay(Registros.registradores[ope1]);
         return instrucao + 0x002;
     },
 
     // Som
     /// ex. Opcode: FX18
-    setSound : function(ope1, instrucao, setTimers) {
-        Timer.ST = Registros.registradores[ope1];
-        Timer.setHook(setTimers);
+    setSound : function(ope1, instrucao) {
+        Timer.setSom(Registros.registradores[ope1]);
         return instrucao + 0x002;
     },
 
     // Memória
     /// ex. Opcode: ANNN
-    setIndico : function(x, instrucao, setIndice){
-        Memoria.Indice = x;
-        setIndice(Memoria.Indice);
+    setIndico : function(x, instrucao) {
+        Memoria.UpdateIndice(x);
         return instrucao + 0x002;
     },
 
     /// ex. Opcode: FX1E
-    setAddIndice : function(ope1, instrucao, setIndice) {
-        Memoria.Indice = (Memoria.Indice + Registros.registradores[ope1]) % 4096;
-        setIndice(Memoria.Indice);
+    setAddIndice : function(ope1, instrucao) {
+        let temp = (Memoria.Indice + Registros.registradores[ope1]) % 4096;
+        Memoria.UpdateIndice(temp);
         return instrucao + 0x002;
     },
 
     /// ex. Opcode: FX29
-    registraIndice : function(ope1, instrucao, setIndice) {
+    registraIndice : function(ope1, instrucao) {
         let x = Registros.registradores[ope1];
         let pos = 0x050 + (x*5);
-        Memoria.Indice = pos;
-        setIndice(Memoria.Indice);
+        Memoria.UpdateIndice(pos);
         return instrucao + 0x002;
     },
 

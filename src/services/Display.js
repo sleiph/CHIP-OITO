@@ -8,10 +8,12 @@ const Display = {
 
     Iniciar: function(setter) {
         this.setter = setter;
+        this.LimpaTela();
     },
 
     LimpaTela: function() {
-        this.setter(this.original);
+        this.pixels = this.original
+        this.setter(this.pixels);
     },
 
     UpdateDisplay : function(x, y, sprite) {

@@ -7,7 +7,7 @@ import Tratamento from './Tratamento';
  * de acordo com a Opcode table na wiki
  * https://en.wikipedia.org/wiki/CHIP-8
  */
-function Disassembler(indice, setIndice, setTimers) {
+function Disassembler(indice) {
   let op = Memoria.posicoes[indice].hex + Memoria.posicoes[indice+1].hex;
   
   let ope1 = Tratamento.HexPraInt(op[1]);
@@ -81,7 +81,7 @@ function Disassembler(indice, setIndice, setTimers) {
       return indice + 0x002;
     case 'a':
       // muda o valor do apontador (I)
-      return Instrucoes.setIndico(x, indice, setIndice);
+      return Instrucoes.setIndico(x, indice);
     case 'b':
       // pula pro endereço V0 + instrucao enviada
       return Instrucoes.setNext(x);
@@ -110,7 +110,7 @@ function Disassembler(indice, setIndice, setTimers) {
         case '5':
           // seta timers
           if (op[2] === '1') //fx15
-            return Instrucoes.setTimer(ope1, indice, setTimers);
+            return Instrucoes.setTimer(ope1, indice);
           else if (op[2] === '5') //fx55
             return Instrucoes.save(ope1, indice);
           else if (op[2] === '6') //fx65
@@ -123,16 +123,16 @@ function Disassembler(indice, setIndice, setTimers) {
             return Instrucoes.registraTimer(ope1, indice);
         case '8':
           // toca um somzin
-          return Instrucoes.setSound(ope1, indice, setTimers);
+          return Instrucoes.setSound(ope1, indice);
         case '9': //fx29
           // seta um sprite na memoria
-          return Instrucoes.registraIndice(ope1, indice, setIndice);
+          return Instrucoes.registraIndice(ope1, indice);
         case 'a': //fx0a
           // espera até que o usuario aperte uma tecla
           return Instrucoes.esperarTecla(ope1, indice);
         case 'e':
           // adiciona o valor de uma variavel ao apontador
-          return Instrucoes.setAddIndice(ope1, indice, setIndice);
+          return Instrucoes.setAddIndice(ope1, indice);
         default:
           // só pra garantir
           console.log("F total");

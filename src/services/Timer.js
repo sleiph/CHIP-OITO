@@ -1,43 +1,48 @@
-import guns from '../data/Guns_N_Roses_Paradise_City.mp3';
+import beep from '../data/67619_beep.flac';
 
 const Timer = {
     DT: 0,
     ST: 0,
-    Hook: '',
-    track: new Audio(guns),
+    track: new Audio(beep),
     velocidade: 4,
+    setter: null,
+
+    Iniciar: function (setter) {
+        this.setter = setter;
+        this.updateTimers([0, 0])
+    },
 
     tick: function () {
-        if (this.DT > 0) {
-            this.DT-=this.velocidade;
-            this.updateTimers();
-        } else if (this.DT > 0)
-            this.DT = 0;
-        if (this.ST > 0) {
-            this.ST-=this.velocidade;
-            this.updateTimers();
-
-            if (!this.isTocando(this.track))
-                this.track.play();
-        } else if (this.ST < 0)
-            this.ST = 0;
-        else {
+        if (this.DT!==0 || this.ST!==0) {
+            if (this.DT > 0)
+                this.DT-=this.velocidade;
+            else if (this.DT < 0)
+                this.DT = 0;
+            if (this.ST > 0) {
+                this.ST-=this.velocidade;
+                if (!this.isTocando(this.track))
+                    this.track.play();
+            } else if (this.ST < 0)
+                this.ST = 0;
+            this.updateTimers([this.DT, this.ST]);
+        } else {
             if (this.isTocando(this.track))
                 this.track.pause();
         }
     },
-    updateTimers: function() {
-        if (this.Hook !== '') {
-            let temp = [this.DT, this.ST];
-            this.Hook(temp);
-        } 
+    updateTimers: function(arr) {
+        this.DT = arr[0];
+        this.ST = arr[1];
+        this.setter(arr);
+    },
+    setDelay: function(delay) {
+        this.updateTimers([delay, this.ST]);
+    },
+    setSom: function(som) {
+        this.updateTimers([this.DT, som]);
     },
     isTocando: function(sound) {
         return !sound.paused;
-    },
-    setHook: function(hook) {
-        if (hook !== this.Hook)
-            this.Hook = hook;
     }
 }
 

@@ -9,7 +9,8 @@ import Inputs from '../services/Inputs';
 import Memoria from '../services/Memoria';
 import Registros from '../services/Registros';
 
-import styled from 'styled-components'
+import styled from 'styled-components';
+import Timer from '../services/Timer';
 
 // CSS
 const Container = styled.div`
@@ -24,12 +25,13 @@ const Cartucho = styled.div`
   background-color: #f20553;
   padding: 0 16px;
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 2fr 1fr;
   align-items: center;
 `
-const BotaoDebug = styled.button`
-  width: fit-content;
+const DivDebug = styled.div`
   justify-self: flex-end;
+  display: flex;
+  gap: 12px;
 `
 
 function Home(  ) {
@@ -45,6 +47,14 @@ function Home(  ) {
   const handleDebug = () => {
     Display.debug = !Display.debug;
     setDebug(Display.debug);
+  }
+
+  const Iniciar = (buffer) => {
+    Registros.Iniciar(setRegistradores);
+    Display.Iniciar(setDisplay);
+    Memoria.Iniciar(buffer, setIndice);
+    Timer.Iniciar(setTimers);
+    Apontador.Comecar(setInstrucao);
   }
 
   useEffect(() => {
@@ -72,19 +82,12 @@ function Home(  ) {
     });
   }, [debug]);
 
-  
-
   // tratamento da entrada de arquivo (rom)
   let fileReader;
-
   /// trata e manda o arquivo pra ser interpretado
   const handleFileRead = () => {
     const buffer = fileReader.result;
-    // transforma o arquivo em instrucoes
-    Registros.Iniciar(setRegistradores);
-    Display.Iniciar(setDisplay);
-    Memoria.CarregaInstrucoes(buffer);
-    Apontador.Comecar(setIndice, setTimers, setInstrucao);
+    Iniciar(buffer);
   };
 
   /// lê o arquivo carregado pelo usuario
@@ -102,8 +105,12 @@ function Home(  ) {
           id='file'
           accept='.rom,.ch8'
           onChange={e => handleFileChosen(e.target.files[0])}
+          onClick={e => e.target.value = ''}
         />
-        <BotaoDebug onClick={handleDebug}>?</BotaoDebug>
+        <DivDebug>
+          <button onClick={handleDebug}>Debug</button>
+          <button>?</button>
+        </DivDebug>
       </Cartucho>
 
       <Tela display={display} />

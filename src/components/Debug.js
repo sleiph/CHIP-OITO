@@ -9,6 +9,7 @@ const OPDiv = styled.div`
   transform: translate(-50%, -50%);
   display: flex;
   flex-wrap: wrap;
+  flex-direction: column;
 `
 const Fundo = styled.div`
   position: absolute;
@@ -35,6 +36,9 @@ function Debug( {registradores, indice, timers, instrucao} ) {
   return (
     <OPDiv>
       <Fundo />
+      <Grupo>
+        <h3>Debug:</h3>
+      </Grupo>
       <Grupo>
         <Instrucao>{
           'pos:0x' + instrucao[0].toString(16).padStart(3, '0').toUpperCase()

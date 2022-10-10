@@ -26,25 +26,11 @@ const Inputs = {
     },
 
     /**
-     * Permite que FXOA funcione(Instrucoes.js)
-     */
-    greenSignal : function() {
-        this.continuar = false;
-        this.bloquear = false;
-        return this.msg;
-    },
-
-    /**
      * garante que o pause só seja executado uma vez
      */
     sendSignal : function() {
         this.controlePause = true;
         return this.go;
-    },
-
-    sendAnother : function() {
-        this.bloquear = true;
-        return this.continuar;
     },
 
     /**
@@ -65,7 +51,7 @@ const Inputs = {
             this.apertada = Tratamento.IntPraHex(indice);
             if (this.bloquear) {
                 this.continuar = true;
-                this.msg = this.apertada; 
+                this.msg = this.apertada;
             }
         }
     }

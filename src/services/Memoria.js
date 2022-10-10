@@ -7,6 +7,7 @@ const Memoria = {
     // vai guardar o número de instruções no cartucho + 0x200
     TamanhoCartucho: 0x200,
     Indice: 0x200,
+    setter: null,
 
     posicoes: {
         // Fonte
@@ -109,15 +110,23 @@ const Memoria = {
     },
 
     /**
-     * Recebe um buffer da rom e carrega as instruções na memoria
+     * Recebe um buffer da rom e carrega as instruções na memoria,
+     * transforma o arquivo em instrucoes
      */
-     CarregaInstrucoes: function (rom) {
+    Iniciar: function (rom, setter) {
+        this.setter = setter;
+        this.UpdateIndice(0x200);
         let arrayBinario = Tratamento.BufferPraBin(rom);
         arrayBinario.forEach(e => {
             let posicao = {bin: e, hex: Tratamento.BinPraHex(e)};
             this.posicoes[this.TamanhoCartucho] = posicao;
             this.TamanhoCartucho += 0x001;
         });
+    },
+
+    UpdateIndice: function (x) {
+        this.Indice = x;
+        this.setter(this.Indice);
     }
 }
 

@@ -4,6 +4,7 @@ const Registros = {
 
     Iniciar: function(setter) {
         this.setter = setter;
+        this.UpdateRegistradoresArr([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
     },
 
     UpdateRegistradores : function(indice, valor) {
