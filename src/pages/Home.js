@@ -67,8 +67,10 @@ function Home(  ) {
         handleDebug();
         else if (event.key === 'ArrowRight')
           Inputs.proximo();
+        else if (event.key === 'o') 
+          window.location.reload();
         else if (event.key === 'h') {
-
+          
         }
         else {
           Inputs.Teclou(event.key);
@@ -90,12 +92,15 @@ function Home(  ) {
     Iniciar(buffer);
   };
 
+  const [disable, setDisable] = useState(false);
+
   /// lê o arquivo carregado pelo usuario
-  const handleFileChosen = (arquivo) => {
+  function handleFileChosen(arquivo) {
     fileReader = new FileReader();
     fileReader.onloadend = handleFileRead;
     fileReader.readAsArrayBuffer(arquivo);
-  };
+    setDisable(true);
+  }
 
   return (
     <Container>
@@ -106,6 +111,7 @@ function Home(  ) {
           accept='.rom,.ch8'
           onChange={e => handleFileChosen(e.target.files[0])}
           onClick={e => e.target.value = ''}
+          disabled={disable}
         />
         <DivDebug>
           <button onClick={handleDebug}>Debug</button>
