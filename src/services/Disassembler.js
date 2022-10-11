@@ -3,8 +3,8 @@ import Memoria from './Memoria';
 import Tratamento from './Tratamento';
 
 /**
- * recebe 4 chars hexadecimais e interpreta a instrução
- * de acordo com a Opcode table na wiki
+ * recebe o indice na Memória que está sendo executado,
+ * interpreta a instrução de acordo com a Opcode table na wiki
  * https://en.wikipedia.org/wiki/CHIP-8
  */
 function Disassembler(indice) {
@@ -142,6 +142,7 @@ function Disassembler(indice) {
       console.log("instrução " + op + " não entendida");
   }
   // volta pro começo das instruções, não deve acontecer normalmente
+  console.log("Algo errado não está certo...");
   return 0x200;
 }
 

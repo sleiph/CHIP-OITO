@@ -9,8 +9,6 @@ import Tratamento from './Tratamento';
  * Instruções que serão usadas no disassembler
  */
 const Instrucoes = {
-    // constantes e variaveis
-    posicaoSub: 0x200,
 
     // Instruções e subrotinas
     /// ex. Opcode: ONNN
@@ -20,7 +18,7 @@ const Instrucoes = {
 
     /// ex. Opcode: 00EE
     Retorna : function() {
-        return this.posicaoSub;
+        return Memoria.Subrotina;
     },
 
     /// ex. Opcode: 1NNN
@@ -30,7 +28,7 @@ const Instrucoes = {
 
     /// ex. Opcode: 2NNN
     StrRot : function(x, instrucao) {
-        this.posicaoSub = instrucao + 0x002;
+        Memoria.Subrotina = instrucao + 0x002;
         return Tratamento.HexPraInt(x);
     },
 
@@ -132,6 +130,7 @@ const Instrucoes = {
         return instrucao + 0x002;
     },
   
+
     // Condicionais
     setJump : function(op, ope1, valor, instrucao){
         switch(op[0]) {
@@ -192,6 +191,7 @@ const Instrucoes = {
         return anterior + 0x002;
     },
 
+
     // Teclado
     /// ex. Opcode: EX9E
     isApertando : function (ope1, anterior) {
@@ -222,6 +222,7 @@ const Instrucoes = {
         return instrucao;
     },
 
+
     // Timers
     /// ex. Opcode: FX07
     registraTimer : function(indice, instrucao) {
@@ -236,6 +237,7 @@ const Instrucoes = {
         return instrucao + 0x002;
     },
 
+
     // Som
     /// ex. Opcode: FX18
     setSound : function(ope1, instrucao) {
@@ -243,6 +245,7 @@ const Instrucoes = {
         return instrucao + 0x002;
     },
 
+    
     // Memória
     /// ex. Opcode: ANNN
     setIndico : function(x, instrucao) {

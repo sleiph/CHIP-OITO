@@ -7,6 +7,7 @@ const Memoria = {
     // vai guardar o número de instruções no cartucho + 0x200
     TamanhoCartucho: 0x200,
     Indice: 0x200,
+    Subrotina: 0x200,
     mapa: [],
     setter: null,
 

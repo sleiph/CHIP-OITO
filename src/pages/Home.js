@@ -1,15 +1,15 @@
 import React, { useEffect, useState } from 'react';
+import styled from 'styled-components';
 
-import Tela from '../components/Tela';
+import Ajuda from '../components/Ajuda';
 import Debug from '../components/Debug';
 import Teclado from '../components/Teclado';
+import Tela from '../components/Tela';
 import Apontador from '../services/Apontador';
 import Display from '../services/Display';
 import Inputs from '../services/Inputs';
 import Memoria from '../services/Memoria';
 import Registros from '../services/Registros';
-
-import styled from 'styled-components';
 import Timer from '../services/Timer';
 
 // CSS
@@ -41,19 +41,31 @@ function Home(  ) {
   const [display, setDisplay] = useState(Display.original);
   const [indice, setIndice] = useState(0);
   const [timers, setTimers] = useState([0, 0]);
-  const [instrucao, setInstrucao] = useState([512, '----']);
+  const [instrucao, setInstrucao] = useState(512);
+  const [ajuda, setAjuda] = useState(true);
   const [debug, setDebug] = useState(false);
 
+  // exibição de componentes de apoio
   const handleDebug = () => {
     Display.debug = !Display.debug;
+    Display.ajuda = false;
+    setAjuda(false);
     setDebug(Display.debug);
   }
+  const handleAjuda = () => {
+    Display.ajuda = !Display.ajuda;
+    Display.debug = false;
+    setDebug(false);
+    setAjuda(Display.ajuda);
+  }
 
+  // ainda não tá inciando direito, teria q zerar todas
+  // as variaveis antes de voltar do começo
   const Iniciar = (buffer) => {
     Registros.Iniciar(setRegistradores);
+    Timer.Iniciar(setTimers);
     Display.Iniciar(setDisplay);
     Memoria.Iniciar(buffer, setIndice);
-    Timer.Iniciar(setTimers);
     Apontador.Comecar(setInstrucao);
   }
 
@@ -62,10 +74,9 @@ function Home(  ) {
     window.addEventListener('keydown', (event) => {
       if (!Inputs.apertando) {
         if (event.key === 'p')
-          Inputs.redSignal();
-        else if (event.key === 'd')
-        handleDebug();
+          Inputs.ToggleJogando();
         else if (event.key === 'ArrowRight')
+<<<<<<< HEAD
           Inputs.proximo();
         else if (event.key === 'o') 
           window.location.reload();
@@ -73,16 +84,23 @@ function Home(  ) {
           
         }
         else {
+=======
+          Inputs.proximo = true;
+        else if (event.key === 'd')
+          handleDebug();
+        else if (event.key === 'h')
+          handleAjuda();
+        else
+>>>>>>> 3298617f70fc0e0276502e9abb7019807ac0b9cb
           Inputs.Teclou(event.key);
-        }
+
         Inputs.apertando = true;
       }
     });
     window.addEventListener('keyup', () => {
-      Inputs.apertando = false;
-      Inputs.apertada = '';
+      Inputs.Soltou();
     });
-  }, [debug]);
+  }, [ajuda, debug]);
 
   // tratamento da entrada de arquivo (rom)
   let fileReader;
@@ -115,7 +133,7 @@ function Home(  ) {
         />
         <DivDebug>
           <button onClick={handleDebug}>Debug</button>
-          <button>?</button>
+          <button onClick={handleAjuda}>?</button>
         </DivDebug>
       </Cartucho>
 
@@ -131,7 +149,7 @@ function Home(  ) {
           />
         )
       }
-      
+      { ajuda && ( <Ajuda /> ) }
     </Container>
   )
 }

@@ -5,40 +5,16 @@ import Tratamento from "./Tratamento";
  */
 const Inputs = {
     teclas: ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "q", "w", "e", "a", "s", "d"],
-    go : true,
-    bloquear: false,
-    continuar : false,
-    controlePause : true,
-    executarProximo : false,
+    isJogando : true,
+    proximo : false,
     apertando: false,
     apertada: '',
-    msg: '',
-    wait: false,
-
-    /**
-     * Alterna entre estado de execução e pausa
-     */
-    redSignal : function () {
-        if (this.controlePause) {
-            this.go = !this.go;
-            this.controlePause = false;
-        }
-    },
 
     /**
      * garante que o pause só seja executado uma vez
      */
-    sendSignal : function() {
-        this.controlePause = true;
-        return this.go;
-    },
-
-    /**
-     * Chama só a próxima instrução
-     */
-    proximo: function() {
-        if (this.controlePause)
-            this.executarProximo = true;
+    ToggleJogando : function() {
+        this.isJogando = !this.isJogando;
     },
 
     /**
@@ -49,11 +25,12 @@ const Inputs = {
         let indice = this.teclas.indexOf(tecla);
         if (indice !== -1) {
             this.apertada = Tratamento.IntPraHex(indice);
-            if (this.bloquear) {
-                this.continuar = true;
-                this.msg = this.apertada;
-            }
         }
+    },
+
+    Soltou: function() {
+        this.apertando = false;
+        this.apertada = '';
     }
     
 }
