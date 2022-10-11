@@ -1,10 +1,10 @@
 import styled from 'styled-components';
 
-import Apontador from '../services/Apontador';
+import {Fundo} from './Ajuda';
 import Memoria from '../services/Memoria';
 import Tratamento from '../services/Tratamento';
 
-const OPDiv = styled.div`
+export const OPDiv = styled.div`
   position: absolute;
   height: 520px;
   max-width: 520px;
@@ -15,24 +15,14 @@ const OPDiv = styled.div`
   flex-wrap: wrap;
   flex-direction: column;
 `
-const Fundo = styled.div`
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  background-color: #f20553;
-  opacity: .3;
-  outline: solid #f55086;
-  outline-offset: -8px;
-  z-index: -1000;
-`
-const Grupo = styled.div`
+export const Grupo = styled.div`
   padding: 12px 24px;
   display: flex;
   flex-flow: wrap;
 `
 const Instrucoes = styled.div`
   padding: 6px 24px;
-  max-height: 280px;
+  height: 280px;
   padding-bottom: 20px;
   margin-bottom: 20px;
   display: flex;
