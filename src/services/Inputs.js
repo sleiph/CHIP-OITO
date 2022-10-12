@@ -1,5 +1,3 @@
-import Tratamento from "./Tratamento";
-
 /**
  * Controla a entrada de comandos (teclado) do emulador
  */

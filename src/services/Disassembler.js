@@ -21,101 +21,96 @@ function Disassembler(indice) {
       if (op[2]==='e') {
         if (op[3]==='0') {
           // 00e0: limpa a tela
-          return Instrucoes.LimpaTela(indice);
+          return indice + Instrucoes.LimpaTela();
         } else if (op[3]==='e') {
           // 00ee: volta pra linha que chamou a subrotina
           return Instrucoes.Retorna();
         }
       }
       else // 0NNN
-        return Instrucoes.Vazio(indice);
-      console.log("0 alguma coisa...");
-      return indice + 0x002;
+        return indice + Instrucoes.Vazio();
+      throw new Error("0 alguma coisa...");
     case '1': // 1NNN: pula pro endereço descrito na instrucao
       return Instrucoes.StrHex(nnn);
     case '2': // 2NNN: manda pra uma subrotina
       return Instrucoes.StrRot(nnn, indice);
     // condicionais
     case '3': // 3XNN: skipa a proxima se x=nn
-      return Instrucoes.skipXNNTrue(ope1, valor, indice);
+      return indice + Instrucoes.skipXNNTrue(ope1, valor);
     case '4': // 4XNN: skipa a proxima se x!=nn
-      return Instrucoes.skiptXNNFalse(ope1, valor, indice);
+      return indice + Instrucoes.skiptXNNFalse(ope1, valor, );
     case '5': // 5XY0: skipa a proxima se x=y
-      return Instrucoes.skipXYTrue(ope1, ope2, indice);
+      return indice + Instrucoes.skipXYTrue(ope1, ope2);
     case '6': // 6XNN: atribui o valor de uma das variaveis
-      return Instrucoes.setRegistrar(ope1, valor, indice);
+      return indice + Instrucoes.setRegistrar(ope1, valor);
     case '7': // 7XNN: adiciona ao valor de uma variavel
-      return Instrucoes.setAdd(ope1, valor, indice);
+      return indice + Instrucoes.setAdd(ope1, valor);
     case '8':
       // operações com as variaveis
       switch(op[3]) {
         case '0':
-          return Instrucoes.setIgual(ope1, ope2, indice);
+          return indice + Instrucoes.setIgual(ope1, ope2);
         case '1':
-          return Instrucoes.setOR(ope1, ope2, indice);
+          return indice + Instrucoes.setOR(ope1, ope2);
         case '2':
-          return Instrucoes.setAND(ope1, ope2, indice);
+          return indice + Instrucoes.setAND(ope1, ope2);
         case '3':
-          return Instrucoes.setXOR(ope1, ope2, indice);
+          return indice + Instrucoes.setXOR(ope1, ope2);
         case '4':
-          return Instrucoes.setAddop(ope1, ope2, indice);
+          return indice + Instrucoes.setAddop(ope1, ope2);
         case '5':
-          return Instrucoes.setSubop(ope1, ope2, indice);
+          return indice + Instrucoes.setSubop(ope1, ope2);
         case '6':
-          return Instrucoes.setRightShift(ope1, indice);
+          return indice + Instrucoes.setRightShift(ope1);
         case '7':
-          return Instrucoes.setRestop(ope1, ope2, indice);
+          return indice + Instrucoes.setRestop(ope1, ope2);
         case 'e':
-          return Instrucoes.setLeftShift(ope1, indice);
+          return indice + Instrucoes.setLeftShift(ope1);
         default:
-          console.log("8 e alguma coisa...");
-          return indice + 0x002;
+          throw new Error("8 e alguma coisa...");
       }
     case '9': // 9XY0: skipa a proxima se x!=y
-      return Instrucoes.skipXYFalse(ope1, ope2, indice);
+      return indice + Instrucoes.skipXYFalse(ope1, ope2);
     case 'a': // ANNN: muda o valor do apontador (I)
-      return Instrucoes.setIndico(nnn, indice);
+      return indice + Instrucoes.setIndico(nnn);
     case 'b': // BNNN: pula pro endereço V0 + instrucao enviada
       return Instrucoes.pulaPraNNN(nnn);
     case 'c': // CXNN: atribui um valor aleatorio pro registrador[x]
-      return Instrucoes.setRandom(ope1, valor, indice);
+      return indice + Instrucoes.setRandom(ope1, valor);
     case 'd': // DXYN: desenha na tela
-      return Instrucoes.Desenha(ope1, ope2, n, indice);
+      return indice + Instrucoes.Desenha(ope1, ope2, n);
     case 'e':
       // entrada de teclado
       if (op[3]==='e') // EX9e: skipa a proxima instrucao se a tecla pedida tiver sendo apertada
-        return Instrucoes.isApertando(ope1, indice);
+        return indice + Instrucoes.isApertando(ope1);
       else if (op[3]==='1') //EXa1: skipa a proxima instrucao se a tecla pedida NÃO tiver sendo apertada
-        return Instrucoes.isNotApertando(ope1, indice);
-      console.log("E alguma coisa...");
-      return indice + 0x002;
+        return indice + Instrucoes.isNotApertando(ope1);
+      throw new Error("E alguma coisa...");
     case 'f':
       switch(op[3]) {
         case '3': // fX33: transforma o valor decimal de Vx em hexadecimal e salva nas posicoes I, I+1 e I+2 da memoria
-          return Instrucoes.setBCD(ope1, indice);
+          return indice + Instrucoes.setBCD(ope1);
         case '5':
           if (op[2] === '1') // FX15: seta o delay timer
-            return Instrucoes.setTimer(ope1, indice);
+            return indice + Instrucoes.setTimer(ope1);
           else if (op[2] === '5') // FX55: guarda os valores das variaveis a partir de X na memória
-            return Instrucoes.save(ope1, indice);
+            return indice + Instrucoes.save(ope1);
           else if (op[2] === '6') // FX65: preenche as variávels a partir de X com valores da memória
-            return Instrucoes.load(ope1, indice);
-          console.log("F alguma coisa alguma coisa 5...");
-          return indice + 0x002;
+            return indice + Instrucoes.load(ope1);
+          throw new Error("F alguma coisa alguma coisa 5...");
         case '7': // FX07: usa o delay timer
-          return Instrucoes.registraTimer(ope1, indice);
+          return indice + Instrucoes.registraTimer(ope1);
         case '8': // FX18: toca um somzin
-          return Instrucoes.setSound(ope1, indice);
+          return indice + Instrucoes.setSound(ope1);
         case '9': //FX29: seta um sprite na memoria
-          return Instrucoes.registraIndice(ope1, indice);
+          return indice + Instrucoes.registraIndice(ope1);
         case 'a': //FX0a: espera até que o usuario aperte uma tecla
-          return Instrucoes.esperarTecla(ope1, indice);
+          return indice + Instrucoes.esperarTecla(ope1);
         case 'e': // FX1E: adiciona o valor de uma variavel ao apontador
-          return Instrucoes.setAddIndice(ope1, indice);
+          return indice + Instrucoes.setAddIndice(ope1);
         default: // só pra garantir
-          console.log("F total");
+          throw new Error("F total");
       }
-      return indice + 0x002;
     default:
       throw new Error("instrução " + op + " não entendida");
   }

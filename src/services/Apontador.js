@@ -9,7 +9,7 @@ const Apontador = {
   atual: 0x200,
   // delay entre instruções em milisegundos
   velocidade: 0,
-  
+
   intervalo: function(setInstrucao) {
     setInterval(
       function() {
