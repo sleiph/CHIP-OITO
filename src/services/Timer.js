@@ -16,13 +16,13 @@ const Timer = {
         if (this.DT!==0 || this.ST!==0) {
             if (this.DT > 0)
                 this.DT-=this.velocidade;
-            else if (this.DT < 0)
+            else
                 this.DT = 0;
             if (this.ST > 0) {
                 this.ST-=this.velocidade;
                 if (!this.isTocando(this.track))
                     this.track.play();
-            } else if (this.ST < 0)
+            } else
                 this.ST = 0;
             this.updateTimers([this.DT, this.ST]);
         } else {

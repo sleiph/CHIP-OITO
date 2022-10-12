@@ -145,29 +145,29 @@ const Instrucoes = {
     /// ex. Opcode: 3XNN
     skipXNNTrue: function(x, nn, instrucao) {
         if (Registros.registradores[x] === nn)
-            return instrucao + 0x004;
-        return instrucao + 0x002;
+            return instrucao + 4;
+        return instrucao + 2;
     },
 
     /// ex. Opcode: 4XNN
     skiptXNNFalse: function(x, nn, instrucao) {
         if (Registros.registradores[x] !== nn)
-            return instrucao + 0x004;
-        return instrucao + 0x002;
+            return instrucao + 4;
+        return instrucao + 2;
     },
 
     /// ex. Opcode: 5XY0
     skipXYTrue: function(x,y,instrucao) {
         if (Registros.registradores[x] === Registros.registradores[y])
-            return instrucao + 0x004;
-        return instrucao+ 0x002;
+            return instrucao + 4;
+        return instrucao + 2;
     },
 
     /// ex. Opcode: 9XY0
-    skipXYFalse : function(x, y, instrucao){
+    skipXYFalse : function(x, y, instrucao) {
         if (Registros.registradores[x] !== Registros.registradores[y])
-            return instrucao + 0x004;
-        return instrucao + 0x002;
+            return instrucao + 4;
+        return instrucao + 2;
     },
   
 
@@ -175,7 +175,7 @@ const Instrucoes = {
     /// ex. Opcode: 00E0
     LimpaTela : function(instrucao) {
         Display.LimpaTela();
-        return instrucao + 0x002;
+        return instrucao + 2;
     },
 
     /// ex. Opcode: DXYN
@@ -193,30 +193,29 @@ const Instrucoes = {
 
     // Teclado
     /// ex. Opcode: EX9E
-    isApertando : function (ope1, instrucao) {
+    isApertando : function (x, instrucao) {
         if (Inputs.apertando &&
-            Tratamento.HexPraInt(Inputs.apertada) === Registros.registradores[ope1]) {
-                return instrucao + 0x004;
+            Inputs.apertada === Registros.registradores[x]) {
+                return instrucao + 4;
         }
-        return instrucao + 0x002;
+        return instrucao + 2;
     },
 
     /// TODO: fazer essa aqui
     /// ex. Opcode: EXA1
-    isNotApertando : function(ope1, instrucao) {
-        if (Tratamento.HexPraInt(Inputs.apertada) !== Registros.registradores[ope1]) {
-                return instrucao + 0x004;
+    isNotApertando : function(x, instrucao) {
+        if (Inputs.apertada !== Registros.registradores[x]) {
+                return instrucao + 4;
         }
-        return instrucao + 0x002;
+        return instrucao + 2;
     },
 
     /// TODO: fazer essa aqui
     /// ex. Opcode: FX0A
-    esperarTecla : function(ope1, instrucao) {
+    esperarTecla : function(x, instrucao) {
         if (Inputs.apertando) {
-            let temp = Inputs.apertada;
-            Registros.UpdateRegistradores(ope1, temp);
-            return instrucao + 0x002;
+            Registros.UpdateRegistradores(x, Inputs.apertada);
+            return instrucao + 2;
         }
         return instrucao;
     },
@@ -224,84 +223,79 @@ const Instrucoes = {
 
     // Timers
     /// ex. Opcode: FX07
-    registraTimer : function(indice, instrucao) {
-        let temp = Timer.DT;
-        Registros.UpdateRegistradores(indice, temp);
-        return instrucao + 0x002;
+    registraTimer : function(x, instrucao) {
+        Registros.UpdateRegistradores(x, Timer.DT);
+        return instrucao + 2;
     },
 
     /// ex. Opcode: FX15
-    setTimer : function(ope1, instrucao) {
-        Timer.setDelay(Registros.registradores[ope1]);
-        return instrucao + 0x002;
+    setTimer : function(x, instrucao) {
+        Timer.setDelay(Registros.registradores[x]);
+        return instrucao + 2;
     },
 
 
     // Som
     /// ex. Opcode: FX18
-    setSound : function(ope1, instrucao) {
-        Timer.setSom(Registros.registradores[ope1]);
-        return instrucao + 0x002;
+    setSound : function(x, instrucao) {
+        Timer.setSom(Registros.registradores[x]);
+        return instrucao + 2;
     },
 
     
     // Memória
     /// ex. Opcode: ANNN
-    setIndico : function(x, instrucao) {
-        Memoria.UpdateIndice(x);
-        return instrucao + 0x002;
+    setIndico : function(nnn, instrucao) {
+        Memoria.UpdateIndice(nnn);
+        return instrucao + 2;
     },
 
     /// ex. Opcode: FX1E
-    setAddIndice : function(ope1, instrucao) {
-        let temp = (Memoria.Indice + Registros.registradores[ope1]) % 4096;
+    setAddIndice : function(x, instrucao) {
+        let temp = (Memoria.Indice + Registros.registradores[x]) & 0xfff;
         Memoria.UpdateIndice(temp);
-        return instrucao + 0x002;
+        return instrucao + 2;
     },
 
     /// ex. Opcode: FX29
-    registraIndice : function(ope1, instrucao) {
-        let x = Registros.registradores[ope1];
-        let pos = 0x050 + (x*5);
+    registraIndice : function(x, instrucao) {
+        let pos = 0x50 + (Registros.registradores[x] * 5);
         Memoria.UpdateIndice(pos);
-        return instrucao + 0x002;
+        return instrucao + 2;
     },
 
     /// ex. Opcode: FX33
-    setBCD : function(vx, instrucao) {
-        let x = Registros.registradores[vx].toString().padStart(3, '0');
-        for (let i=0; i<3; i++) {
-            let temp = parseInt(x[i]);
-            let pos = {
-                bin: Tratamento.IntPraBin(temp),
-                hex: Tratamento.IntPraHex(temp)
-            }
-            Memoria.posicoes[Memoria.Indice+i] = pos;
-        }
-        return instrucao + 0x002;
+    setBCD : function(x, instrucao) {
+        let pos1 = parseInt(Registros.registradores[x] / 100);
+        Memoria.posicoes[Memoria.Indice] = Memoria.CriaPosicao(pos1);
+
+        let pos2 = parseInt((Registros.registradores[x]%100) / 10);
+        Memoria.posicoes[Memoria.Indice+1] = Memoria.CriaPosicao(pos2);
+
+        let pos3 = parseInt(Registros.registradores[x] % 10);
+        Memoria.posicoes[Memoria.Indice+2] = Memoria.CriaPosicao(pos3);
+
+        return instrucao + 2;
     },
 
     /// ex. Opcode: FX55
-    save : function(ope1, instrucao) { 
-        for (let i = 0; i <= ope1; i++) {
+    save : function(x, instrucao) { 
+        for (let i = 0; i <= x; i++) {
             let temp = Registros.registradores[i];
-            let pos = {
-                bin: Tratamento.IntPraBin(temp),
-                hex: Tratamento.IntPraHex(temp)
-            }
+            let pos = Memoria.CriaPosicao(temp);
             Memoria.posicoes[Memoria.Indice+i] = pos;
         }
-        return instrucao + 0x002;
+        return instrucao + 2;
     },
 
     /// ex. Opcode: FX65
-    load : function(ope1, instrucao) { 
+    load : function(x, instrucao) { 
         let copia = [...Registros.registradores];
-        for (let i = 0; i <= ope1; i++) {
-            copia[i] = Memoria.posicoes[Memoria.Indice+i].hex;
+        for (let i = 0; i <= x; i++) {
+            copia[i] = Tratamento.HexPraInt(Memoria.posicoes[Memoria.Indice+i].hex);
         }
         Registros.UpdateRegistradoresArr(copia);
-        return instrucao + 0x002;
+        return instrucao + 2;
     }
 }
 

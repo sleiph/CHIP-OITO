@@ -112,6 +112,16 @@ const Memoria = {
     },
 
     /**
+     * cria uma posição da memória a partir de um valor inteiro
+     */
+    CriaPosicao: function (valor) {
+        return {
+            bin: Tratamento.IntPraBin(valor),
+            hex: Tratamento.IntPraHex(valor)
+        }
+    },
+
+    /**
      * Recebe um buffer da rom e carrega as instruções na memoria,
      * transforma o arquivo em instrucoes
      */

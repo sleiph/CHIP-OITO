@@ -8,7 +8,7 @@ const Inputs = {
     isJogando : true,
     proximo : false,
     apertando: false,
-    apertada: '',
+    apertada: 0,
 
     /**
      * garante que o pause só seja executado uma vez
@@ -24,7 +24,7 @@ const Inputs = {
         this.apertando = true;
         let indice = this.teclas.indexOf(tecla);
         if (indice !== -1) {
-            this.apertada = Tratamento.IntPraHex(indice);
+            this.apertada = indice;
         }
     },
 

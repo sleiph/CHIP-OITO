@@ -9,9 +9,14 @@ const Apontador = {
   atual: 0x200,
   // delay entre instruções em milisegundos
   velocidade: 0,
+  
   intervalo: function(setInstrucao) {
     setInterval(
-      function() { aponta(setInstrucao) }, this.velocidade
+      function() {
+        aponta(setInstrucao);
+        // Atualiza os timers
+        Timer.tick();
+      }, this.velocidade
     )
   },
 
@@ -34,8 +39,6 @@ function aponta(setInstrucao) {
     // esse hook q tá deixando ele lento, mas eh importante pro debug :(
     setInstrucao(Apontador.atual);
   }
-  // Atualiza os timers
-  Timer.tick();
 }
 
 export default Apontador;

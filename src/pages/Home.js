@@ -92,6 +92,9 @@ function Home(  ) {
     window.addEventListener('keyup', () => {
       Inputs.Soltou();
     });
+    window.addEventListener('mouseup', () => {
+      Inputs.Soltou();
+    });
   }, [ajuda, debug]);
 
   // tratamento da entrada de arquivo (rom)

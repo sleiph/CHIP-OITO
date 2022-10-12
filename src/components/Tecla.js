@@ -39,9 +39,6 @@ function Tecla( {chave, tecla} ) {
                 onClick = {() => {
                     Inputs.Teclou(tecla);
                 }}
-                onMouseUp = {() => {
-                    Inputs.Soltou();
-                }}
             >{chave}</button>
         </TeclaDiv>
     )
