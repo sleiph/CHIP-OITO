@@ -27,7 +27,7 @@ Arquivos binários pra testes podem ser encontrados na [documentação](./docume
 * Tela de apresentação com informações de como jogar
 * Menu de Debug
 * Função de reset do videogame
-* melhorar **MUITO** a performance, pra rodar em uma velocidade boa (Obs: 0:27:53 || 0:07:59).
+* melhorar **MUITO** a performance, pra rodar em uma velocidade boa (Obs: 0:25:50 || 0:05:00).
 * arrumar a FX0A e algumas instruções q ainda tão dando erro
 * adicionar uma rom de demonstração (sem direitos autorais de ninguém)
 * testar o teclado virtual

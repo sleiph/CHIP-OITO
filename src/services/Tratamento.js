@@ -5,9 +5,10 @@ const Tratamento = {
    * @param {buffer} buffer
    * @returns array de bytes
    */
-  BufferPraBin: function (buffer) {
-    return [...new Uint8Array(buffer)]
-      .map(x => this.IntPraBin(x));
+  BufferPraUI8: function (fonte, buffer) {
+    let comeco = Uint8Array.from(new Uint8Array(80), () => 0);
+    let meio = Uint8Array.from(new Uint8Array(352), () => 0);
+    return [...comeco, ...fonte, ...meio, ...buffer];
   },
 
   /**

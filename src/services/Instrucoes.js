@@ -3,7 +3,6 @@ import Inputs from './Inputs';
 import Memoria from './Memoria';
 import Registros from './Registros';
 import Timer from './Timer';
-import Tratamento from './Tratamento';
 
 /**
  * Instruções que serão usadas no disassembler
@@ -49,7 +48,6 @@ const Instrucoes = {
     setAdd : function(x, nn) {
         let temp = (Registros.registradores[x] + nn) & 0xff;
         Registros.UpdateRegistradores(x, temp);
-        console.log(temp);
         return 2;
     },
 
@@ -184,10 +182,11 @@ const Instrucoes = {
         let vX = Registros.registradores[x];
         let vY = Registros.registradores[y];
         let sprite = [];
-        for (let i = 0; i < n; i++) {
-            sprite.push(Memoria.posicoes[Memoria.Indice+i].bin);
-        }
-        Display.UpdateDisplay(vX, vY, sprite)
+        for (let i = 0; i < n; i++)
+            sprite.push(Memoria.pos[Memoria.Indice+i]);
+        
+        let vf = Display.UpdateDisplay(vX, vY, sprite) ? 1 : 0;
+        Registros.UpdateRegistradores(15, vf);
         return 2;
     },
 
@@ -268,13 +267,13 @@ const Instrucoes = {
     /// ex. Opcode: FX33
     setBCD : function(x) {
         let pos1 = parseInt(Registros.registradores[x] / 100);
-        Memoria.posicoes[Memoria.Indice] = Memoria.CriaPosicao(pos1);
+        Memoria.pos[Memoria.Indice] = pos1;
 
         let pos2 = parseInt((Registros.registradores[x]%100) / 10);
-        Memoria.posicoes[Memoria.Indice+1] = Memoria.CriaPosicao(pos2);
+        Memoria.pos[Memoria.Indice+1] = pos2;
 
         let pos3 = parseInt(Registros.registradores[x] % 10);
-        Memoria.posicoes[Memoria.Indice+2] = Memoria.CriaPosicao(pos3);
+        Memoria.pos[Memoria.Indice+2] = pos3;
 
         return 2;
     },
@@ -282,9 +281,8 @@ const Instrucoes = {
     /// ex. Opcode: FX55
     save : function(x) { 
         for (let i = 0; i <= x; i++) {
-            let temp = Registros.registradores[i];
-            let pos = Memoria.CriaPosicao(temp);
-            Memoria.posicoes[Memoria.Indice+i] = pos;
+            let pos = Registros.registradores[i];
+            Memoria.pos[Memoria.Indice+i] = pos;
         }
         return 2;
     },
@@ -292,9 +290,8 @@ const Instrucoes = {
     /// ex. Opcode: FX65
     load : function(x) { 
         let copia = [...Registros.registradores];
-        for (let i = 0; i <= x; i++) {
-            copia[i] = Tratamento.HexPraInt(Memoria.posicoes[Memoria.Indice+i].hex);
-        }
+        for (let i = 0; i <= x; i++)
+            copia[i] = Memoria.pos[Memoria.Indice+i];
         Registros.UpdateRegistradoresArr(copia);
         return 2;
     }
