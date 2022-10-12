@@ -75,6 +75,8 @@ function Home(  ) {
       if (!Inputs.apertando) {
         if (event.key === 'p')
           Inputs.ToggleJogando();
+        else if (event.key === 'o')
+          window.location.reload();
         else if (event.key === 'ArrowRight')
           Inputs.proximo = true;
         else if (event.key === 'g')
@@ -100,12 +102,15 @@ function Home(  ) {
     Iniciar(buffer);
   };
 
+  const [disable, setDisable] = useState(false);
+
   /// lê o arquivo carregado pelo usuario
-  const handleFileChosen = (arquivo) => {
+  function handleFileChosen(arquivo) {
     fileReader = new FileReader();
     fileReader.onloadend = handleFileRead;
     fileReader.readAsArrayBuffer(arquivo);
-  };
+    setDisable(true);
+  }
 
   return (
     <Container>
@@ -116,6 +121,7 @@ function Home(  ) {
           accept='.rom,.ch8'
           onChange={e => handleFileChosen(e.target.files[0])}
           onClick={e => e.target.value = ''}
+          disabled={disable}
         />
         <DivDebug>
           <button onClick={handleDebug}>Debu<u>g</u></button>
