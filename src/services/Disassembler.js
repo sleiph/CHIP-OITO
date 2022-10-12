@@ -32,9 +32,9 @@ function Disassembler(indice) {
       console.log("0 alguma coisa...");
       return indice + 0x002;
     case '1': // 1NNN: pula pro endereço descrito na instrucao
-      return Instrucoes.StrHex(op[1] + op[2] + op[3]);
+      return Instrucoes.StrHex(nnn);
     case '2': // 2NNN: manda pra uma subrotina
-      return Instrucoes.StrRot(op[1] + op[2] + op[3], indice);
+      return Instrucoes.StrRot(nnn, indice);
     // condicionais
     case '3': // 3XNN: skipa a proxima se x=nn
       return Instrucoes.skipXNNTrue(ope1, valor, indice);
@@ -117,8 +117,7 @@ function Disassembler(indice) {
       }
       return indice + 0x002;
     default:
-      console.log("instrução " + op + " não entendida");
-      return indice + 0x002;
+      throw new Error("instrução " + op + " não entendida");
   }
 }
 

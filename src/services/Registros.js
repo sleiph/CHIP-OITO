@@ -8,8 +8,8 @@ const Registros = {
     },
 
     UpdateRegistradores : function(indice, valor) {
-        this.setter(this.registradores);
         this.registradores[indice] = valor;
+        this.setter(this.registradores);
     },
 
     UpdateRegistradoresArr : function(array) {

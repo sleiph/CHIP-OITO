@@ -5,7 +5,7 @@ const Display = {
     original: Array.from(Array(32), () => Array.from(Array(64), () => 0)),
     setter: null,
     debug: false,
-    ajuda: true,
+    ajuda: false,
 
     Iniciar: function(setter) {
         this.setter = setter;

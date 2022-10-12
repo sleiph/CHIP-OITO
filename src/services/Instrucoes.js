@@ -13,7 +13,7 @@ const Instrucoes = {
     // Instruções e subrotinas
     /// ex. Opcode: ONNN
     Vazio : function(instrucao) {
-        return instrucao + 0x002;
+        return instrucao + 2;
     },
 
     /// ex. Opcode: 00EE
@@ -22,14 +22,14 @@ const Instrucoes = {
     },
 
     /// ex. Opcode: 1NNN
-    StrHex : function(x) {
-        return Tratamento.HexPraInt(x);
+    StrHex : function(nnn) {
+        return nnn;
     },
 
     /// ex. Opcode: 2NNN
-    StrRot : function(x, instrucao) {
-        Memoria.Subrotina = instrucao + 0x002;
-        return Tratamento.HexPraInt(x);
+    StrRot : function(nnn, instrucao) {
+        Memoria.Subrotina = instrucao + 2;
+        return nnn;
     },
 
     /// ex. Opcode: BNNN
@@ -40,49 +40,47 @@ const Instrucoes = {
 
     // Variáveis
     /// ex. Opcode: 6XNN
-    setRegistrar : function(indice, valor, instrucao) {
-        Registros.UpdateRegistradores(indice, valor);
-        return instrucao + 0x002;
+    setRegistrar : function(x, nn, instrucao) {
+        Registros.UpdateRegistradores(x, nn);
+        return instrucao + 2;
     },
 
     /// ex. Opcode: 7XNN
-    setAdd : function(indice, valor, instrucao) {
-        let temp = (Registros.registradores[indice] + valor) % 256;
-        Registros.UpdateRegistradores(indice, temp);
-        return instrucao + 0x002;
+    setAdd : function(x, nn, instrucao) {
+        let temp = (Registros.registradores[x] + nn) & 0xff;
+        Registros.UpdateRegistradores(x, temp);
+        return instrucao + 2;
     },
 
     /// ex. Opcode: 8XY0
-    setIgual : function(indice, ope2, instrucao){
-        let temp = Registros.registradores[ope2];
-        Registros.UpdateRegistradores(indice, temp);
-        return instrucao + 0x002;
+    setIgual : function(x, y, instrucao){
+        Registros.UpdateRegistradores(x, Registros.registradores[y]);
+        return instrucao + 2;
     },
 
     /// ex. Opcode: 8XY1
-    setOR : function(indice, ope2, instrucao) {
-        let temp = Registros.registradores[indice] | Registros.registradores[ope2];
-        Registros.UpdateRegistradores(indice, temp);
-        return instrucao + 0x002;
+    setOR : function(x, y, instrucao) {
+        let temp = Registros.registradores[x] | Registros.registradores[y];
+        Registros.UpdateRegistradores(x, temp);
+        return instrucao + 2;
     },
 
     /// ex. Opcode: 8XY2
-    setAND : function(indice, ope2, instrucao) {
-        let temp = Registros.registradores[indice] & Registros.registradores[ope2];
-        Registros.UpdateRegistradores(indice, temp);
-        return instrucao + 0x002;
+    setAND : function(x, y, instrucao) {
+        let temp = Registros.registradores[x] & Registros.registradores[y];
+        Registros.UpdateRegistradores(x, temp);
+        return instrucao + 2;
     },
 
     /// ex. Opcode: 8XY3
-    setXOR : function(indice, ope2, instrucao) {
-        let temp = Registros.registradores[indice] ^ Registros.registradores[ope2];
-        Registros.UpdateRegistradores(indice, temp);
-        return instrucao + 0x002;
+    setXOR : function(x, y, instrucao) {
+        let temp = Registros.registradores[x] ^ Registros.registradores[y];
+        Registros.UpdateRegistradores(x, temp);
+        return instrucao + 2;
     },
 
     /// ex. Opcode: 8XY4
     setAddop : function(x, y, instrucao) { 
-        //VF is set to 1 when there's a carry, and to 0 when there is not.
         let soma = (Registros.registradores[x] += Registros.registradores[y]);
         if (soma > 0xFF) {
             soma -= 256;
@@ -90,13 +88,12 @@ const Instrucoes = {
         } else
             Registros.UpdateRegistradores(15, 0);
         Registros.UpdateRegistradores(x, soma);
-        return instrucao + 0x002;
+        return instrucao + 2;
     },
 
     /// ex. Opcode: 8XY5
     setSubop : function(x, y, instrucao) {
         let temp = Registros.registradores[x] - Registros.registradores[y];
-        //VF is set to 0 when there's a borrow, and 1 when there is not.
         if (Registros.registradores[x] > Registros.registradores[y])
             Registros.UpdateRegistradores(15, 1);
         else
@@ -104,7 +101,7 @@ const Instrucoes = {
         if (temp < 0)
             temp = 0xff + temp;
         Registros.UpdateRegistradores(x, temp);
-        return instrucao + 0x002;
+        return instrucao + 2;
     },
 
     /// ex. Opcode: 8XY6
@@ -112,12 +109,11 @@ const Instrucoes = {
         let temp = Registros.registradores[x] >> 1;
         Registros.UpdateRegistradores(15, Registros.registradores[x] & 0x1);
         Registros.UpdateRegistradores(x, temp);
-        return instrucao + 0x002;
+        return instrucao + 2;
     },
 
     /// ex. Opcode: 8XY7
     setRestop : function(x, y, instrucao){
-        //VF is set to 0 when there's a borrow, and 1 when there is not.
         let temp = Registros.registradores[y] - Registros.registradores[x];
         if (Registros.registradores[y] > Registros.registradores[x])
             Registros.UpdateRegistradores(15, 1);
@@ -126,21 +122,22 @@ const Instrucoes = {
         if (temp < 0)
             temp = 0xff + temp;
         Registros.UpdateRegistradores(x, temp);
-        return instrucao + 0x002;
+        return instrucao + 2;
     },
      
     /// ex. Opcode: 8XYE
-    setLeftShift : function(indice, instrucao) {
-        let temp = Registros.registradores[indice] << 1;
-        Registros.UpdateRegistradores(indice, temp);
-        return instrucao + 0x002;
+    setLeftShift : function(x, instrucao) {
+        let temp = Registros.registradores[x] << 1;
+        Registros.UpdateRegistradores(15, Registros.registradores[x] & 0x80);
+        Registros.UpdateRegistradores(x, temp);
+        return instrucao + 2;
     },
 
     /// ex. Opcode: CXNN
     setRandom : function(indice, valor, instrucao) {
-        let temp = (Math.floor(Math.random() * 256) & valor) % 256;
+        let temp = (Math.floor(Math.random() * 0xFF) & valor) & 0xFF;
         Registros.UpdateRegistradores(indice, temp);
-        return instrucao + 0x002;
+        return instrucao + 2;
     },
   
 

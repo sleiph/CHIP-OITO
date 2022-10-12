@@ -42,7 +42,7 @@ function Home(  ) {
   const [indice, setIndice] = useState(0);
   const [timers, setTimers] = useState([0, 0]);
   const [instrucao, setInstrucao] = useState(512);
-  const [ajuda, setAjuda] = useState(true);
+  const [ajuda, setAjuda] = useState(false);
   const [debug, setDebug] = useState(false);
 
   // exibição de componentes de apoio
