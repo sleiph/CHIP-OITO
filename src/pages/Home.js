@@ -75,23 +75,15 @@ function Home(  ) {
       if (!Inputs.apertando) {
         if (event.key === 'p')
           Inputs.ToggleJogando();
-        else if (event.key === 'ArrowRight')
-<<<<<<< HEAD
-          Inputs.proximo();
-        else if (event.key === 'o') 
+        else if (event.key === 'o')
           window.location.reload();
-        else if (event.key === 'h') {
-          
-        }
-        else {
-=======
+        else if (event.key === 'ArrowRight')
           Inputs.proximo = true;
         else if (event.key === 'd')
           handleDebug();
         else if (event.key === 'h')
           handleAjuda();
         else
->>>>>>> 3298617f70fc0e0276502e9abb7019807ac0b9cb
           Inputs.Teclou(event.key);
 
         Inputs.apertando = true;
