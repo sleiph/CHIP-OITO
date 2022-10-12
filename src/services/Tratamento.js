@@ -21,8 +21,6 @@ const Tratamento = {
 
   /**
    * Transforma um hex em int.
-   * @param {*} hex 
-   * @returns 
    */
   HexPraInt: function (hex) {
     return parseInt(hex, 16)
@@ -39,8 +37,6 @@ const Tratamento = {
 
   /**
    * Transforma um int em hex...
-   * @param {*} int 
-   * @returns 
    */
    IntPraHex: function (int) {
     return int.toString(16);

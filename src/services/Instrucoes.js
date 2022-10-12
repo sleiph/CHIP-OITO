@@ -12,8 +12,8 @@ const Instrucoes = {
 
     // Instruções e subrotinas
     /// ex. Opcode: ONNN
-    Vazio : function(anterior) {
-        return anterior + 0x002;
+    Vazio : function(instrucao) {
+        return instrucao + 0x002;
     },
 
     /// ex. Opcode: 00EE
@@ -30,6 +30,11 @@ const Instrucoes = {
     StrRot : function(x, instrucao) {
         Memoria.Subrotina = instrucao + 0x002;
         return Tratamento.HexPraInt(x);
+    },
+
+    /// ex. Opcode: BNNN
+    pulaPraNNN : function(nnn){
+        return nnn + Registros.registradores[0];
     },
 
 
@@ -76,50 +81,51 @@ const Instrucoes = {
     },
 
     /// ex. Opcode: 8XY4
-    setAddop : function(indice, ope2, instrucao) { 
+    setAddop : function(x, y, instrucao) { 
         //VF is set to 1 when there's a carry, and to 0 when there is not.
-        let temp = (Registros.registradores[indice] + Registros.registradores[ope2]);
-        if (temp > 255) {
-            temp -= 256;
+        let soma = (Registros.registradores[x] += Registros.registradores[y]);
+        if (soma > 0xFF) {
+            soma -= 256;
             Registros.UpdateRegistradores(15, 1);
-        } else {
+        } else
             Registros.UpdateRegistradores(15, 0);
-        }
-        Registros.UpdateRegistradores(indice, temp);
+        Registros.UpdateRegistradores(x, soma);
         return instrucao + 0x002;
     },
 
     /// ex. Opcode: 8XY5
-    setSubop : function(indice, ope2, instrucao) {
-        let temp = Registros.registradores[indice] - Registros.registradores[ope2];
+    setSubop : function(x, y, instrucao) {
+        let temp = Registros.registradores[x] - Registros.registradores[y];
         //VF is set to 0 when there's a borrow, and 1 when there is not.
-        if (temp < 0) {
-            temp = 0xff + temp;
+        if (Registros.registradores[x] > Registros.registradores[y])
             Registros.UpdateRegistradores(15, 1);
-        } else {
+        else
             Registros.UpdateRegistradores(15, 0);
-        }
-        Registros.UpdateRegistradores(indice, temp);
+        if (temp < 0)
+            temp = 0xff + temp;
+        Registros.UpdateRegistradores(x, temp);
         return instrucao + 0x002;
     },
 
     /// ex. Opcode: 8XY6
-    setRightShift : function(indice, instrucao) {
-        let temp = Registros.registradores[indice] >> 1;
-        Registros.UpdateRegistradores(indice, temp);
+    setRightShift : function(x, instrucao) {
+        let temp = Registros.registradores[x] >> 1;
+        Registros.UpdateRegistradores(15, Registros.registradores[x] & 0x1);
+        Registros.UpdateRegistradores(x, temp);
         return instrucao + 0x002;
     },
 
     /// ex. Opcode: 8XY7
-    setRestop : function(indice, ope2, instrucao){
+    setRestop : function(x, y, instrucao){
         //VF is set to 0 when there's a borrow, and 1 when there is not.
-        let temp = Registros.registradores[ope2] - Registros.registradores[indice];
-        if (temp > 255) {
-            Registros.UpdateRegistradores(15, 0);
-        } else {
+        let temp = Registros.registradores[y] - Registros.registradores[x];
+        if (Registros.registradores[y] > Registros.registradores[x])
             Registros.UpdateRegistradores(15, 1);
-        }
-        Registros.UpdateRegistradores(indice, temp);
+        else
+            Registros.UpdateRegistradores(15, 0);
+        if (temp < 0)
+            temp = 0xff + temp;
+        Registros.UpdateRegistradores(x, temp);
         return instrucao + 0x002;
     },
      
@@ -129,86 +135,82 @@ const Instrucoes = {
         Registros.UpdateRegistradores(indice, temp);
         return instrucao + 0x002;
     },
+
+    /// ex. Opcode: CXNN
+    setRandom : function(indice, valor, instrucao) {
+        let temp = (Math.floor(Math.random() * 256) & valor) % 256;
+        Registros.UpdateRegistradores(indice, temp);
+        return instrucao + 0x002;
+    },
   
 
     // Condicionais
-    setJump : function(op, ope1, valor, instrucao){
-        switch(op[0]) {
-            case '3':
-                /// ex. Opcode: 3XNN
-                if (Registros.registradores[ope1] === valor)
-                    return instrucao + 0x004;
-                return instrucao + 0x002;
-            case '4':
-                /// ex. Opcode: 4XNN
-                if (Registros.registradores[ope1] !== valor)
-                    return instrucao + 0x004;
-                return instrucao + 0x002;
-            case '5':
-                /// ex. Opcode: 5XY0
-                if (Registros.registradores[ope1] === Registros.registradores[valor])
-                    return instrucao + 0x004;
-                return instrucao+ 0x002;
-            case '9':
-                /// ex. Opcode: 9XY0
-                if (Registros.registradores[ope1] !== Registros.registradores[valor])
-                    return instrucao + 0x004;
-                return instrucao + 0x002;
-            default:
-                return instrucao + 0x002;
-        }
+    /// ex. Opcode: 3XNN
+    skipXNNTrue: function(x, nn, instrucao) {
+        if (Registros.registradores[x] === nn)
+            return instrucao + 0x004;
+        return instrucao + 0x002;
     },
 
-    /// ex. Opcode: BNNN
-    setNext : function(next){
-        return next + Registros.registradores[0];
+    /// ex. Opcode: 4XNN
+    skiptXNNFalse: function(x, nn, instrucao) {
+        if (Registros.registradores[x] !== nn)
+            return instrucao + 0x004;
+        return instrucao + 0x002;
     },
 
-    /// ex. Opcode: CXNN
-    setRandom : function(indice, valor, anterior) {
-        let temp = (Math.floor(Math.random() * 256) & valor) % 256;
-        Registros.UpdateRegistradores(indice, temp);
-        return anterior + 0x002;
+    /// ex. Opcode: 5XY0
+    skipXYTrue: function(x,y,instrucao) {
+        if (Registros.registradores[x] === Registros.registradores[y])
+            return instrucao + 0x004;
+        return instrucao+ 0x002;
+    },
+
+    /// ex. Opcode: 9XY0
+    skipXYFalse : function(x, y, instrucao){
+        if (Registros.registradores[x] !== Registros.registradores[y])
+            return instrucao + 0x004;
+        return instrucao + 0x002;
     },
   
 
     // Display
     /// ex. Opcode: 00E0
-    LimpaTela : function(anterior) {
+    LimpaTela : function(instrucao) {
         Display.LimpaTela();
-        return anterior + 0x002;
+        return instrucao + 0x002;
     },
 
     /// ex. Opcode: DXYN
-    Desenha : function (anterior, x, y, n, setRegistradores) {
+    Desenha : function (x, y, n, instrucao) {
         let vX = Registros.registradores[x];
         let vY = Registros.registradores[y];
         let sprite = [];
         for (let i = 0; i < n; i++) {
             sprite.push(Memoria.posicoes[Memoria.Indice+i].bin);
         }
-        Display.UpdateDisplay(vX, vY, sprite, setRegistradores)
-        return anterior + 0x002;
+        Display.UpdateDisplay(vX, vY, sprite)
+        return instrucao + 0x002;
     },
 
 
     // Teclado
     /// ex. Opcode: EX9E
-    isApertando : function (ope1, anterior) {
+    isApertando : function (ope1, instrucao) {
         if (Inputs.apertando &&
             Tratamento.HexPraInt(Inputs.apertada) === Registros.registradores[ope1]) {
-                return anterior + 0x004;
+                return instrucao + 0x004;
         }
-        return anterior + 0x002;
+        return instrucao + 0x002;
     },
 
     /// TODO: fazer essa aqui
     /// ex. Opcode: EXA1
-    isNotApertando : function(ope1, anterior) {
+    isNotApertando : function(ope1, instrucao) {
         if (Tratamento.HexPraInt(Inputs.apertada) !== Registros.registradores[ope1]) {
-                return anterior + 0x004;
+                return instrucao + 0x004;
         }
-        return anterior + 0x002;
+        return instrucao + 0x002;
     },
 
     /// TODO: fazer essa aqui

@@ -18,7 +18,6 @@ const Display = {
     },
 
     UpdateDisplay : function(x, y, sprite) {
-        let copiaRegs = [...Registros.registradores];
         let isUnset = false;
 
         for (let i=0; i<sprite.length; i++) {
@@ -33,8 +32,8 @@ const Display = {
             }
         }
         //and to 0 if that does not happen
-        copiaRegs[15] = isUnset ? 1 : 0;
-        Registros.UpdateRegistradoresArr(copiaRegs);
+        let vf = isUnset ? 1 : 0;
+        Registros.UpdateRegistradores(15, vf);
         this.setter(this.pixels);
     },
 }

@@ -21,14 +21,14 @@ export const Grupo = styled.div`
   flex-flow: wrap;
 `
 const Instrucoes = styled.div`
-  padding: 6px 24px;
-  height: 280px;
-  padding-bottom: 20px;
-  margin-bottom: 20px;
+  height: 260px;
+  padding: 16px;
+  margin: 0 24px 12px 24px;
   display: flex;
   flex-wrap: wrap;
   flex-direction: column;
   overflow: overlay;
+  background-color: #d9ffea;
 `
 const Informacao = styled.span`
   text-align: center;

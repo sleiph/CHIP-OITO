@@ -77,7 +77,7 @@ function Home(  ) {
           Inputs.ToggleJogando();
         else if (event.key === 'ArrowRight')
           Inputs.proximo = true;
-        else if (event.key === 'd')
+        else if (event.key === 'g')
           handleDebug();
         else if (event.key === 'h')
           handleAjuda();
@@ -118,7 +118,7 @@ function Home(  ) {
           onClick={e => e.target.value = ''}
         />
         <DivDebug>
-          <button onClick={handleDebug}>Debug</button>
+          <button onClick={handleDebug}>Debu<u>g</u></button>
           <button onClick={handleAjuda}>?</button>
         </DivDebug>
       </Cartucho>

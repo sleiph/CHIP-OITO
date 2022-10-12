@@ -3,8 +3,8 @@ import Memoria from './Memoria';
 import Tratamento from './Tratamento';
 
 /**
- * recebe o indice na Memória que está sendo executado,
- * interpreta a instrução de acordo com a Opcode table na wiki
+ * recebe o índice da Memória que está sendo executado,
+ * interpreta a instrução de acordo com a Opcode table da wiki
  * https://en.wikipedia.org/wiki/CHIP-8
  */
 function Disassembler(indice) {
@@ -12,7 +12,7 @@ function Disassembler(indice) {
   
   let ope1 = Tratamento.HexPraInt(op[1]);
   let ope2 = Tratamento.HexPraInt(op[2]);
-  let x = Tratamento.HexPraInt(op[1] + op[2] + op[3]);
+  let nnn = Tratamento.HexPraInt(op[1] + op[2] + op[3]);
   let n = Tratamento.HexPraInt(op[3]);
   let valor = Tratamento.HexPraInt(Memoria.posicoes[indice+1].hex);
 
@@ -20,39 +20,31 @@ function Disassembler(indice) {
     case '0':
       if (op[2]==='e') {
         if (op[3]==='0') {
-          // limpa a tela
-          //00e0
+          // 00e0: limpa a tela
           return Instrucoes.LimpaTela(indice);
-        }
-        else if (op[3]==='e') {
-          // volta pra linha que chamou a subrotina
-          //00ee
+        } else if (op[3]==='e') {
+          // 00ee: volta pra linha que chamou a subrotina
           return Instrucoes.Retorna();
         }
       }
-      else {
-        // faz é nada
-        // 0NNN
+      else // 0NNN
         return Instrucoes.Vazio(indice);
-      }
-    break;
-    case '1':
-      // pula pro endereço descrito na instrucao
+      console.log("0 alguma coisa...");
+      return indice + 0x002;
+    case '1': // 1NNN: pula pro endereço descrito na instrucao
       return Instrucoes.StrHex(op[1] + op[2] + op[3]);
-    case '2':
-      // manda pra uma subrotina
+    case '2': // 2NNN: manda pra uma subrotina
       return Instrucoes.StrRot(op[1] + op[2] + op[3], indice);
     // condicionais
-    case '3':
-    case '4':
-    case '5':
-    case '9':
-      return Instrucoes.setJump(op, ope1, valor, indice);
-    case '6':
-      // atribui o valor de uma das variaveis
+    case '3': // 3XNN: skipa a proxima se x=nn
+      return Instrucoes.skipXNNTrue(ope1, valor, indice);
+    case '4': // 4XNN: skipa a proxima se x!=nn
+      return Instrucoes.skiptXNNFalse(ope1, valor, indice);
+    case '5': // 5XY0: skipa a proxima se x=y
+      return Instrucoes.skipXYTrue(ope1, ope2, indice);
+    case '6': // 6XNN: atribui o valor de uma das variaveis
       return Instrucoes.setRegistrar(ope1, valor, indice);
-    case '7':
-      // adiciona ao valor de uma variavel
+    case '7': // 7XNN: adiciona ao valor de uma variavel
       return Instrucoes.setAdd(ope1, valor, indice);
     case '8':
       // operações com as variaveis
@@ -77,73 +69,57 @@ function Disassembler(indice) {
           return Instrucoes.setLeftShift(ope1, indice);
         default:
           console.log("8 e alguma coisa...");
+          return indice + 0x002;
       }
-      return indice + 0x002;
-    case 'a':
-      // muda o valor do apontador (I)
-      return Instrucoes.setIndico(x, indice);
-    case 'b':
-      // pula pro endereço V0 + instrucao enviada
-      return Instrucoes.setNext(x);
-    case 'c':
-      // atribui um valor aleatorio pra o registrador[x]
+    case '9': // 9XY0: skipa a proxima se x!=y
+      return Instrucoes.skipXYFalse(ope1, ope2, indice);
+    case 'a': // ANNN: muda o valor do apontador (I)
+      return Instrucoes.setIndico(nnn, indice);
+    case 'b': // BNNN: pula pro endereço V0 + instrucao enviada
+      return Instrucoes.pulaPraNNN(nnn);
+    case 'c': // CXNN: atribui um valor aleatorio pro registrador[x]
       return Instrucoes.setRandom(ope1, valor, indice);
-    case 'd':
-      // desenha na tela
-      return Instrucoes.Desenha(indice, ope1, ope2, n);
+    case 'd': // DXYN: desenha na tela
+      return Instrucoes.Desenha(ope1, ope2, n, indice);
     case 'e':
       // entrada de teclado
-      if (op[3]==='e') //ex9e
-        // skipa a proxima instrucao se a tecla pedida tiver sendo apertada
+      if (op[3]==='e') // EX9e: skipa a proxima instrucao se a tecla pedida tiver sendo apertada
         return Instrucoes.isApertando(ope1, indice);
-      else if (op[3]==='1') //exa1
-        // skipa a proxima instrucao se a tecla pedida NÃO tiver sendo apertada
+      else if (op[3]==='1') //EXa1: skipa a proxima instrucao se a tecla pedida NÃO tiver sendo apertada
         return Instrucoes.isNotApertando(ope1, indice);
-      else
-        return indice + 0x002;
+      console.log("E alguma coisa...");
+      return indice + 0x002;
     case 'f':
       switch(op[3]) {
-        case '3': //fx33
-          // transforma o valor decimal de Vx em hexadecimal e salva nas
-          // posicoes I, I+1 e I+2 da memoria
+        case '3': // fX33: transforma o valor decimal de Vx em hexadecimal e salva nas posicoes I, I+1 e I+2 da memoria
           return Instrucoes.setBCD(ope1, indice);
         case '5':
-          // seta timers
-          if (op[2] === '1') //fx15
+          if (op[2] === '1') // FX15: seta o delay timer
             return Instrucoes.setTimer(ope1, indice);
-          else if (op[2] === '5') //fx55
+          else if (op[2] === '5') // FX55: guarda os valores das variaveis a partir de X na memória
             return Instrucoes.save(ope1, indice);
-          else if (op[2] === '6') //fx65
+          else if (op[2] === '6') // FX65: preenche as variávels a partir de X com valores da memória
             return Instrucoes.load(ope1, indice);
-          else
-            console.log("F alguma coisa 5...");
+          console.log("F alguma coisa alguma coisa 5...");
           return indice + 0x002;
-          case '7':
-            // usa os timers
-            return Instrucoes.registraTimer(ope1, indice);
-        case '8':
-          // toca um somzin
+        case '7': // FX07: usa o delay timer
+          return Instrucoes.registraTimer(ope1, indice);
+        case '8': // FX18: toca um somzin
           return Instrucoes.setSound(ope1, indice);
-        case '9': //fx29
-          // seta um sprite na memoria
+        case '9': //FX29: seta um sprite na memoria
           return Instrucoes.registraIndice(ope1, indice);
-        case 'a': //fx0a
-          // espera até que o usuario aperte uma tecla
+        case 'a': //FX0a: espera até que o usuario aperte uma tecla
           return Instrucoes.esperarTecla(ope1, indice);
-        case 'e':
-          // adiciona o valor de uma variavel ao apontador
+        case 'e': // FX1E: adiciona o valor de uma variavel ao apontador
           return Instrucoes.setAddIndice(ope1, indice);
-        default:
-          // só pra garantir
+        default: // só pra garantir
           console.log("F total");
       }
       return indice + 0x002;
     default:
       console.log("instrução " + op + " não entendida");
+      return indice + 0x002;
   }
-  // volta pro começo das instruções, não deve acontecer normalmente
-  console.log("Algo errado não está certo...");
-  return 0x200;
 }
 
 export default Disassembler;
