@@ -1,4 +1,4 @@
-# CHIP-OITO
+# CHIP-OITO - produção
 
 Emulador de [CHIP-8](https://en.wikipedia.org/wiki/CHIP-8), criado em javaScript, com React.
 
