@@ -37,13 +37,14 @@ const DivDebug = styled.div`
 function Home(  ) {
 
   // hooks
-  const [registradores, setRegistradores] = useState(Registros.registradores);
+  const [registradores, setRegistradores] = useState(Registros.reg);
   const [display, setDisplay] = useState(Display.original);
   const [indice, setIndice] = useState(0);
   const [timers, setTimers] = useState([0, 0]);
   const [instrucao, setInstrucao] = useState(512);
   const [ajuda, setAjuda] = useState(false);
   const [debug, setDebug] = useState(false);
+  const [disable, setDisable] = useState(false);
 
   // exibição de componentes de apoio
   const handleDebug = () => {
@@ -97,16 +98,13 @@ function Home(  ) {
     });
   }, [ajuda, debug]);
 
-  // tratamento da entrada de arquivo (rom)
+  // entrada de arquivo (rom)
   let fileReader;
-  /// trata e manda o arquivo pra ser interpretado
+  /// manda o arquivo pra ser interpretado
   const handleFileRead = () => {
     const buffer = fileReader.result;
     Iniciar(buffer);
   };
-
-  const [disable, setDisable] = useState(false);
-
   /// lê o arquivo carregado pelo usuario
   function handleFileChosen(arquivo) {
     fileReader = new FileReader();

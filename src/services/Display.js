@@ -1,8 +1,9 @@
-import Tratamento from "./Tratamento";
-
+/**
+ * Controla todas as ações relacionadas à tela do jogo
+ */
 const Display = {
-    pixels: Array.from(Array(32), () => Array.from(Array(64), () => 0)),
     original: Array.from(Array(32), () => Array.from(Array(64), () => 0)),
+    pixels: Array.from(Array(32), () => Array.from(Array(64), () => 0)),
     setter: null,
     debug: false,
     ajuda: false,
@@ -17,19 +18,28 @@ const Display = {
         this.setter(this.pixels);
     },
 
+    SetaPixel: function(x, y) {
+        if (x > 0x3f) x -= 0x40;
+        else if (x < 0) x += 0x40;
+        
+        if (y > 0x1f) y -= 0x20;
+        else if (y < 0) y += 0x40;
+
+        this.pixels[y][x] ^= 1;
+        return this.pixels[y][x] === 0;
+    },
+
     UpdateDisplay : function(x, y, sprite) {
         let isUnset = false;
 
         for (let i=0; i<sprite.length; i++) {
-            let s = Tratamento.IntPraBin(sprite[i]);
+            let s = sprite[i];
             for (let j=0; j<8; j++) {
-                if (x+j < 64 && y+i < 32) {
-                    let original = parseInt(this.pixels[y+i][x+j]);
-                    this.pixels[y+i][x+j] ^= parseInt(s[j]);
-                    // VF is set to 1 if any screen pixels are flipped from set to unset when the sprite is drawn,
-                    if (original === 1 && parseInt(this.pixels[y+i][x+j]) === 0)
+                if ((s & 0x80) > 0) {
+                    if (this.SetaPixel(x+j, y+i) && !isUnset)
                         isUnset = true;
                 }
+                s <<= 1;
             }
         }
         this.setter(this.pixels);

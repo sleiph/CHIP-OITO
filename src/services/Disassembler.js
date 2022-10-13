@@ -1,17 +1,16 @@
 import Instrucoes from './Instrucoes';
-import Memoria from './Memoria';
 
 /**
  * recebe o índice da Memória que está sendo executado,
  * interpreta a instrução de acordo com a Opcode table da wiki
  * https://en.wikipedia.org/wiki/CHIP-8
  */
-function Disassembler(indice) {
-  let op = Memoria.pos[indice] >> 4;
-  let x = Memoria.pos[indice] & 0xf,
-    y = Memoria.pos[indice+1] >> 4,
-    n = Memoria.pos[indice+1] & 0xf,
-    nnn = ((Memoria.pos[indice]&0xf)<<8)+Memoria.pos[indice+1];
+function Disassembler(indice, inst1, inst2) {
+  let op =inst1 >> 4,    // primeira posicao da instrucao
+      x = inst1 & 0xf,    // segunda posicao
+      y = inst2 >> 4,   // terceira posicao
+      n = inst2 & 0xf,  // quarta posicao
+      nnn = ((inst1&0xf)<<8) + inst2;
 
   switch(op) {
     case 0:
@@ -27,21 +26,22 @@ function Disassembler(indice) {
       else // 0NNN
         return indice + Instrucoes.Vazio();
       throw new Error("0 alguma coisa...");
+
     case 1: // 1NNN: pula pro endereço descrito na instrucao
       return Instrucoes.StrHex(nnn);
     case 2: // 2NNN: manda pra uma subrotina
       return Instrucoes.StrRot(nnn, indice);
     // condicionais
     case 3: // 3XNN: skipa a proxima se x=nn
-      return indice + Instrucoes.skipXNNTrue(x, Memoria.pos[indice+1]);
+      return indice + Instrucoes.skipXNNTrue(x, inst2);
     case 4: // 4XNN: skipa a proxima se x!=nn
-      return indice + Instrucoes.skiptXNNFalse(x, Memoria.pos[indice+1]);
+      return indice + Instrucoes.skiptXNNFalse(x, inst2);
     case 5: // 5XY0: skipa a proxima se x=y
       return indice + Instrucoes.skipXYTrue(x, y);
     case 6: // 6XNN: atribui o valor de uma das variaveis
-      return indice + Instrucoes.setRegistrar(x, Memoria.pos[indice+1]);
+      return indice + Instrucoes.setRegistrar(x, inst2);
     case 7: // 7XNN: adiciona ao valor de uma variavel
-      return indice + Instrucoes.setAdd(x, Memoria.pos[indice+1]);
+      return indice + Instrucoes.setAdd(x, inst2);
     case 8:
       // operações com as variaveis
       switch(n) {
@@ -66,6 +66,7 @@ function Disassembler(indice) {
         default:
           throw new Error("8 e alguma coisa...");
       }
+
     case 9: // 9XY0: skipa a proxima se x!=y
       return indice + Instrucoes.skipXYFalse(x, y);
     case 10: // ANNN: muda o valor do apontador (I)
@@ -73,17 +74,18 @@ function Disassembler(indice) {
     case 11: // BNNN: pula pro endereço V0 + instrucao enviada
       return Instrucoes.pulaPraNNN(nnn);
     case 12: // CXNN: atribui um valor aleatorio pro registrador[x]
-      return indice + Instrucoes.setRandom(x, Memoria.pos[indice+1]);
+      return indice + Instrucoes.setRandom(x, inst2);
     case 13: // DXYN: desenha na tela
       return indice + Instrucoes.Desenha(x, y, n);
-    case 14:
+    case 14: // E
       // entrada de teclado
       if (n===14) // EX9e: skipa a proxima instrucao se a tecla pedida tiver sendo apertada
         return indice + Instrucoes.isApertando(x);
       else if (n===1) //EXa1: skipa a proxima instrucao se a tecla pedida NÃO tiver sendo apertada
         return indice + Instrucoes.isNotApertando(x);
       throw new Error("E alguma coisa...");
-    case 15:
+
+    case 15: // F
       switch(n) {
         case 3: // fX33: transforma o valor decimal de Vx em hexadecimal e salva nas posicoes I, I+1 e I+2 da memoria
           return indice + Instrucoes.setBCD(x);

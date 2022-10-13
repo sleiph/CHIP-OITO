@@ -1,11 +1,7 @@
-import Tratamento from "./Tratamento";
-
 /**
  * guarda os valores da memória do chip 8, incluindo os transferidos do cartucho
  */
 const Memoria = {
-    // vai guardar o número de instruções no cartucho + 0x200
-    tamanho: 0x200,
     Indice: 0x200,
     Subrotina: 0x200,
     mapa: [],
@@ -48,25 +44,24 @@ const Memoria = {
     ]),
 
     /**
-     * cria uma posição da memória a partir de um valor inteiro
-     */
-    CriaPosicao: function (valor) {
-        return {
-            bin: Tratamento.IntPraBin(valor),
-            hex: Tratamento.IntPraHex(valor)
-        }
-    },
-
-    /**
      * Recebe um buffer da rom e carrega as instruções na memoria,
      * transforma o arquivo em instrucoes
      */
     Iniciar: function (rom, setter) {
-        this.tamanho = rom.length;
         this.mapa = [...new Uint8Array(rom)];
-        this.pos = Tratamento.BufferPraUI8(this.fonte, this.mapa);
+        this.pos = this.CriaPosicoes(this.fonte, this.mapa);
         this.setter = setter;
         this.UpdateIndice(0x200);
+    },
+
+    /**
+   * converte o buffer inicial pra um array de bytes (ex.:'00100100')
+   * e cria as posições da memória
+   */
+    CriaPosicoes: function (fonte, buffer) {
+        let comeco = Uint8Array.from(new Uint8Array(80), () => 0);
+        let meio = Uint8Array.from(new Uint8Array(352), () => 0);
+        return [...comeco, ...fonte, ...meio, ...buffer];
     },
 
     UpdateIndice: function (x) {

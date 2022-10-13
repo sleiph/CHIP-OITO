@@ -25,19 +25,19 @@ Arquivos binários pra testes podem ser encontrados na [documentação](./docume
 ## Fazer
 
 * Tela de apresentação com informações de como jogar
-* Menu de Debug
 * Função de reset do videogame
-* melhorar **MUITO** a performance, pra rodar em uma velocidade boa (Obs: 0:25:50 || 0:05:00).
-* arrumar a FX0A e algumas instruções q ainda tão dando erro
-* adicionar uma rom de demonstração (sem direitos autorais de ninguém)
-* testar o teclado virtual
+* melhorar **MUITO** a performance, pra rodar em uma velocidade boa (Obs: 0:22:50 || 0:05:00).
+* tentar achar pq o tetris ta errado
+* achar um jeito de parar o teclado quando solta o botão
+* melhorar o hook do display pra ser menos custoso
 
 ### Extras
 
-* Otimizar o código
+* mostrar no teclado que a tecla foi apertada.
+* melhorar o menu de Debug
+* adicionar uma rom de demonstração (sem direitos autorais de ninguém)
 * Poder mudar o valor de qualquer registrador a qualquer momento
 * Mostrar pro usuário um pseudo-código das instruções no cartucho
-* mostrar no teclado que a tecla foi apertada.
 * colocar os FPS
 
 ## Referências

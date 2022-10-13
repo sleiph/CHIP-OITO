@@ -1,6 +1,6 @@
-import Tecla from './Tecla'
+import styled from 'styled-components';
 
-import styled from 'styled-components'
+import Tecla from './Tecla';
 
 const TecladoDiv = styled.div`
     height: 12vh;
@@ -37,8 +37,6 @@ const AlfaDiv = styled.div`
 `
 
 function Teclado(  ) {
-    
-  
   return (
     <TecladoDiv>
         <NumDiv>

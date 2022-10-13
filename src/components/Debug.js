@@ -2,7 +2,6 @@ import styled from 'styled-components';
 
 import {Fundo} from './Ajuda';
 import Memoria from '../services/Memoria';
-import Tratamento from '../services/Tratamento';
 
 export const OPDiv = styled.div`
   position: absolute;
@@ -50,7 +49,7 @@ function Debug( {registradores, indice, timers, instrucao} ) {
             return(
               <div key={i}>
                 <Informacao style={{outline: instrucao===i ? '1px solid rgba(0, 0, 0, 1)' : '0px solid rgba(0, 0, 0, 0)'}}>{
-                  "0x" + Tratamento.IntPraHex(i) + ': ' + reg.toString(16).padStart(2, '0').toUpperCase()
+                  "0x" + i.toString(16) + ': ' + reg.toString(16).padStart(2, '0').toUpperCase()
                 }</Informacao>
               </div>
             );

@@ -33,7 +33,7 @@ const Instrucoes = {
 
     /// ex. Opcode: BNNN
     pulaPraNNN : function(nnn){
-        return nnn + Registros.registradores[0];
+        return nnn + Registros.reg[0];
     },
 
 
@@ -46,41 +46,41 @@ const Instrucoes = {
 
     /// ex. Opcode: 7XNN
     setAdd : function(x, nn) {
-        let temp = (Registros.registradores[x] + nn) & 0xff;
+        let temp = (Registros.reg[x] + nn) & 0xff;
         Registros.UpdateRegistradores(x, temp);
         return 2;
     },
 
     /// ex. Opcode: 8XY0
-    setIgual : function(x, y){
-        Registros.UpdateRegistradores(x, Registros.registradores[y]);
+    setIgual : function(x, y) {
+        Registros.UpdateRegistradores(x, Registros.reg[y]);
         return 2;
     },
 
     /// ex. Opcode: 8XY1
     setOR : function(x, y) {
-        let temp = Registros.registradores[x] | Registros.registradores[y];
+        let temp = Registros.reg[x] | Registros.reg[y];
         Registros.UpdateRegistradores(x, temp);
         return 2;
     },
 
     /// ex. Opcode: 8XY2
     setAND : function(x, y) {
-        let temp = Registros.registradores[x] & Registros.registradores[y];
+        let temp = Registros.reg[x] & Registros.reg[y];
         Registros.UpdateRegistradores(x, temp);
         return 2;
     },
 
     /// ex. Opcode: 8XY3
     setXOR : function(x, y) {
-        let temp = Registros.registradores[x] ^ Registros.registradores[y];
+        let temp = Registros.reg[x] ^ Registros.reg[y];
         Registros.UpdateRegistradores(x, temp);
         return 2;
     },
 
     /// ex. Opcode: 8XY4
     setAddop : function(x, y) { 
-        let soma = (Registros.registradores[x] += Registros.registradores[y]);
+        let soma = (Registros.reg[x] += Registros.reg[y]);
         if (soma > 0xFF) {
             soma -= 256;
             Registros.UpdateRegistradores(15, 1);
@@ -92,8 +92,8 @@ const Instrucoes = {
 
     /// ex. Opcode: 8XY5
     setSubop : function(x, y) {
-        let temp = Registros.registradores[x] - Registros.registradores[y];
-        if (Registros.registradores[x] > Registros.registradores[y])
+        let temp = Registros.reg[x] - Registros.reg[y];
+        if (Registros.reg[x] > Registros.reg[y])
             Registros.UpdateRegistradores(15, 1);
         else
             Registros.UpdateRegistradores(15, 0);
@@ -105,16 +105,16 @@ const Instrucoes = {
 
     /// ex. Opcode: 8XY6
     setRightShift : function(x) {
-        let temp = Registros.registradores[x] >> 1;
-        Registros.UpdateRegistradores(15, Registros.registradores[x] & 0x1);
+        let temp = Registros.reg[x] >> 1;
+        Registros.UpdateRegistradores(15, Registros.reg[x] & 0x1);
         Registros.UpdateRegistradores(x, temp);
         return 2;
     },
 
     /// ex. Opcode: 8XY7
     setRestop : function(x, y){
-        let temp = Registros.registradores[y] - Registros.registradores[x];
-        if (Registros.registradores[y] > Registros.registradores[x])
+        let temp = Registros.reg[y] - Registros.reg[x];
+        if (Registros.reg[y] > Registros.reg[x])
             Registros.UpdateRegistradores(15, 1);
         else
             Registros.UpdateRegistradores(15, 0);
@@ -126,8 +126,8 @@ const Instrucoes = {
      
     /// ex. Opcode: 8XYE
     setLeftShift : function(x) {
-        let temp = Registros.registradores[x] << 1;
-        Registros.UpdateRegistradores(15, Registros.registradores[x] & 0x80);
+        let temp = Registros.reg[x] << 1;
+        Registros.UpdateRegistradores(15, Registros.reg[x] & 0x80);
         Registros.UpdateRegistradores(x, temp);
         return 2;
     },
@@ -143,28 +143,28 @@ const Instrucoes = {
     // Condicionais
     /// ex. Opcode: 3XNN
     skipXNNTrue: function(x, nn) {
-        if (Registros.registradores[x] === nn)
+        if (Registros.reg[x] === nn)
             return 4;
         return 2;
     },
 
     /// ex. Opcode: 4XNN
     skiptXNNFalse: function(x, nn) {
-        if (Registros.registradores[x] !== nn)
+        if (Registros.reg[x] !== nn)
             return 4;
         return 2;
     },
 
     /// ex. Opcode: 5XY0
     skipXYTrue: function(x, y) {
-        if (Registros.registradores[x] === Registros.registradores[y])
+        if (Registros.reg[x] === Registros.reg[y])
             return 4;
         return 2;
     },
 
     /// ex. Opcode: 9XY0
     skipXYFalse : function(x, y) {
-        if (Registros.registradores[x] !== Registros.registradores[y])
+        if (Registros.reg[x] !== Registros.reg[y])
             return 4;
         return 2;
     },
@@ -179,8 +179,8 @@ const Instrucoes = {
 
     /// ex. Opcode: DXYN
     Desenha : function (x, y, n) {
-        let vX = Registros.registradores[x];
-        let vY = Registros.registradores[y];
+        let vX = Registros.reg[x];
+        let vY = Registros.reg[y];
         let sprite = [];
         for (let i = 0; i < n; i++)
             sprite.push(Memoria.pos[Memoria.Indice+i]);
@@ -195,7 +195,7 @@ const Instrucoes = {
     /// ex. Opcode: EX9E
     isApertando : function (x) {
         if (Inputs.apertando &&
-            Inputs.apertada === Registros.registradores[x]) {
+            Inputs.apertada === Registros.reg[x]) {
                 return 4;
         }
         return 2;
@@ -204,7 +204,7 @@ const Instrucoes = {
     /// TODO: fazer essa aqui
     /// ex. Opcode: EXA1
     isNotApertando : function(x) {
-        if (Inputs.apertada !== Registros.registradores[x]) {
+        if (Inputs.apertada !== Registros.reg[x]) {
                 return 4;
         }
         return 2;
@@ -230,7 +230,7 @@ const Instrucoes = {
 
     /// ex. Opcode: FX15
     setTimer : function(x) {
-        Timer.setDelay(Registros.registradores[x]);
+        Timer.setDelay(Registros.reg[x]);
         return 2;
     },
 
@@ -238,7 +238,7 @@ const Instrucoes = {
     // Som
     /// ex. Opcode: FX18
     setSound : function(x) {
-        Timer.setSom(Registros.registradores[x]);
+        Timer.setSom(Registros.reg[x]);
         return 2;
     },
 
@@ -252,27 +252,27 @@ const Instrucoes = {
 
     /// ex. Opcode: FX1E
     setAddIndice : function(x) {
-        let temp = (Memoria.Indice + Registros.registradores[x]) & 0xfff;
+        let temp = (Memoria.Indice + Registros.reg[x]) & 0xfff;
         Memoria.UpdateIndice(temp);
         return 2;
     },
 
     /// ex. Opcode: FX29
     registraIndice : function(x) {
-        let pos = 0x50 + (Registros.registradores[x] * 5);
+        let pos = 0x50 + (Registros.reg[x] * 5);
         Memoria.UpdateIndice(pos);
         return 2;
     },
 
     /// ex. Opcode: FX33
     setBCD : function(x) {
-        let pos1 = parseInt(Registros.registradores[x] / 100);
+        let pos1 = parseInt(Registros.reg[x] / 100);
         Memoria.pos[Memoria.Indice] = pos1;
 
-        let pos2 = parseInt((Registros.registradores[x]%100) / 10);
+        let pos2 = parseInt((Registros.reg[x]%100) / 10);
         Memoria.pos[Memoria.Indice+1] = pos2;
 
-        let pos3 = parseInt(Registros.registradores[x] % 10);
+        let pos3 = parseInt(Registros.reg[x] % 10);
         Memoria.pos[Memoria.Indice+2] = pos3;
 
         return 2;
@@ -281,7 +281,7 @@ const Instrucoes = {
     /// ex. Opcode: FX55
     save : function(x) { 
         for (let i = 0; i <= x; i++) {
-            let pos = Registros.registradores[i];
+            let pos = Registros.reg[i];
             Memoria.pos[Memoria.Indice+i] = pos;
         }
         return 2;
@@ -289,7 +289,7 @@ const Instrucoes = {
 
     /// ex. Opcode: FX65
     load : function(x) { 
-        let copia = [...Registros.registradores];
+        let copia = [...Registros.reg];
         for (let i = 0; i <= x; i++)
             copia[i] = Memoria.pos[Memoria.Indice+i];
         Registros.UpdateRegistradoresArr(copia);

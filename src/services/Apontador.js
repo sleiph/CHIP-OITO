@@ -1,5 +1,6 @@
 import Disassembler from "./Disassembler";
 import Inputs from "./Inputs";
+import Memoria from "./Memoria";
 import Timer from "./Timer";
 
 /**
@@ -33,7 +34,8 @@ const Apontador = {
 function aponta(setInstrucao) {
   // se o jogo não ta pausado
   if (Inputs.isJogando || Inputs.proximo) {
-    Apontador.atual = Disassembler(Apontador.atual);
+    let indice = Apontador.atual
+    Apontador.atual = Disassembler(indice, Memoria.pos[indice], Memoria.pos[indice+1]);
     Inputs.proximo = false;
 
     // esse hook q tá deixando ele lento, mas eh importante pro debug :(

@@ -4,7 +4,7 @@ const Timer = {
     DT: 0,
     ST: 0,
     track: new Audio(beep),
-    velocidade: 4,
+    velocidade: 8,
     setter: null,
 
     Iniciar: function (setter) {

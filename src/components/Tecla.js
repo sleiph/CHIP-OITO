@@ -1,5 +1,6 @@
-import Inputs from '../services/Inputs'
 import styled from 'styled-components';
+
+import Inputs from '../services/Inputs'
 
 const TeclaDiv = styled.div`
     flex: 1;
