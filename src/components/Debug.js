@@ -35,7 +35,15 @@ const Informacao = styled.span`
 `
 
 function Debug( {registradores, indice, timers, instrucao} ) {
-  let arrayRegistradores = Object.values(registradores);
+
+  const mapa = Memoria.rom.reduce((acc, curr, i) => {
+    if (i%2 === 0) {
+      acc[i+0x200] = ([Memoria.rom[i], Memoria.rom[i+1]]);
+    }
+    return acc;
+  }, []);
+  console.log(mapa)
+  const arrayRegistradores = Object.values(registradores);
   
   return (
     <OPDiv>
@@ -45,11 +53,11 @@ function Debug( {registradores, indice, timers, instrucao} ) {
       </Grupo>
       <Instrucoes>
         { 
-          Memoria.mapa.map((reg, i) => {
+          mapa.map((reg, i) => {
             return(
               <div key={i}>
                 <Informacao style={{outline: instrucao===i ? '1px solid rgba(0, 0, 0, 1)' : '0px solid rgba(0, 0, 0, 0)'}}>{
-                  "0x" + i.toString(16) + ': ' + reg.toString(16).padStart(2, '0').toUpperCase()
+                  "0x" + i.toString(16) + ': ' + reg[0].toString(16).padStart(2, '0').toUpperCase() + ":" + reg[1].toString(16).padStart(2, '0').toUpperCase()
                 }</Informacao>
               </div>
             );

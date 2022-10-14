@@ -30,6 +30,7 @@ Arquivos binários pra testes podem ser encontrados na [documentação](./docume
 * tentar achar pq o tetris ta errado
 * achar um jeito de parar o teclado quando solta o botão
 * melhorar o hook do display pra ser menos custoso
+* transformar parte de instruções da tela de debug em uma tabela
 
 ### Extras
 

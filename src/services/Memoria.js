@@ -4,7 +4,7 @@
 const Memoria = {
     Indice: 0x200,
     Subrotina: 0x200,
-    mapa: [],
+    rom: [],
     pos: null,
     setter: null,
 
@@ -48,8 +48,8 @@ const Memoria = {
      * transforma o arquivo em instrucoes
      */
     Iniciar: function (rom, setter) {
-        this.mapa = [...new Uint8Array(rom)];
-        this.pos = this.CriaPosicoes(this.fonte, this.mapa);
+        this.rom = [...new Uint8Array(rom)];
+        this.pos = this.CriaPosicoes(this.fonte, this.rom);
         this.setter = setter;
         this.UpdateIndice(0x200);
     },
