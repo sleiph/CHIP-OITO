@@ -113,6 +113,10 @@ function Home(  ) {
     setDisable(true);
   }
 
+  function reset(){
+    window.location.reload();
+  }
+
   return (
     <Container>
       <Cartucho>
@@ -125,6 +129,7 @@ function Home(  ) {
           disabled={disable}
         />
         <DivDebug>
+          <button disabled={!disable} onClick={reset}>Reset</button>
           <button onClick={handleDebug}>Debu<u>g</u></button>
           <button onClick={handleAjuda}>?</button>
         </DivDebug>
