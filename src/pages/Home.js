@@ -33,6 +33,10 @@ const DivDebug = styled.div`
   display: flex;
   gap: 12px;
 `
+const btn = styled.button`
+  width: fit-content; 
+`
+
 
 function Home(  ) {
 
@@ -120,17 +124,19 @@ function Home(  ) {
   return (
     <Container>
       <Cartucho>
-        <input
-          type='file'
-          id='file'
-          accept='.rom,.ch8'
-          onChange={e => handleFileChosen(e.target.files[0])}
-          onClick={e => e.target.value = ''}
-          disabled={disable}
-        />
+        {
+          (disable) ? <btn><button onClick={reset}>Reset</button></btn> : 
+          <input 
+            type='file'
+            id='file'
+            accept='.rom,.ch8'
+            onChange={e => handleFileChosen(e.target.files[0])}
+            onClick={e => e.target.value = ''}
+            disabled={disable}
+          />
+        }
         <DivDebug>
-          <button disabled={!disable} onClick={reset}>Reset</button>
-          <button onClick={handleDebug}>Debu<u>g</u></button>
+          <button onClick={handleDebug}>Debu<span style = {{textDecoration:'underline'}} >g</span></button>
           <button onClick={handleAjuda}>?</button>
         </DivDebug>
       </Cartucho>
