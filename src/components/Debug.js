@@ -31,7 +31,7 @@ const Instrucoes = styled.div`
 `
 const Informacao = styled.span`
   text-align: center;
-  margin: 0 16px 0 0;
+  margin: 0 8px 0 8px;
 `
 
 function Debug( {registradores, indice, timers, instrucao} ) {
@@ -42,7 +42,7 @@ function Debug( {registradores, indice, timers, instrucao} ) {
     }
     return acc;
   }, []);
-  console.log(mapa)
+
   const arrayRegistradores = Object.values(registradores);
   
   return (
@@ -55,8 +55,8 @@ function Debug( {registradores, indice, timers, instrucao} ) {
         { 
           mapa.map((reg, i) => {
             return(
-              <div key={i}>
-                <Informacao style={{outline: instrucao===i ? '1px solid rgba(0, 0, 0, 1)' : '0px solid rgba(0, 0, 0, 0)'}}>{
+              <div key={i} style={{outline: instrucao===i ? '1px solid rgba(0, 0, 0, 1)' : '1px solid rgba(0, 0, 0, 0.1)'}}>
+                <Informacao>{
                   "0x" + i.toString(16) + ': ' + reg[0].toString(16).padStart(2, '0').toUpperCase() + ":" + reg[1].toString(16).padStart(2, '0').toUpperCase()
                 }</Informacao>
               </div>
