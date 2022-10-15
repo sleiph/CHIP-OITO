@@ -33,6 +33,9 @@ const DivDebug = styled.div`
   display: flex;
   gap: 12px;
 `
+const BtnDinv = styled.div`
+  width: fit-content; 
+`
 
 function Home(  ) {
 
@@ -113,19 +116,26 @@ function Home(  ) {
     setDisable(true);
   }
 
+  function reset(){
+    window.location.reload();
+  }
+
   return (
     <Container>
       <Cartucho>
-        <input
-          type='file'
-          id='file'
-          accept='.rom,.ch8'
-          onChange={e => handleFileChosen(e.target.files[0])}
-          onClick={e => e.target.value = ''}
-          disabled={disable}
-        />
+        {
+          (disable) ? <BtnDinv><button onClick={reset}>Reset</button></BtnDinv> : 
+          <input 
+            type='file'
+            id='file'
+            accept='.rom,.ch8'
+            onChange={e => handleFileChosen(e.target.files[0])}
+            onClick={e => e.target.value = ''}
+            disabled={disable}
+          />
+        }
         <DivDebug>
-          <button onClick={handleDebug}>Debu<u>g</u></button>
+          <button onClick={handleDebug}>Debu<span style = {{textDecoration:'underline'}} >g</span></button>
           <button onClick={handleAjuda}>?</button>
         </DivDebug>
       </Cartucho>

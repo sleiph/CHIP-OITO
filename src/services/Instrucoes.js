@@ -81,10 +81,9 @@ const Instrucoes = {
     /// ex. Opcode: 8XY4
     setAddop : function(x, y) { 
         let soma = (Registros.reg[x] += Registros.reg[y]);
-        if (soma > 0xFF) {
-            soma -= 256;
+        if (soma > 0xFF)
             Registros.UpdateRegistradores(15, 1);
-        } else
+        else
             Registros.UpdateRegistradores(15, 0);
         Registros.UpdateRegistradores(x, soma);
         return 2;
@@ -97,8 +96,6 @@ const Instrucoes = {
             Registros.UpdateRegistradores(15, 1);
         else
             Registros.UpdateRegistradores(15, 0);
-        if (temp < 0)
-            temp = 0xff + temp;
         Registros.UpdateRegistradores(x, temp);
         return 2;
     },
@@ -118,8 +115,6 @@ const Instrucoes = {
             Registros.UpdateRegistradores(15, 1);
         else
             Registros.UpdateRegistradores(15, 0);
-        if (temp < 0)
-            temp = 0xff + temp;
         Registros.UpdateRegistradores(x, temp);
         return 2;
     },
@@ -184,7 +179,6 @@ const Instrucoes = {
         let sprite = [];
         for (let i = 0; i < n; i++)
             sprite.push(Memoria.pos[Memoria.Indice+i]);
-        
         let vf = Display.UpdateDisplay(vX, vY, sprite) ? 1 : 0;
         Registros.UpdateRegistradores(15, vf);
         return 2;

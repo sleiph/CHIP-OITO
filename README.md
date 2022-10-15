@@ -24,15 +24,13 @@ Arquivos binários pra testes podem ser encontrados na [documentação](./docume
 
 ## Fazer
 
-* Tela de apresentação com informações de como jogar.
-* Melhorar a performance, pra rodar em uma velocidade boa.
-    - Melhorar o hook do display pra ser menos custoso.
-* Tentar achar pq o tetris tá errado ainda.
-* Achar um jeito de parar o teclado quando solta o botão.
-* Apertar mais de uma tecla ao mesmo tempo.
-* Transformar a parte de instruções da tela de debug em uma tabela.
-* Reset sem recarregar a página toda.
-* Criar testes
+* Tela de apresentação com informações de como jogar
+* melhorar a performance, pra rodar em uma velocidade boa
+* tentar achar pq o tetris ta errado
+* achar um jeito de parar o teclado virtual quando solta o botão do mouse
+* melhorar o hook do display pra ser menos custoso
+* apertar mais de uma tecla ao mesmo tempo
+* testes pras funcoes
 
 ### Extras
 
