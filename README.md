@@ -25,11 +25,11 @@ Arquivos binários pra testes podem ser encontrados na [documentação](./docume
 ## Fazer
 
 * Tela de apresentação com informações de como jogar
-* Função de reset do videogame
-* melhorar **MUITO** a performance, pra rodar em uma velocidade boa (Obs: 0:22:50 || 0:05:00).
+* melhorar a performance, pra rodar em uma velocidade boa (Obs: 0:22:50 || 0:05:00).
 * tentar achar pq o tetris ta errado
 * achar um jeito de parar o teclado quando solta o botão
 * melhorar o hook do display pra ser menos custoso
+* apertar mais de uma tecla ao mesmo tempo
 
 ### Extras
 
