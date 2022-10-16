@@ -79,57 +79,58 @@ const Instrucoes = {
     },
 
     /// ex. Opcode: 8XY4
-    setAddop : function(x, y) { 
-        let soma = (Registros.reg[x] += Registros.reg[y]);
-        if (soma > 0xFF)
-            Registros.UpdateRegistradores(15, 1);
-        else
-            Registros.UpdateRegistradores(15, 0);
-        Registros.UpdateRegistradores(x, soma);
+    setAddop : function(x, y) {
+        let copia = [...Registros.reg];
+        let soma = (copia[x] + copia[y]);
+        copia[15] = (soma > 0xff) ? 1 : 0;
+        copia[x] = soma & 0xff;
+        Registros.UpdateRegistradoresArr(copia);
         return 2;
     },
 
     /// ex. Opcode: 8XY5
     setSubop : function(x, y) {
-        let temp = Registros.reg[x] - Registros.reg[y];
-        if (Registros.reg[x] > Registros.reg[y])
-            Registros.UpdateRegistradores(15, 1);
-        else
-            Registros.UpdateRegistradores(15, 0);
-        Registros.UpdateRegistradores(x, temp);
+        let copia = [...Registros.reg];
+        copia[15] = (copia[x] > copia[y]) ? 1 : 0;
+        copia[x] -= copia[y];
+        if (copia[x] < 0)
+            copia[x] = 0xff + copia[x];
+        Registros.UpdateRegistradoresArr(copia);
         return 2;
     },
 
     /// ex. Opcode: 8XY6
     setRightShift : function(x) {
-        let temp = Registros.reg[x] >> 1;
-        Registros.UpdateRegistradores(15, Registros.reg[x] & 0x1);
-        Registros.UpdateRegistradores(x, temp);
+        let copia = [...Registros.reg];
+        copia[15] = copia[x] & 0x1;
+        copia[x] >>= 1;
+        Registros.UpdateRegistradoresArr(copia);
         return 2;
     },
 
     /// ex. Opcode: 8XY7
-    setRestop : function(x, y){
-        let temp = Registros.reg[y] - Registros.reg[x];
-        if (Registros.reg[y] > Registros.reg[x])
-            Registros.UpdateRegistradores(15, 1);
-        else
-            Registros.UpdateRegistradores(15, 0);
-        Registros.UpdateRegistradores(x, temp);
+    setRestop : function(x, y) {
+        let copia = [...Registros.reg];
+        copia[15] = (copia[y] > copia[x]) ? 1 : 0;
+        copia[x] = copia[y] - copia[x];
+        if (copia[x] < 0)
+            copia[x] = 0xff + copia[x];
+        Registros.UpdateRegistradoresArr(copia);
         return 2;
     },
      
     /// ex. Opcode: 8XYE
     setLeftShift : function(x) {
-        let temp = Registros.reg[x] << 1;
-        Registros.UpdateRegistradores(15, Registros.reg[x] & 0x80);
-        Registros.UpdateRegistradores(x, temp);
+        let copia = [...Registros.reg];
+        copia[15] = copia[x] & 0x80;
+        copia[x] <<= 1;
+        Registros.UpdateRegistradoresArr(copia);
         return 2;
     },
 
     /// ex. Opcode: CXNN
     setRandom : function(indice, valor) {
-        let temp = (Math.floor(Math.random() * 0xFF) & valor) & 0xFF;
+        let temp = (Math.floor(Math.random() * 0xff) & valor) & 0xff;
         Registros.UpdateRegistradores(indice, temp);
         return 2;
     },
@@ -176,9 +177,7 @@ const Instrucoes = {
     Desenha : function (x, y, n) {
         let vX = Registros.reg[x];
         let vY = Registros.reg[y];
-        let sprite = [];
-        for (let i = 0; i < n; i++)
-            sprite.push(Memoria.pos[Memoria.Indice+i]);
+        let sprite = Memoria.pos.slice(Memoria.Indice, Memoria.Indice+n);
         let vf = Display.UpdateDisplay(vX, vY, sprite) ? 1 : 0;
         Registros.UpdateRegistradores(15, vf);
         return 2;

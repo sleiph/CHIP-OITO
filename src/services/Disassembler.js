@@ -6,11 +6,10 @@ import Instrucoes from './Instrucoes';
  * https://en.wikipedia.org/wiki/CHIP-8
  */
 function Disassembler(indice, inst1, inst2) {
-  let op =inst1 >> 4,    // primeira posicao da instrucao
-      x = inst1 & 0xf,    // segunda posicao
+  let op =inst1 >> 4,   // primeira posicao da instrucao
+      x = inst1 & 0xf,  // segunda posicao
       y = inst2 >> 4,   // terceira posicao
-      n = inst2 & 0xf,  // quarta posicao
-      nnn = ((inst1&0xf)<<8) + inst2;
+      n = inst2 & 0xf;  // quarta posicao
 
   switch(op) {
     case 0:
@@ -28,9 +27,9 @@ function Disassembler(indice, inst1, inst2) {
       throw new Error("0 alguma coisa...");
 
     case 1: // 1NNN: pula pro endereço descrito na instrucao
-      return Instrucoes.StrHex(nnn);
+      return Instrucoes.StrHex(((inst1&0xf)<<8) + inst2);
     case 2: // 2NNN: manda pra uma subrotina
-      return Instrucoes.StrRot(nnn, indice);
+      return Instrucoes.StrRot(((inst1&0xf)<<8) + inst2, indice);
     // condicionais
     case 3: // 3XNN: skipa a proxima se x=nn
       return indice + Instrucoes.skipXNNTrue(x, inst2);
@@ -70,9 +69,9 @@ function Disassembler(indice, inst1, inst2) {
     case 9: // 9XY0: skipa a proxima se x!=y
       return indice + Instrucoes.skipXYFalse(x, y);
     case 10: // ANNN: muda o valor do apontador (I)
-      return indice + Instrucoes.setIndico(nnn);
+      return indice + Instrucoes.setIndico(((inst1&0xf)<<8) + inst2);
     case 11: // BNNN: pula pro endereço V0 + instrucao enviada
-      return Instrucoes.pulaPraNNN(nnn);
+      return Instrucoes.pulaPraNNN(((inst1&0xf)<<8) + inst2);
     case 12: // CXNN: atribui um valor aleatorio pro registrador[x]
       return indice + Instrucoes.setRandom(x, inst2);
     case 13: // DXYN: desenha na tela

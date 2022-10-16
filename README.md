@@ -34,6 +34,7 @@ Arquivos binários pra testes podem ser encontrados na [documentação](./docume
 
 ### Extras
 
+* deixar os botoes do header mais bonitos
 * mostrar no teclado que a tecla foi apertada.
 * melhorar o menu de Debug
 * adicionar uma rom de demonstração (sem direitos autorais de ninguém)

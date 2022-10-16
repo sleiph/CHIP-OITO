@@ -3,6 +3,7 @@ import styled from 'styled-components';
 
 import Ajuda from '../components/Ajuda';
 import Debug from '../components/Debug';
+import Header from '../components/Header';
 import Teclado from '../components/Teclado';
 import Tela from '../components/Tela';
 import Apontador from '../services/Apontador';
@@ -20,22 +21,6 @@ const Container = styled.div`
   flex-direction: column;
   background-color: #63bda4;
 `
-const Cartucho = styled.div`
-  height: 4vh;
-  background-color: #f20553;
-  padding: 0 16px;
-  display: grid;
-  grid-template-columns: 2fr 1fr;
-  align-items: center;
-`
-const DivDebug = styled.div`
-  justify-self: flex-end;
-  display: flex;
-  gap: 12px;
-`
-const BtnDinv = styled.div`
-  width: fit-content; 
-`
 
 function Home(  ) {
 
@@ -49,6 +34,16 @@ function Home(  ) {
   const [debug, setDebug] = useState(false);
   const [disable, setDisable] = useState(false);
 
+  // ainda não tá inciando direito, teria q zerar todas
+  // as variaveis antes de voltar do começo
+  const Iniciar = (buffer) => {
+    Registros.Iniciar(setRegistradores);
+    Timer.Iniciar(setTimers);
+    Display.Iniciar(setDisplay);
+    Memoria.Iniciar(buffer, setIndice);
+    Apontador.Comecar(setInstrucao);
+  }
+
   // exibição de componentes de apoio
   const handleDebug = () => {
     Display.debug = !Display.debug;
@@ -61,16 +56,6 @@ function Home(  ) {
     Display.debug = false;
     setDebug(false);
     setAjuda(Display.ajuda);
-  }
-
-  // ainda não tá inciando direito, teria q zerar todas
-  // as variaveis antes de voltar do começo
-  const Iniciar = (buffer) => {
-    Registros.Iniciar(setRegistradores);
-    Timer.Iniciar(setTimers);
-    Display.Iniciar(setDisplay);
-    Memoria.Iniciar(buffer, setIndice);
-    Apontador.Comecar(setInstrucao);
   }
 
   useEffect(() => {
@@ -101,44 +86,12 @@ function Home(  ) {
     });
   }, [ajuda, debug]);
 
-  // entrada de arquivo (rom)
-  let fileReader;
-  /// manda o arquivo pra ser interpretado
-  const handleFileRead = () => {
-    const buffer = fileReader.result;
-    Iniciar(buffer);
-  };
-  /// lê o arquivo carregado pelo usuario
-  function handleFileChosen(arquivo) {
-    fileReader = new FileReader();
-    fileReader.onloadend = handleFileRead;
-    fileReader.readAsArrayBuffer(arquivo);
-    setDisable(true);
-  }
-
-  function reset(){
-    window.location.reload();
-  }
-
   return (
     <Container>
-      <Cartucho>
-        {
-          (disable) ? <BtnDinv><button onClick={reset}>Reset</button></BtnDinv> : 
-          <input 
-            type='file'
-            id='file'
-            accept='.rom,.ch8'
-            onChange={e => handleFileChosen(e.target.files[0])}
-            onClick={e => e.target.value = ''}
-            disabled={disable}
-          />
-        }
-        <DivDebug>
-          <button onClick={handleDebug}>Debu<span style = {{textDecoration:'underline'}} >g</span></button>
-          <button onClick={handleAjuda}>?</button>
-        </DivDebug>
-      </Cartucho>
+      <Header disable={disable} setDisable={setDisable}
+        Iniciar={Iniciar}
+        handleAjuda={handleAjuda} handleDebug={handleDebug}
+      />
 
       <Tela display={display} />
       <Teclado />

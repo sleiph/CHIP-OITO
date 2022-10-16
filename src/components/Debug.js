@@ -57,7 +57,7 @@ function Debug( {registradores, indice, timers, instrucao} ) {
             return(
               <div key={i} style={{outline: instrucao===i ? '1px solid rgba(0, 0, 0, 1)' : '1px solid rgba(0, 0, 0, 0.1)'}}>
                 <Informacao>{
-                  "0x" + i.toString(16) + ': ' + reg[0].toString(16).padStart(2, '0').toUpperCase() + reg[1].toString(16).padStart(2, '0').toUpperCase()
+                  "0x" + i.toString(16) + ':' + reg[0].toString(16).padStart(2, '0').toUpperCase() + reg[1].toString(16).padStart(2, '0').toUpperCase()
                 }</Informacao>
               </div>
             );

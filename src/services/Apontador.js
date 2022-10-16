@@ -32,7 +32,6 @@ const Apontador = {
 }
 
 function aponta(setInstrucao) {
-  // se o jogo não ta pausado
   if (Inputs.isJogando || Inputs.proximo) {
     let indice = Apontador.atual
     Apontador.atual = Disassembler(indice, Memoria.pos[indice], Memoria.pos[indice+1]);
