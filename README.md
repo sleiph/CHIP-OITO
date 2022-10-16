@@ -31,6 +31,7 @@ Arquivos binários pra testes podem ser encontrados na [documentação](./docume
 * melhorar o hook do display pra ser menos custoso
 * apertar mais de uma tecla ao mesmo tempo
 * testes pras funcoes
+* criar um favicon pro app
 
 ### Extras
 

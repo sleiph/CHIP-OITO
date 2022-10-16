@@ -30,7 +30,7 @@ function Ajuda() {
         <OPDiv>
             <Fundo />
             <Grupo>
-                <h2>CHIP-8:</h2>
+                <h2>CHIP-OITO:</h2>
                 <Subtitle >Feito por Ricardo e Tiago.</Subtitle>
             </Grupo>
             <Grupo>
