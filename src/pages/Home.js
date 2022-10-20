@@ -79,9 +79,9 @@ function Home(  ) {
         }
         Inputs.apertando = true;
       } else {
-        if (keysPressed[0] != event.key) {
+        if (!keysPressed.includes(event.key)) {
           Inputs.Teclou(event.key);
-          keysPressed[0] = event.key;
+          keysPressed.push(event.key);
         }
       }
     });
