@@ -20,6 +20,7 @@ const Inputs = {
      */
     Teclou : function(tecla) {
         this.apertando = true;
+        console.log(tecla);
         let indice = this.teclas.indexOf(tecla);
         if (indice !== -1) {
             this.apertada = indice;
