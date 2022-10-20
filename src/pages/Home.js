@@ -33,6 +33,7 @@ function Home(  ) {
   const [ajuda, setAjuda] = useState(false);
   const [debug, setDebug] = useState(false);
   const [disable, setDisable] = useState(false);
+  let keysPressed = []; // guardar se um botão foi precionado
 
   // ainda não tá inciando direito, teria q zerar todas
   // as variaveis antes de voltar do começo
@@ -73,12 +74,15 @@ function Home(  ) {
         else if (event.key === 'h')
           handleAjuda();
         else
+          keysPressed.push(event.key); // registrar qual foi precionado
+          if (keysPressed[0] != event.key) Inputs.Teclou(keysPressed[0]); // mais de um precionando
           Inputs.Teclou(event.key);
 
         Inputs.apertando = true;
       }
     });
     window.addEventListener('keyup', () => {
+      keysPressed = []; // resetando o array
       Inputs.Soltou();
     });
     window.addEventListener('mouseup', () => {
