@@ -29,7 +29,8 @@ const Inputs = {
     Soltou: function(tecla) {
         this.apertando = false;
         let indice = this.teclas.indexOf(tecla);
-        this.apertadas.splice(this.apertadas.indexOf(indice), 1);
+        if (indice !== -1 && this.apertadas.indexOf(indice) !== -1)
+            this.apertadas.splice(this.apertadas.indexOf(indice), 1);
     }
     
 }

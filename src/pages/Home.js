@@ -61,19 +61,19 @@ function Home(  ) {
   useEffect(() => {
     // ouve o teclado
     window.addEventListener('keydown', (event) => {
-      if (event.key === 'p')
-        Inputs.ToggleJogando();
-      else if (event.key === 'o')
-        window.location.reload();
-      else if (event.key === 'ArrowRight')
-        Inputs.proximo = true;
-      else if (event.key === 'g')
-        handleDebug();
-      else if (event.key === 'h')
-        handleAjuda();
-      else {
-        Inputs.Teclou(event.key);
+      if (!Inputs.apertando) {
+        if (event.key === 'p')
+          Inputs.ToggleJogando();
+        else if (event.key === 'o')
+          window.location.reload();
+        else if (event.key === 'g')
+          handleDebug();
+        else if (event.key === 'h')
+          handleAjuda();
       }
+      if (event.key === 'ArrowRight')
+          Inputs.proximo = true;
+      Inputs.Teclou(event.key);
     });
     window.addEventListener('keyup', (event) => {
       Inputs.Soltou(event.key);

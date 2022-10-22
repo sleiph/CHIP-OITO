@@ -32,6 +32,8 @@ Arquivos binários pra testes podem ser encontrados na [documentação](./docume
 * apertar mais de uma tecla ao mesmo tempo
 * testes pras funcoes
 * criar um favicon pro app
+* botao de pause e proxima instrução na tela
+* o debug foca na instrução sendo executada (pro usuario não ter q ficar procurando a instrução)
 
 ### Extras
 
