@@ -188,7 +188,7 @@ const Instrucoes = {
     /// ex. Opcode: EX9E
     isApertando : function (x) {
         if (Inputs.apertando &&
-            Inputs.apertada === Registros.reg[x]) {
+            Inputs.apertadas.indexOf(Registros.reg[x]) !== -1) {
                 return 4;
         }
         return 2;
@@ -197,7 +197,7 @@ const Instrucoes = {
     /// TODO: fazer essa aqui
     /// ex. Opcode: EXA1
     isNotApertando : function(x) {
-        if (Inputs.apertada !== Registros.reg[x]) {
+        if (Inputs.apertadas.indexOf(Registros.reg[x]) === -1) {
                 return 4;
         }
         return 2;
@@ -207,7 +207,7 @@ const Instrucoes = {
     /// ex. Opcode: FX0A
     esperarTecla : function(x) {
         if (Inputs.apertando) {
-            Registros.UpdateRegistradores(x, Inputs.apertada);
+            Registros.UpdateRegistradores(x, Inputs.apertadas[Inputs.apertadas.length-1]);
             return 2;
         }
         return 0;

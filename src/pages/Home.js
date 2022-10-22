@@ -33,7 +33,6 @@ function Home(  ) {
   const [ajuda, setAjuda] = useState(false);
   const [debug, setDebug] = useState(false);
   const [disable, setDisable] = useState(false);
-  let keysPressed = []; // guardar se um botão foi precionado
 
   // ainda não tá inciando direito, teria q zerar todas
   // as variaveis antes de voltar do começo
@@ -62,36 +61,22 @@ function Home(  ) {
   useEffect(() => {
     // ouve o teclado
     window.addEventListener('keydown', (event) => {
-      if (!Inputs.apertando) {
-        if (event.key === 'p')
-          Inputs.ToggleJogando();
-        else if (event.key === 'o')
-          window.location.reload();
-        else if (event.key === 'ArrowRight')
-          Inputs.proximo = true;
-        else if (event.key === 'g')
-          handleDebug();
-        else if (event.key === 'h')
-          handleAjuda();
-        else {
-          keysPressed.push(event.key); // registrar qual foi precionado
-          Inputs.Teclou(event.key);
-        }
-        Inputs.apertando = true;
-      } else {
-        if (!keysPressed.includes(event.key)) {
-          Inputs.Teclou(event.key);
-          keysPressed.push(event.key);
-        }
+      if (event.key === 'p')
+        Inputs.ToggleJogando();
+      else if (event.key === 'o')
+        window.location.reload();
+      else if (event.key === 'ArrowRight')
+        Inputs.proximo = true;
+      else if (event.key === 'g')
+        handleDebug();
+      else if (event.key === 'h')
+        handleAjuda();
+      else {
+        Inputs.Teclou(event.key);
       }
     });
-    window.addEventListener('keyup', () => {
-      keysPressed = [];  //resetando o array
-      console.log("soltou");
-      Inputs.Soltou();
-    });
-    window.addEventListener('mouseup', () => {
-      Inputs.Soltou();
+    window.addEventListener('keyup', (event) => {
+      Inputs.Soltou(event.key);
     });
   }, [ajuda, debug]);
 

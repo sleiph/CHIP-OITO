@@ -34,13 +34,20 @@ const TeclaDiv = styled.div`
 `
 
 function Tecla( {chave, tecla} ) {
+
+    const handleMouseDown = () => {
+        Inputs.Teclou(tecla);
+    }
+    const handleMouseUp = () => {
+        Inputs.Soltou(tecla);
+    }
+
     return (
-        <TeclaDiv tabIndex = {parseInt(chave, 16)+1}>
-            <button
-                onClick = {() => {
-                    Inputs.Teclou(tecla);
-                }}
-            >{chave}</button>
+        <TeclaDiv
+            onMouseDown={handleMouseDown}
+            onMouseUp={handleMouseUp}
+            tabIndex = {parseInt(chave, 16)+1}>
+            <button>{chave}</button>
         </TeclaDiv>
     )
 }

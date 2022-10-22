@@ -6,7 +6,7 @@ const Inputs = {
     isJogando : true,
     proximo : false,
     apertando: false,
-    apertada: 0,
+    apertadas: [],
 
     /**
      * garante que o pause só seja executado uma vez
@@ -20,16 +20,16 @@ const Inputs = {
      */
     Teclou : function(tecla) {
         this.apertando = true;
-        console.log(tecla);
         let indice = this.teclas.indexOf(tecla);
-        if (indice !== -1) {
-            this.apertada = indice;
+        if (indice !== -1 && this.apertadas.indexOf(indice) === -1) {
+            this.apertadas.push(indice);
         }
     },
 
-    Soltou: function() {
+    Soltou: function(tecla) {
         this.apertando = false;
-        this.apertada = '';
+        let indice = this.teclas.indexOf(tecla);
+        this.apertadas.splice(this.apertadas.indexOf(indice), 1);
     }
     
 }
