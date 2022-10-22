@@ -35,8 +35,8 @@ function Ajuda() {
             </Grupo>
             <Grupo>
                 <p>Esse é um emulador de chip-8 feito em React.js.</p>
-                <p>Para usar o emulador você deve possuir ás roms com os jogos compátiveis, não disponibilizamos nenhuma rom em nossa aplicação. Use o botão na parte superior esquerda para selecionar o arquivo desejável.</p>
-                <p>Você pode usar seu teclado fisíco ou o teclado do site para interagir com ele. Ás teclas usadas são q, w, e, a, s e d. Cada jogo irá usa-las de forma difente.</p>
+                <p>Para usar o emulador você deve possuir as ROMs com os jogos compatíveis, não disponibilizamos nenhuma ROM em nossa aplicação. Use o botão na parte superior esquerda para selecionar o arquivo desejável.</p>
+                <p>Você pode usar seu teclado físico ou o teclado do site para interagir. As teclas usadas são q, w, e, a, s e d. Cada jogo irá usá-las de forma difente.</p>
             </Grupo>
             <Grupo>
                 <p>Pra fechar ou abrir esse menu denovo, aperte h.</p>
