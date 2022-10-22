@@ -6,6 +6,7 @@ import Memoria from '../services/Memoria';
 export const OPDiv = styled.div`
   position: absolute;
   height: 520px;
+  min-width: 360px;
   max-width: 520px;
   top: 50%;
   left: 50%;
