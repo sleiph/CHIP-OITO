@@ -17,10 +17,14 @@ const BtnReset = styled.button`
   width: fit-content; 
 `
 
-function Header({ disable, setDisable, Iniciar, handleAjuda, handleDebug }) {
+function Header({ disable, setDisable, Iniciar, handleAjuda, handleDebug, fps, setFps}) {
 
     // entrada de arquivo (rom)
     let fileReader;
+    // contar o fps 
+    let fpscount = 0;
+    // guardar o periodo passado
+    let lastloop = new Date();
     /// manda o arquivo pra ser interpretado
     const handleFileRead = () => {
         const buffer = fileReader.result;
@@ -33,6 +37,19 @@ function Header({ disable, setDisable, Iniciar, handleAjuda, handleDebug }) {
         fileReader.readAsArrayBuffer(arquivo);
         setDisable(true);
     }
+
+    //atualiza o fps
+    function updateFPS(){
+        const thisloop = new Date(); // guardar o periodo atual
+        fpscount += ((thisloop - lastloop) - fpscount) / 20;
+        fpscount = Math.round(1000/fpscount)
+        setFps(Math.round(1000/fpscount));
+        lastloop = thisloop;
+      }
+
+      function startFPS(){
+        setInterval(function(){updateFPS();},1000);
+      }
 
     function reset(){
         window.location.reload();
@@ -52,6 +69,8 @@ function Header({ disable, setDisable, Iniciar, handleAjuda, handleDebug }) {
                 />
             }
             <DivDebug>
+                <a>{fps}</a>
+                <button disabled={!disable} onClick={startFPS}>Show FPS</button>
                 <button onClick={handleDebug}>Debu<span style = {{textDecoration:'underline'}} >g</span></button>
                 <button onClick={handleAjuda}>?</button>
             </DivDebug>

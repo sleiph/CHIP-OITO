@@ -33,6 +33,7 @@ function Home(  ) {
   const [ajuda, setAjuda] = useState(false);
   const [debug, setDebug] = useState(false);
   const [disable, setDisable] = useState(false);
+  const [fps, setFps] = useState(0);
 
   // ainda não tá inciando direito, teria q zerar todas
   // as variaveis antes de voltar do começo
@@ -85,6 +86,7 @@ function Home(  ) {
       <Header disable={disable} setDisable={setDisable}
         Iniciar={Iniciar}
         handleAjuda={handleAjuda} handleDebug={handleDebug}
+        fps={fps} setFps={setFps}
       />
 
       <Tela display={display} />
