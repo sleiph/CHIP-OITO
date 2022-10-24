@@ -43,7 +43,7 @@ function Header({ disable, setDisable, Iniciar, handleAjuda, handleDebug, fps, s
         const thisloop = new Date(); // guardar o periodo atual
         fpscount += ((thisloop - lastloop) - fpscount) / 20;
         fpscount = Math.round(1000/fpscount)
-        setFps(Math.round(1000/fpscount));
+        setFps(fpscount);
         lastloop = thisloop;
       }
 
