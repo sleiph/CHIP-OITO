@@ -17,6 +17,9 @@ const BtnReset = styled.button`
   width: fit-content; 
 `
 
+let checkfps = false;
+let count;
+
 function Header({ disable, setDisable, Iniciar, handleAjuda, handleDebug, fps, setFps}) {
 
     // entrada de arquivo (rom)
@@ -43,12 +46,20 @@ function Header({ disable, setDisable, Iniciar, handleAjuda, handleDebug, fps, s
         const thisloop = new Date(); // guardar o periodo atual
         fpscount += ((thisloop - lastloop) - fpscount) / 20;
         fpscount = Math.round(1000/fpscount)
-        setFps(fpscount);
+        setFps("fps: " + fpscount);
         lastloop = thisloop;
+        //console.log(fpscount);
       }
 
       function startFPS(){
-        setInterval(function(){updateFPS();},1000);
+        checkfps = true;
+        count = setInterval(function(){updateFPS();},1000);
+      }
+
+      function stopFPS(){
+        checkfps = false;
+        clearInterval(count);
+        setFps("");
       }
 
     function reset(){
@@ -70,7 +81,10 @@ function Header({ disable, setDisable, Iniciar, handleAjuda, handleDebug, fps, s
             }
             <DivDebug>
                 <a>{fps}</a>
-                <button disabled={!disable} onClick={startFPS}>Show FPS</button>
+                {
+                  (!checkfps) ? <button disabled={!disable} onClick={startFPS}>Show FPS</button> :  
+                  <button onClick={stopFPS}>Stop FPS</button>
+                }
                 <button onClick={handleDebug}>Debu<span style = {{textDecoration:'underline'}} >g</span></button>
                 <button onClick={handleAjuda}>?</button>
             </DivDebug>
