@@ -17,17 +17,13 @@ const BtnReset = styled.button`
   width: fit-content; 
 `
 
-let checkfps = false;
-let count;
+const FPSBotao = styled.button`
+
+`
 
 function Header({ disable, setDisable, Iniciar, handleAjuda, handleDebug, fps, setFps}) {
-
     // entrada de arquivo (rom)
     let fileReader;
-    // contar o fps 
-    let fpscount = 0;
-    // guardar o periodo passado
-    let lastloop = new Date();
     /// manda o arquivo pra ser interpretado
     const handleFileRead = () => {
         const buffer = fileReader.result;
@@ -42,25 +38,26 @@ function Header({ disable, setDisable, Iniciar, handleAjuda, handleDebug, fps, s
     }
 
     //atualiza o fps
-    function updateFPS(){
-        const thisloop = new Date(); // guardar o periodo atual
-        fpscount += ((thisloop - lastloop) - fpscount) / 20;
+    let intervaloFPS;
+    function updateFPS(lastloop) {
+        let thisloop = new Date(); // guardar o periodo atual
+        let fpscount = (thisloop - lastloop) / 20;
         fpscount = Math.round(1000/fpscount)
         setFps("fps: " + fpscount);
-        lastloop = thisloop;
-        //console.log(fpscount);
-      }
+        return thisloop;
+    }
 
-      function startFPS(){
-        checkfps = true;
-        count = setInterval(function(){updateFPS();},1000);
-      }
+    function startFPS() {
+        let passado = new Date();
+        intervaloFPS = setInterval( function() {
+            passado = updateFPS(passado)
+        },1000);
+    }
 
-      function stopFPS(){
-        checkfps = false;
-        clearInterval(count);
-        setFps("");
-      }
+    function stopFPS(){
+        clearInterval(intervaloFPS);
+        setFps('');
+    }
 
     function reset(){
         window.location.reload();
@@ -82,8 +79,9 @@ function Header({ disable, setDisable, Iniciar, handleAjuda, handleDebug, fps, s
             <DivDebug>
                 <a>{fps}</a>
                 {
-                  (!checkfps) ? <button disabled={!disable} onClick={startFPS}>Show FPS</button> :  
-                  <button onClick={stopFPS}>Stop FPS</button>
+                    (fps!=='') ?
+                    <FPSBotao disabled={!disable} onClick={startFPS}>Show FPS</FPSBotao> :  
+                    <FPSBotao onClick={stopFPS}>Stop FPS</FPSBotao>
                 }
                 <button onClick={handleDebug}>Debu<span style = {{textDecoration:'underline'}} >g</span></button>
                 <button onClick={handleAjuda}>?</button>
