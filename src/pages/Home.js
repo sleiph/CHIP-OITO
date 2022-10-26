@@ -33,6 +33,7 @@ function Home(  ) {
   const [ajuda, setAjuda] = useState(false);
   const [debug, setDebug] = useState(false);
   const [disable, setDisable] = useState(false);
+  const [passar, setPassar] = useState(0);
   const [fps, setFps] = useState();
 
   // ainda não tá inciando direito, teria q zerar todas
@@ -89,7 +90,7 @@ function Home(  ) {
         fps={fps} setFps={setFps}
       />
 
-      <Tela display={display} />
+      <Tela display={display}/>
       <Teclado />
       {
         debug && (
@@ -101,7 +102,7 @@ function Home(  ) {
           />
         )
       }
-      { ajuda && ( <Ajuda /> ) }
+      { ajuda && ( <Ajuda passar={passar} setPassar={setPassar} /> ) }
     </Container>
   )
 }
