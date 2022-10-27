@@ -1,4 +1,3 @@
-import { color } from '@mui/system';
 import styled, { keyframes } from 'styled-components';
 
 import {Grupo, OPDiv} from './Debug';
