@@ -29,14 +29,22 @@ const highLighted = {
     color: "red",
     fontWeight: "bold"
 }
-    
 
-
-function Ajuda({passar,setPassar}) {
+function Ajuda({passar, setPassar}) {
     function continuarAjuda(){ 
         if (passar > 1) setPassar(0);
         else setPassar(passar + 1);
     }
+
+    function paginacao(pagina) {
+        if (pagina === 0)
+            return <p>Para usar o emulador você deve possuir as ROMs com os jogos compatíveis, não disponibilizamos nenhuma ROM em nossa aplicação. Use o botão na parte superior esquerda para selecionar o arquivo desejável.</p>
+        else if (pagina === 1)
+            return <p>Você pode usar seu teclado físico ou o teclado do site para interagir. As teclas usadas são <span style={highLighted}>Q, W, E, A, S</span> e <span style={highLighted}>D</span>. Cada jogo irá usá-las de forma difente. Há certas teclas com funcões especiais, o <span style={highLighted}>P</span> pode pausar a aplicação, o <span style={highLighted}>G</span> pode abrir o menu de debug e o <span style={highLighted}>H</span> pode abrir o menu de ajuda. Você também pode utilizar o botões na parte superior.</p>
+        else
+            return <p>Se você quiser ver a quantidade de frames por segundo(FPS) da aplicação, você pode clicar em "show FPS". FPS é uma unidade de medida sobre o número de imagens processadas por segundo, é uma forma de se medir desempenho. Você pode desfazer esta ação através de clicar no mesmo botão.</p>
+    }
+
     return(
         <OPDiv>
             <Fundo />
@@ -45,17 +53,15 @@ function Ajuda({passar,setPassar}) {
                 <Subtitle >Feito por Ricardo e Tiago.</Subtitle>
             </Grupo>
             <Grupo>
-                <p>Esse é um emulador de chip-8 feito em React.js.</p>
-                {
-                    (passar == 0) ? <p>Para usar o emulador você deve possuir as ROMs com os jogos compatíveis, não disponibilizamos nenhuma ROM em nossa aplicação. Use o botão na parte superior esquerda para selecionar o arquivo desejável.</p> :
-                    (passar == 1) ? <p>Você pode usar seu teclado físico ou o teclado do site para interagir. As teclas usadas são <span style={highLighted}>Q, W, E, A, S</span> e <span style={highLighted}>D</span>. Cada jogo irá usá-las de forma difente. Há certas teclas com funcões especiais, o <span style={highLighted}>P</span> pode pausar a aplicação, o <span style={highLighted}>G</span> pode abrir o menu de debug e o <span style={highLighted}>H</span> pode abrir o menu de ajuda. Você também pode utilizar o botões na parte superior.</p> :
-                    <p>Se você quiser ver a quantidade de frames por segundo(FPS) da aplicação, você pode clicar em "show FPS". FPS é uma unidade de medida sobre o número de imagens processadas por segundo, é uma forma de se medir desempenho. Você pode desfazer esta ação através de clicar no mesmo botão.</p>
-                }
+                <p>Esse é um emulador de CHIP-8 feito em React.js.</p>
+                { paginacao(passar) }
             </Grupo>
-            <Grupo>
-                <p>Pra fechar ou abrir esse menu denovo, aperte <span style={highLighted}>H</span> ou botão "?". Para continuar lendo aperte o botão abaixo.</p>
+            <Grupo style={{alignSelf: 'flex-end'}}>
+                <button onClick={continuarAjuda}>Continuar</button>
             </Grupo>
-            <button onClick={continuarAjuda}>Continuar</button>
+            <Grupo style={{position: 'absolute', bottom: 0, right: 0}}>
+                <p><span style={highLighted}>H</span> pra fechar ou abrir esse menu.</p>
+            </Grupo>
         </OPDiv>
     )
 }
