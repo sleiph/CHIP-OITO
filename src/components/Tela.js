@@ -16,7 +16,7 @@ function Tela( { display } ) {
           linha.map((pixel, j) => {
             return( 
               <div key={i + "-" + j}
-                style={{backgroundColor: (pixel===1) ? '#62afb7' : '#d9ffea'}}
+                style={{backgroundColor: (pixel===1) ? '#556B2F' : '#FFFACD'}}
               />
             );
           })

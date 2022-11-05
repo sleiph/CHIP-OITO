@@ -2,7 +2,7 @@ import styled from 'styled-components';
 
 const Cartucho = styled.div`
   height: 4vh;
-  background-color: #f20553;
+  background-color: #FFFACD;
   padding: 0 16px;
   display: grid;
   grid-template-columns: 2fr 1fr;

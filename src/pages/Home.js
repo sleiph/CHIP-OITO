@@ -19,7 +19,7 @@ const Container = styled.div`
   max-height: 86vh;
   display: flex;
   flex-direction: column;
-  background-color: #63bda4;
+  background-color: #DAA520;
 `
 
 function Home(  ) {

@@ -14,7 +14,7 @@ const TeclaDiv = styled.div`
         margin: 0;
         padding: 0;
         color: white;
-        background-color: #3f956f;
+        background-color: #B8860B;
         font-size: 16px;
         border-radius: 5px;
         text-decoration: none;
