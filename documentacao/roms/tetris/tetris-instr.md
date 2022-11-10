@@ -108,7 +108,7 @@ D0 14 - draw(V0,V1, 4)
 ##### A
 12 2A - goto(22A)
 ##### C - subrotina
-A2 C4 - I = 2C4
+A2 C4 - I = 2C4 //muito provavelmente esse dq
 ##### E
 F4 1E - I += V4
 
