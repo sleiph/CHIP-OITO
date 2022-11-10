@@ -8,7 +8,6 @@ import Timer from './Timer';
  * Instruções que serão usadas no disassembler
  */
 const Instrucoes = {
-
     // Instruções e subrotinas
     /// ex. Opcode: ONNN
     Vazio : function() {
@@ -17,11 +16,13 @@ const Instrucoes = {
 
     /// ex. Opcode: 00EE
     Retorna : function() {
+        console.log(Memoria.Subrotina);
         return Memoria.Subrotina;
     },
 
     /// ex. Opcode: 1NNN
     StrHex : function(nnn) {
+        console.log(Memoria.Subrotina);
         return nnn;
     },
 
@@ -131,6 +132,7 @@ const Instrucoes = {
     /// ex. Opcode: CXNN
     setRandom : function(indice, valor) {
         let temp = (Math.floor(Math.random() * 0xff) & valor) & 0xff;
+        console.log("foi");
         Registros.UpdateRegistradores(indice, temp);
         return 2;
     },
