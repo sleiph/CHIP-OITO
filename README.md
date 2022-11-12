@@ -24,26 +24,23 @@ Arquivos binários pra testes podem ser encontrados na [documentação](./docume
 
 ## Fazer
 
-* Tela de apresentação com informações de como jogar
+* deixar os botoes do header mais bonitos
+* arrumar o FPS
+* passar o FPS pra tela de debug?
+* mudar a velocidade do timer.velocidade pra pelo menos uns 16
+* add botao de pause e proxima instrução na tela pra poder usar no celular
+* Melhorar a tela de apresentação
+* melhorar o teclado virtual pra celular
+* mostrar no teclado que a tecla foi apertada.
 * melhorar a performance, pra rodar em uma velocidade boa
-* tentar achar pq o tetris ta errado
-* achar um jeito de parar o teclado virtual quando solta o botão do mouse
-* melhorar o hook do display pra ser menos custoso
-* apertar mais de uma tecla ao mesmo tempo
-* testes pras funcoes
-* criar um favicon pro app
-* botao de pause e proxima instrução na tela
-* o debug foca na instrução sendo executada (pro usuario não ter q ficar procurando a instrução)
+* o debug focar na instrução sendo executada (pro usuario não ter q ficar procurando a instrução)
 
 ### Extras
 
-* deixar os botoes do header mais bonitos
-* mostrar no teclado que a tecla foi apertada.
-* melhorar o menu de Debug
+* testes pras funcoes
 * adicionar uma rom de demonstração (sem direitos autorais de ninguém)
 * Poder mudar o valor de qualquer registrador a qualquer momento
 * Mostrar pro usuário um pseudo-código das instruções no cartucho
-* colocar os FPS
 
 ## Referências
 
