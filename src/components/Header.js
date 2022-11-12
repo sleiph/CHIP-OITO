@@ -77,7 +77,7 @@ function Header({ disable, setDisable, Iniciar, handleAjuda, handleDebug, fps, s
                 />
             }
             <DivDebug>
-                <spam>{fps}</spam>
+                <span>{fps}</span>
                 {
                     (fps!=='') ?
                     <FPSBotao disabled={!disable} onClick={startFPS}>Show FPS</FPSBotao> :  

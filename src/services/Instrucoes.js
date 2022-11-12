@@ -16,19 +16,19 @@ const Instrucoes = {
 
     /// ex. Opcode: 00EE
     Retorna : function() {
-        console.log(Memoria.Subrotina);
-        return Memoria.Subrotina;
+        console.log(Memoria.Subrotinas);
+        let sub = Memoria.Subrotinas.pop();
+        return sub;
     },
 
     /// ex. Opcode: 1NNN
     StrHex : function(nnn) {
-        console.log(Memoria.Subrotina);
         return nnn;
     },
 
     /// ex. Opcode: 2NNN
     StrRot : function(nnn, instrucao) {
-        Memoria.Subrotina = instrucao + 2;
+        Memoria.Subrotinas.push(instrucao + 2);
         return nnn;
     },
 
@@ -132,7 +132,6 @@ const Instrucoes = {
     /// ex. Opcode: CXNN
     setRandom : function(indice, valor) {
         let temp = (Math.floor(Math.random() * 0xff) & valor) & 0xff;
-        console.log("foi");
         Registros.UpdateRegistradores(indice, temp);
         return 2;
     },

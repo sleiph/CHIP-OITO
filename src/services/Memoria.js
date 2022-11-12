@@ -3,7 +3,7 @@
  */
 const Memoria = {
     Indice: 0x200,
-    Subrotina: 0x200,
+    Subrotinas: [],
     rom: [],
     pos: null,
     setter: null,
