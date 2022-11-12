@@ -16,7 +16,6 @@ const Instrucoes = {
 
     /// ex. Opcode: 00EE
     Retorna : function() {
-        console.log(Memoria.Subrotinas);
         let sub = Memoria.Subrotinas.pop();
         return sub;
     },
