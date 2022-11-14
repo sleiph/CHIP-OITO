@@ -1,3 +1,4 @@
+import { useRef } from 'react';
 import styled from 'styled-components';
 import Inputs from '../services/Inputs';
 
@@ -43,7 +44,7 @@ function Header({ disable, setDisable, Iniciar, handleAjuda, handleDebug, fps, s
     }
 
     //atualiza o fps
-    let intervaloFPS;
+    let intervaloFPS = useRef();
     function updateFPS(lastloop) {
         let thisloop = new Date(); // guardar o periodo atual
         let fpscount = (thisloop - lastloop) / 20;
@@ -54,13 +55,15 @@ function Header({ disable, setDisable, Iniciar, handleAjuda, handleDebug, fps, s
 
     function startFPS() {
         let passado = new Date();
-        intervaloFPS = setInterval( function() {
-            passado = updateFPS(passado)
-        },1000);
+        if (fps == '') {
+            intervaloFPS.current = setInterval( function() {
+                passado = updateFPS(passado)
+            },1000);
+        } 
     }
 
     function stopFPS(){
-        clearInterval(intervaloFPS);
+        clearInterval(intervaloFPS.current);
         setFps('');
     }
 
@@ -88,11 +91,11 @@ function Header({ disable, setDisable, Iniciar, handleAjuda, handleDebug, fps, s
             <DivDebug>
                 <span>{fps}</span>
                 {
-                    (fps!=='') ?
+                    (fps == '') ?
                     <FPSBotao disabled={!disable} onClick={startFPS}>Show FPS</FPSBotao> :  
                     <FPSBotao onClick={stopFPS}>Stop FPS</FPSBotao>
                 }
-                <button onClick={pauseButton}>Pause</button>
+                <button disabled={!disable} onClick={pauseButton}>Pause</button>
                 <button onClick={handleDebug}>Debu<span style = {{textDecoration:'underline'}} >g</span></button>
                 <button onClick={handleAjuda}>?</button>
             </DivDebug>

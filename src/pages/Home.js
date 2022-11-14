@@ -34,7 +34,7 @@ function Home(  ) {
   const [debug, setDebug] = useState(false);
   const [disable, setDisable] = useState(false);
   const [passar, setPassar] = useState(0);
-  const [fps, setFps] = useState();
+  const [fps, setFps] = useState('');
 
   // ainda não tá inciando direito, teria q zerar todas
   // as variaveis antes de voltar do começo
