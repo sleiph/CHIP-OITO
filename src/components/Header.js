@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import Inputs from '../services/Inputs';
 
 const Cartucho = styled.div`
   height: 4vh;
@@ -7,11 +8,15 @@ const Cartucho = styled.div`
   display: grid;
   grid-template-columns: 2fr 1fr;
   align-items: center;
+  position:relative;
 `
 const DivDebug = styled.div`
   justify-self: flex-end;
   display: flex;
   gap: 12px;
+  position:absolute;
+  right:0px;
+  bottom:0px;
 `
 const BtnReset = styled.button`
   width: fit-content; 
@@ -62,6 +67,10 @@ function Header({ disable, setDisable, Iniciar, handleAjuda, handleDebug, fps, s
     function reset(){
         window.location.reload();
     }
+
+    function pauseButton(){
+        Inputs.ToggleJogando()
+    }
     
     return (
         <Cartucho>
@@ -83,6 +92,7 @@ function Header({ disable, setDisable, Iniciar, handleAjuda, handleDebug, fps, s
                     <FPSBotao disabled={!disable} onClick={startFPS}>Show FPS</FPSBotao> :  
                     <FPSBotao onClick={stopFPS}>Stop FPS</FPSBotao>
                 }
+                <button onClick={pauseButton}>Pause</button>
                 <button onClick={handleDebug}>Debu<span style = {{textDecoration:'underline'}} >g</span></button>
                 <button onClick={handleAjuda}>?</button>
             </DivDebug>

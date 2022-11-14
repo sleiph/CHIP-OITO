@@ -27,8 +27,6 @@ Arquivos binários pra testes podem ser encontrados na [documentação](./docume
 * deixar os botoes do header mais bonitos
 * arrumar o FPS
 * passar o FPS pra tela de debug?
-* mudar a velocidade do timer.velocidade pra pelo menos uns 16
-* add botao de pause e proxima instrução na tela pra poder usar no celular
 * Melhorar a tela de apresentação
 * melhorar o teclado virtual pra celular
 * mostrar no teclado que a tecla foi apertada.
