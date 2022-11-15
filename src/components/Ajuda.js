@@ -38,13 +38,13 @@ function Ajuda({passar, setPassar}) {
 
     function paginacao(pagina) {
         if (pagina === 0) 
-            return <p>Para usar o emulador você deve possuir as ROMs com os jogos compatíveis, não disponibilizamos nenhuma ROM em nossa aplicação. Use o botão na parte superior esquerda para selecionar o arquivo desejável.</p>
+            return <p>Para usar o emulador você deve possuir as ROMs com os jogos compatíveis, não disponibilizamos nenhuma ROM em nossa aplicação. Use o botão na parte superior esquerda para selecionar o arquivo desejado.</p>
         else if (pagina === 1)
             return <p>Você pode usar seu teclado físico ou o teclado do site para interagir. As teclas usadas são <span style={highLighted}>Q, W, E, A, S</span> e <span style={highLighted}>D</span>. Cada jogo irá usá-las de forma difente. Há certas teclas com funcões especiais, o <span style={highLighted}>P</span> pode pausar a aplicação, o <span style={highLighted}>G</span> pode abrir o menu de debug e o <span style={highLighted}>H</span> pode abrir o menu de ajuda. Você também pode utilizar o botões na parte superior.</p>
         else if (pagina === 2)
-            return <p>Você acessar o menu de debug através do botão Debug. Ele abrirá uma janela com ás informações sobre o que está acontecendo no emulador. Nela você pode verificar quais instruções estão sendo chamadas e quais registradores estão sendo alterados no momento.</p>
+            return <p>Através do botão Debug, você pode acessar uma janela com as informações sobre o que está acontecendo no emulador. Nela você pode verificar quais instruções estão sendo chamadas e quais registradores estão sendo alterados no momento.</p>
         else
-            return <p>Se você quiser ver a quantidade de frames por segundo(FPS) da aplicação, você pode clicar em "show FPS". FPS é uma unidade de medida sobre o número de imagens processadas por segundo, é uma forma de se medir desempenho. Você pode desfazer esta ação através de clicar no mesmo botão.</p>
+            return <p>Se quiser ver a quantidade de frames por segundo(FPS) da aplicação, você pode clicar em "show FPS". FPS é uma unidade de medida sobre o número de imagens processadas por segundo, é uma forma de se medir desempenho. Você pode desfazer esta ação através do mesmo botão.</p>
     }
 
     return(
