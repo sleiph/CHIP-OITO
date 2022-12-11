@@ -24,7 +24,6 @@ function Disassembler(indice, inst1, inst2) {
       }
       else // 0NNN
         return indice + Instrucoes.Vazio();
-      throw new Error("0 alguma coisa...");
 
     case 1: // 1NNN: pula pro endereço descrito na instrucao
       return Instrucoes.StrHex(((inst1&0xf)<<8) + inst2);
