@@ -91,16 +91,16 @@ const Instrucoes = {
     /// ex. Opcode: 8XY5
     setSubop : function(x, y) {
         let copia = [...Registros.reg];
-        copia[15] = (copia[x] > copia[y]) ? 1 : 0;
+        copia[15] = (copia[x] >= copia[y]) ? 1 : 0; // antigo: copia[15] = (copia[x] > copia[y]) ? 1 : 0;
         copia[x] -= copia[y];
-        if (copia[x] < 0)
-            copia[x] = 0xff + copia[x];
+        if (copia[x] < 0) 
+           copia[x] = 0xff + (copia[x] + 1); // antigo: copia[x] = 0xff + copia[x];
         Registros.UpdateRegistradoresArr(copia);
         return 2;
     },
 
     /// ex. Opcode: 8XY6
-    setRightShift : function(x) {
+    setRightShift : function(x) { //falta arrumar isso aq
         let copia = [...Registros.reg];
         copia[15] = copia[x] & 0x1;
         copia[x] >>= 1;
@@ -114,7 +114,7 @@ const Instrucoes = {
         copia[15] = (copia[y] > copia[x]) ? 1 : 0;
         copia[x] = copia[y] - copia[x];
         if (copia[x] < 0)
-            copia[x] = 0xff + copia[x];
+            copia[x] = 0xff + (copia[x] + 1); // antigo: copia[x] = 0xff + copia[x];
         Registros.UpdateRegistradoresArr(copia);
         return 2;
     },

@@ -24,18 +24,27 @@ Arquivos binários pra testes podem ser encontrados na [documentação](./docume
 
 ## Fazer
 
+* Arrumar a função 8XY6.
+* Fazer o emulador passar nos testes avançados (10 a 24).
 * deixar os botoes do header mais bonitos
 * arrumar o FPS
-* passar o FPS pra tela de debug?
 * Melhorar a tela de apresentação
 * melhorar o teclado virtual pra celular
-* mostrar no teclado que a tecla foi apertada.
 * melhorar a performance, pra rodar em uma velocidade boa
 * o debug focar na instrução sendo executada (pro usuario não ter q ficar procurando a instrução)
 
+## Feito
+
+* passar o FPS pra tela de debug?
+* mostrar no teclado que a tecla foi apertada.
+* arrumar a posição dos botões no mobile 
+* testes pras funcôes
+* adicionando aquele sublinhado no debug.
+* Funçâo 8XY5 arrumada.
+* Fazer o emulador passar nos testes básicos(INI a 9).
+
 ### Extras
 
-* testes pras funcoes
 * adicionar uma rom de demonstração (sem direitos autorais de ninguém)
 * Poder mudar o valor de qualquer registrador a qualquer momento
 * Mostrar pro usuário um pseudo-código das instruções no cartucho
@@ -48,6 +57,8 @@ Arquivos binários pra testes podem ser encontrados na [documentação](./docume
 - [How to write an emulator (CHIP-8 interpreter)](https://multigesture.net/articles/how-to-write-an-emulator-Chip-8-interpreter/)
 - [Mastering CHIP‐8](https://github.com/mattmikolay/chip-8/wiki/Mastering-CHIP%E2%80%908)
 - [Guide to making a CHIP-8 emulator](https://tobiasvl.github.io/blog/write-a-chip-8-emulator/#fx07-fx15-and-fx18-timers)
+- [Rom used for test 1](https://github.com/corax89/chip8-test-rom)
+- [Rom used for test 2](https://github.com/metteo/chip8-test-rom)
 
 ### Processo de pesquisa
 

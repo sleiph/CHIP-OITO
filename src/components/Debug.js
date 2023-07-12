@@ -1,5 +1,4 @@
 import styled from 'styled-components';
-
 import {Fundo} from './Ajuda';
 import Memoria from '../services/Memoria';
 
@@ -35,8 +34,7 @@ const Informacao = styled.span`
   margin: 0 8px 0 8px;
 `
 
-function Debug( {registradores, indice, timers, instrucao} ) {
-
+function Debug( {registradores, indice, timers, instrucao, fps, setFps} ) {
   const mapa = Memoria.rom.reduce((acc, curr, i) => {
     if (i%2 === 0) {
       acc[i+0x200] = ([Memoria.rom[i], Memoria.rom[i+1]]);
@@ -89,6 +87,7 @@ function Debug( {registradores, indice, timers, instrucao} ) {
         <Informacao>{'I:' + indice.toString(16).padStart(3, '0').toUpperCase()}</Informacao>
         <Informacao>{'DT:' + timers[0].toString(16).padStart(2, '0').toUpperCase()}</Informacao>
         <Informacao>{'ST:' + timers[1].toString(16).padStart(2, '0').toUpperCase()}</Informacao>
+        <Informacao>{fps}</Informacao> 
       </Grupo>
     </OPDiv>
   )

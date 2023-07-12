@@ -1,4 +1,3 @@
-import { useRef } from 'react';
 import styled from 'styled-components';
 import Inputs from '../services/Inputs';
 
@@ -11,6 +10,7 @@ const Cartucho = styled.div`
   align-items: center;
   position:relative;
 `
+
 const DivDebug = styled.div`
   justify-self: flex-end;
   display: flex;
@@ -18,13 +18,17 @@ const DivDebug = styled.div`
   position:absolute;
   right:0px;
   bottom:0px;
+  @media only screen and (max-width : 600px) {
+    gap: 6px;
+  }
 `
 const BtnReset = styled.button`
   width: fit-content; 
 `
 
-const FPSBotao = styled.button`
-
+const Underline = styled.span`
+    border:none;
+    border-bottom: 0.1px solid #1e2f45;
 `
 
 function Header({ disable, setDisable, Iniciar, handleAjuda, handleDebug, fps, setFps}) {
@@ -43,30 +47,6 @@ function Header({ disable, setDisable, Iniciar, handleAjuda, handleDebug, fps, s
         setDisable(true);
     }
 
-    //atualiza o fps
-    let intervaloFPS = useRef();
-    function updateFPS(lastloop) {
-        let thisloop = new Date(); // guardar o periodo atual
-        let fpscount = (thisloop - lastloop) / 20;
-        fpscount = Math.round(1000/fpscount)
-        setFps("fps: " + fpscount);
-        return thisloop;
-    }
-
-    function startFPS() {
-        let passado = new Date();
-        if (fps == '') {
-            intervaloFPS.current = setInterval( function() {
-                passado = updateFPS(passado)
-            },1000);
-        } 
-    }
-
-    function stopFPS(){
-        clearInterval(intervaloFPS.current);
-        setFps('');
-    }
-
     function reset(){
         window.location.reload();
     }
@@ -78,7 +58,7 @@ function Header({ disable, setDisable, Iniciar, handleAjuda, handleDebug, fps, s
     return (
         <Cartucho>
             {
-                (disable) ? <BtnReset onClick={reset}>Reset</BtnReset> : 
+                (disable) ? <BtnReset onClick={reset}>Reset</BtnReset> :
                 <input 
                     type='file'
                     name='arquivo'
@@ -88,15 +68,9 @@ function Header({ disable, setDisable, Iniciar, handleAjuda, handleDebug, fps, s
                     disabled={disable}
                 />
             }
-            <DivDebug>
-                <span>{fps}</span>
-                {
-                    (fps == '') ?
-                    <FPSBotao disabled={!disable} onClick={startFPS}>Show FPS</FPSBotao> :  
-                    <FPSBotao onClick={stopFPS}>Stop FPS</FPSBotao>
-                }
+            <DivDebug> 
                 <button disabled={!disable} onClick={pauseButton}>Pause</button>
-                <button onClick={handleDebug}>Debu<span style = {{textDecoration:'underline'}} >g</span></button>
+                <button onClick={handleDebug}>Debu<Underline>g</Underline></button>
                 <button onClick={handleAjuda}>?</button>
             </DivDebug>
         </Cartucho>

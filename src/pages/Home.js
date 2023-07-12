@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import styled from 'styled-components';
 
 import Ajuda from '../components/Ajuda';
@@ -22,6 +22,29 @@ const Container = styled.div`
   background-color: #63bda4;
 `
 
+function updateFPS(lastloop, setFps) {
+  let thisloop = new Date(); // guardar o periodo atual
+  let fpscount = (thisloop - lastloop) / 20;
+  fpscount = Math.round(1000/fpscount)
+  setFps("FPS: " + fpscount);
+  return thisloop;
+}
+
+function startFPS(intervaloFPS, fps, setFps) {
+  let passado = new Date();
+  if (fps == '') {
+      intervaloFPS.current = setInterval( function() {
+          passado = updateFPS(passado, setFps)
+          console.log('chamou?')
+      },1000);
+  } 
+}
+
+function stopFPS(intervaloFPS, setFps) {
+  clearInterval(intervaloFPS.current);
+  setFps('');
+}
+
 function Home(  ) {
 
   // hooks
@@ -35,6 +58,7 @@ function Home(  ) {
   const [disable, setDisable] = useState(false);
   const [passar, setPassar] = useState(0);
   const [fps, setFps] = useState('');
+  let intervaloFPS = useRef(); //atualiza o fps
 
   // ainda não tá inciando direito, teria q zerar todas
   // as variaveis antes de voltar do começo
@@ -50,9 +74,15 @@ function Home(  ) {
   const handleDebug = () => {
     Display.debug = !Display.debug;
     Display.ajuda = false;
+    if (Display.debug) //como eu mudei o fps para o debug, o fps é chamado/parado junto com o debug
+      startFPS(intervaloFPS, fps, setFps);
+    else 
+      stopFPS(intervaloFPS, setFps);
+      
     setAjuda(false);
     setDebug(Display.debug);
   }
+
   const handleAjuda = () => {
     Display.ajuda = !Display.ajuda;
     Display.debug = false;
@@ -99,6 +129,8 @@ function Home(  ) {
             indice={indice}
             timers={timers}
             instrucao={instrucao}
+            fps={fps}
+            setFps={setFps}
           />
         )
       }
