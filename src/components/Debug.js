@@ -1,6 +1,8 @@
 import styled from 'styled-components';
 import {Fundo} from './Ajuda';
 import Memoria from '../services/Memoria';
+import Inputs from '../services/Inputs';
+import arrow from '../data/arrow.png'
 
 export const OPDiv = styled.div`
   position: absolute;
@@ -32,6 +34,18 @@ const Instrucoes = styled.div`
 const Informacao = styled.span`
   text-align: center;
   margin: 0 8px 0 8px;
+`
+
+const ArrowButton = styled.input`
+  width: 25px;
+  height: 25px;
+  transform: rotate(${(props) => props.rotate}deg);
+  &:hover{
+    filter: brightness(70%);
+  }
+  &:active{
+    filter:hue-rotate(215deg);
+  }
 `
 
 function Debug( {registradores, indice, timers, instrucao, fps, setFps} ) {
@@ -87,7 +101,15 @@ function Debug( {registradores, indice, timers, instrucao, fps, setFps} ) {
         <Informacao>{'I:' + indice.toString(16).padStart(3, '0').toUpperCase()}</Informacao>
         <Informacao>{'DT:' + timers[0].toString(16).padStart(2, '0').toUpperCase()}</Informacao>
         <Informacao>{'ST:' + timers[1].toString(16).padStart(2, '0').toUpperCase()}</Informacao>
-        <Informacao>{fps}</Informacao> 
+        <Informacao>{fps}</Informacao>
+        {
+          (!Inputs.isJogando) ? 
+            <>
+              <Informacao><ArrowButton type='image' src={arrow} rotate='0'></ArrowButton></Informacao>
+              <Informacao><ArrowButton type='image' src={arrow} rotate='180'></ArrowButton></Informacao> 
+            </>
+          : <></>
+        } 
       </Grupo>
     </OPDiv>
   )

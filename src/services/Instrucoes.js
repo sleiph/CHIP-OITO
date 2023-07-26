@@ -100,8 +100,9 @@ const Instrucoes = {
     },
 
     /// ex. Opcode: 8XY6
-    setRightShift : function(x) { //falta arrumar isso aq
+    setRightShift : function(x, y) { //falta arrumar isso aq
         let copia = [...Registros.reg];
+        if (true) copia[x] = copia[y];
         copia[15] = copia[x] & 0x1;
         copia[x] >>= 1;
         Registros.UpdateRegistradoresArr(copia);
