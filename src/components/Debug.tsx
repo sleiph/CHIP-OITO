@@ -1,6 +1,6 @@
 import styled from 'styled-components';
-import {Fundo} from './Ajuda';
-import Memoria from '../services/Memoria';
+import { Fundo } from './Ajuda';
+import { getMapaMemoria } from '../services/Memoria';
 
 export const OPDiv = styled.div`
   position: absolute;
@@ -34,13 +34,8 @@ const Informacao = styled.span`
   margin: 0 8px 0 8px;
 `
 
-function Debug( {registradores, indice, timers, instrucao, fps, setFps} ) {
-  const mapa = Memoria.rom.reduce((acc, curr, i) => {
-    if (i%2 === 0) {
-      acc[i+0x200] = ([Memoria.rom[i], Memoria.rom[i+1]]);
-    }
-    return acc;
-  }, []);
+function Debug( {registradores, indice, timers, instrucao, fps/*, setFps*/}: any ) { //r todo: corrigir tipo
+  const mapa = getMapaMemoria();
 
   const arrayRegistradores = Object.values(registradores);
   
@@ -52,7 +47,7 @@ function Debug( {registradores, indice, timers, instrucao, fps, setFps} ) {
       </Grupo>
       <Instrucoes>
         { 
-          mapa.map((reg, i) => {
+          mapa.map((reg: Array<number>, i: number) => {
             return(
               <div key={i} style={{outline: instrucao===i ? '1px solid rgba(0, 0, 0, 1)' : '1px solid rgba(0, 0, 0, 0.1)'}}>
                 {
@@ -70,7 +65,7 @@ function Debug( {registradores, indice, timers, instrucao, fps, setFps} ) {
       </Instrucoes>
       <Grupo>
         { 
-          arrayRegistradores.map((reg, i) => {
+          arrayRegistradores.map((reg: any, i: number) => {
             if (i !== undefined) {
               return(
                 <Informacao key={i}>{

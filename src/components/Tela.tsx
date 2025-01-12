@@ -7,11 +7,11 @@ const DisplayDiv = styled.div`
   grid-template-columns: repeat(64, 1fr);
 `
 
-function Tela( { display } ) {
+function Tela( { display }: any ) {
 
   return (
     <DisplayDiv>{
-      display.map((linha, i) => {
+      display.map((linha: Array<number>, i: number) => {
         return(
           linha.map((pixel, j) => {
             return( 

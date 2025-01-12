@@ -1,19 +1,20 @@
-import React, { useEffect, useState, useRef } from 'react';
+import { useEffect, useState, useRef } from 'react'
+
+import Ajuda from './components/Ajuda';
+import Debug from './components/Debug';
+import Header from './components/Header';
+import Teclado from './components/Teclado';
+import Tela from './components/Tela';
+
+import { IniciarApontador } from './services/Apontador';
+import { IniciarDisplay, getOriginalDisplay, setAjudaDisplay, setDebugDisplay, isAjuda, isDebug, toggleAjuda, toggleDebug } from './services/Display';
+import { Soltou, Teclou, isApertando, ToggleJogando, setProximoInput } from './services/Inputs';
+import { IniciarMemoria } from './services/Memoria';
+import { IniciarRegistradores, GetRegistros } from './services/Registros';
+import { IniciarTimer } from './services/Timer';
+
 import styled from 'styled-components';
 
-import Ajuda from '../components/Ajuda';
-import Debug from '../components/Debug';
-import Header from '../components/Header';
-import Teclado from '../components/Teclado';
-import Tela from '../components/Tela';
-import Apontador from '../services/Apontador';
-import Display from '../services/Display';
-import Inputs from '../services/Inputs';
-import Memoria from '../services/Memoria';
-import Registros from '../services/Registros';
-import Timer from '../services/Timer';
-
-// CSS
 const Container = styled.div`
   width: 90vw;
   max-height: 86vh;
@@ -22,15 +23,15 @@ const Container = styled.div`
   background-color: #63bda4;
 `
 
-function updateFPS(lastloop, setFps) {
-  let thisloop = new Date(); // guardar o periodo atual
-  let fpscount = (thisloop - lastloop) / 20;
+function updateFPS(lastloop: Date, setFps: any) {
+  let thisloop: Date = new Date(); // guardar o periodo atual
+  let fpscount = (thisloop.getTime() - lastloop.getTime()) / 20;
   fpscount = Math.round(1000/fpscount)
   setFps("FPS: " + fpscount);
   return thisloop;
 }
 
-function startFPS(intervaloFPS, fps, setFps) {
+function startFPS(intervaloFPS: any, fps: string, setFps: any) {
   let passado = new Date();
   if (fps == '') {
       intervaloFPS.current = setInterval( function() {
@@ -40,16 +41,14 @@ function startFPS(intervaloFPS, fps, setFps) {
   } 
 }
 
-function stopFPS(intervaloFPS, setFps) {
+function stopFPS(intervaloFPS: any, setFps: any) {
   clearInterval(intervaloFPS.current);
   setFps('');
 }
 
-function Home(  ) {
-
-  // hooks
-  const [registradores, setRegistradores] = useState(Registros.reg);
-  const [display, setDisplay] = useState(Display.original);
+function App() {
+  const [registradores, setRegistradores] = useState(GetRegistros());
+  const [display, setDisplay] = useState(getOriginalDisplay());
   const [indice, setIndice] = useState(0);
   const [timers, setTimers] = useState([0, 0]);
   const [instrucao, setInstrucao] = useState(512);
@@ -62,40 +61,40 @@ function Home(  ) {
 
   // ainda não tá inciando direito, teria q zerar todas
   // as variaveis antes de voltar do começo
-  const Iniciar = (buffer) => {
-    Registros.Iniciar(setRegistradores);
-    Timer.Iniciar(setTimers);
-    Display.Iniciar(setDisplay);
-    Memoria.Iniciar(buffer, setIndice);
-    Apontador.Comecar(setInstrucao);
+  const Iniciar = (buffer: ArrayBuffer) => {
+    IniciarRegistradores(setRegistradores);
+    IniciarTimer(setTimers);
+    IniciarDisplay(setDisplay);
+    IniciarMemoria(buffer, setIndice);
+    IniciarApontador(setInstrucao);
   }
 
   // exibição de componentes de apoio
   const handleDebug = () => {
-    Display.debug = !Display.debug;
-    Display.ajuda = false;
-    if (Display.debug) //como eu mudei o fps para o debug, o fps é chamado/parado junto com o debug
+    toggleDebug();
+    setAjudaDisplay(false);
+    if (isDebug()) //como eu mudei o fps para o debug, o fps é chamado/parado junto com o debug
       startFPS(intervaloFPS, fps, setFps);
     else 
       stopFPS(intervaloFPS, setFps);
       
     setAjuda(false);
-    setDebug(Display.debug);
+    setDebug(isDebug());
   }
 
-  const handleAjuda = () => {
-    Display.ajuda = !Display.ajuda;
-    Display.debug = false;
+  const handleAjuda = () => { //r todo: melhorar esses métodos
+    toggleAjuda();
+    setDebugDisplay(false);
     setDebug(false);
-    setAjuda(Display.ajuda);
+    setAjuda(isAjuda());
   }
 
   useEffect(() => {
     // ouve o teclado
     window.addEventListener('keydown', (event) => {
-      if (!Inputs.apertando) {
+      if (!isApertando()) {
         if (event.key === 'p')
-          Inputs.ToggleJogando();
+          ToggleJogando();
         else if (event.key === 'o')
           window.location.reload();
         else if (event.key === 'g')
@@ -104,11 +103,11 @@ function Home(  ) {
           handleAjuda();
       }
       if (event.key === 'ArrowRight')
-          Inputs.proximo = true;
-      Inputs.Teclou(event.key);
+        setProximoInput(true);
+      Teclou(event.key);
     });
     window.addEventListener('keyup', (event) => {
-      Inputs.Soltou(event.key);
+      Soltou(event.key);
     });
   }, [ajuda, debug]);
 
@@ -117,7 +116,7 @@ function Home(  ) {
       <Header disable={disable} setDisable={setDisable}
         Iniciar={Iniciar}
         handleAjuda={handleAjuda} handleDebug={handleDebug}
-        fps={fps} setFps={setFps}
+        /*fps={fps} setFps={setFps}*/
       />
 
       <Tela display={display}/>
@@ -130,7 +129,7 @@ function Home(  ) {
             timers={timers}
             instrucao={instrucao}
             fps={fps}
-            setFps={setFps}
+            /*setFps={setFps}*/
           />
         )
       }
@@ -139,4 +138,4 @@ function Home(  ) {
   )
 }
 
-export default Home;
+export default App

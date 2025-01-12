@@ -15,10 +15,10 @@ npm install
 ```
 
 ```shell
-npm start
+npm run dev
 ```
 
-O servidor fica ativo na [porta 3000](http://localhost:3000/).
+O servidor fica ativo na [porta 5173](http://localhost:5173/).
 
 Arquivos binários pra testes podem ser encontrados na [documentação](./documentacao).
 

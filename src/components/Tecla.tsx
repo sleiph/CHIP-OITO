@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-import Inputs from '../services/Inputs'
+import { Soltou, Teclou } from '../services/Inputs'
 
 const TeclaDiv = styled.div`
     flex: 1;
@@ -33,13 +33,13 @@ const TeclaDiv = styled.div`
     }
 `
 
-function Tecla( {chave, tecla} ) {
+function Tecla( {chave, tecla}: any ) { //r todo: corrigir o tipo
 
     const handleMouseDown = () => {
-        Inputs.Teclou(tecla);
+        Teclou(tecla);
     }
     const handleMouseUp = () => {
-        Inputs.Soltou(tecla);
+        Soltou(tecla);
     }
 
     return (
