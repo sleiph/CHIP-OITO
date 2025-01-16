@@ -34,48 +34,26 @@ const Informacao = styled.span`
   margin: 0 8px 0 8px;
 `
 
-function Debug( {registradores, indice, timers, instrucao, fps/*, setFps*/}: any ) { //r todo: corrigir tipo
-  const mapa = getMapaMemoria();
+const showReg = (e : number, reg : any) => { // transfomei em uma função pra deixar style
+  return(
+    <Informacao key={e}>
+      {'V' + e.toString(16) + ':' + reg.toString(16).padStart(2, '0').toUpperCase()}
+    </Informacao>
+  );
+}
 
+function Debug({registradores, indice, timers, instrucao, fps/*, setFps*/}: any ) { //r todo: corrigir tipo
+  //const mapa = getMapaMemoria(); Isso aqui que tá quebrando o debug
   const arrayRegistradores = Object.values(registradores);
-  
   return (
     <OPDiv>
       <Fundo />
-      <Grupo>
-        <h3>Debug:</h3>
-      </Grupo>
-      <Instrucoes>
-        { 
-          mapa.map((reg: Array<number>, i: number) => {
-            return(
-              <div key={i} style={{outline: instrucao===i ? '1px solid rgba(0, 0, 0, 1)' : '1px solid rgba(0, 0, 0, 0.1)'}}>
-                {
-                  (i !== undefined) ?
-                  <Informacao>{
-                    "0x" + i.toString(16) + ':' + reg[0].toString(16).padStart(2, '0').toUpperCase() + reg[1].toString(16).padStart(2, '0').toUpperCase() 
-                  }</Informacao>
-                  :
-                  <></>
-                }
-              </div>
-            );
-          })
-        }
-      </Instrucoes>
+      <Grupo><h3>Debug:</h3></Grupo>
       <Grupo>
         { 
-          arrayRegistradores.map((reg: any, i: number) => {
-            if (i !== undefined) {
-              return(
-                <Informacao key={i}>{
-                  'V' + i.toString(16) + ':' + reg.toString(16).padStart(2, '0').toUpperCase()
-                }</Informacao>
-              );
-            } else {
-              return(<></>);
-            }
-          })
+          arrayRegistradores.map((reg: any, i: number) => 
+            (i !== undefined) ? showReg(i, reg) : (<></>)
+          )
         }
       </Grupo>
       <Grupo>
@@ -89,3 +67,24 @@ function Debug( {registradores, indice, timers, instrucao, fps/*, setFps*/}: any
 }
 
 export default Debug;
+
+/*
+<Instrucoes>
+  { 
+    mapa.map((reg: Array<number>, i: number) => {
+      return(
+        <div key={i} style={{outline: instrucao===i ? '1px solid rgba(0, 0, 0, 1)' : '1px solid rgba(0, 0, 0, 0.1)'}}>
+          {
+            (i !== undefined) ?
+              <Informacao>{
+                "0x" + i.toString(16) + ':' + reg[0].toString(16).padStart(2, '0').toUpperCase() + reg[1].toString(16).padStart(2, '0').toUpperCase() 
+              }</Informacao>
+            :
+              <></>
+          }
+        </div>
+      );
+    })
+  }
+</Instrucoes>
+*/

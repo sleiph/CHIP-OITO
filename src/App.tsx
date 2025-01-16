@@ -77,7 +77,6 @@ function App() {
       startFPS(intervaloFPS, fps, setFps);
     else 
       stopFPS(intervaloFPS, setFps);
-      
     setAjuda(false);
     setDebug(isDebug());
   }
