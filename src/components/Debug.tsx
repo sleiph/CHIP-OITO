@@ -33,6 +33,10 @@ const Informacao = styled.span`
   text-align: center;
   margin: 0 8px 0 8px;
 `
+// assim fica + legivel
+const Mapa = styled.span` 
+  outline: 1px solid ${props => props.color};
+`
 
 const showReg = (e : number, reg : any) => { // transfomei em uma função pra deixar style
   return(
@@ -42,8 +46,10 @@ const showReg = (e : number, reg : any) => { // transfomei em uma função pra d
   );
 }
 
+const showInst = (reg: any, x: number) => reg[x].toString(16).padStart(2, '0').toUpperCase(); // assim fica + legivel
+
 function Debug({registradores, indice, timers, instrucao, fps/*, setFps*/}: any ) { //r todo: corrigir tipo
-  //const mapa = getMapaMemoria(); Isso aqui que tá quebrando o debug
+  const mapa = getMapaMemoria(); //vc tinha declarado como variável, burrao
   const arrayRegistradores = Object.values(registradores);
   return (
     <OPDiv>
@@ -56,6 +62,22 @@ function Debug({registradores, indice, timers, instrucao, fps/*, setFps*/}: any 
           )
         }
       </Grupo>
+      <Instrucoes>
+        { 
+          mapa.map((reg: Array<number>, i: number) => {
+            return(
+              <Mapa color={instrucao===i ? 'black' : 'none'}>
+              {
+                (i !== undefined) ?
+                  <Informacao>{"0x" + i.toString(16) + ':' + showInst(reg, 0)  + showInst(reg, 1)}</Informacao>
+                :
+                  <></>
+              }
+              </Mapa>
+            );
+          })
+        }
+      </Instrucoes>
       <Grupo>
         <Informacao>{'I:' + indice.toString(16).padStart(3, '0').toUpperCase()}</Informacao>
         <Informacao>{'DT:' + timers[0].toString(16).padStart(2, '0').toUpperCase()}</Informacao>
@@ -67,24 +89,3 @@ function Debug({registradores, indice, timers, instrucao, fps/*, setFps*/}: any 
 }
 
 export default Debug;
-
-/*
-<Instrucoes>
-  { 
-    mapa.map((reg: Array<number>, i: number) => {
-      return(
-        <div key={i} style={{outline: instrucao===i ? '1px solid rgba(0, 0, 0, 1)' : '1px solid rgba(0, 0, 0, 0.1)'}}>
-          {
-            (i !== undefined) ?
-              <Informacao>{
-                "0x" + i.toString(16) + ':' + reg[0].toString(16).padStart(2, '0').toUpperCase() + reg[1].toString(16).padStart(2, '0').toUpperCase() 
-              }</Informacao>
-            :
-              <></>
-          }
-        </div>
-      );
-    })
-  }
-</Instrucoes>
-*/

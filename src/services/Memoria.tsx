@@ -125,7 +125,7 @@ export const getSprite = function (n: number): number[] {
     return memoria.pos.slice(memoria.Indice, memoria.Indice+n)
 }
 
-export const getMapaMemoria = memoria.rom.reduce((acc: any, _curr: any, i: number) => {
+export const getMapaMemoria = () => memoria.rom.reduce((acc: any, _curr: any, i: number) => {
     if (i%2 === 0) {
         acc[i+0x200] = ([memoria.rom[i], memoria.rom[i+1]]);
     }
