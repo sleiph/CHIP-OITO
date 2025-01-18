@@ -102,9 +102,10 @@ const Instrucoes = {
     /// ex. Opcode: 8XY6
     setRightShift : function(x: number, y: number): number { //falta arrumar isso aq
         let copia = CopiaRegs();
-        if (true) copia[x] = copia[y];
-        copia[15] = copia[x] & 0x1;
+        //copia[x] = copia[y];
+        const lsb = copia[x] & 0x80;
         copia[x] >>= 1;
+        copia[15] = lsb;
         UpdateRegistradoresArr(copia);
         return 2;
     },
@@ -259,13 +260,15 @@ const Instrucoes = {
 
     /// ex. Opcode: FX33
     setBCD : function(x: number) {
-        let pos1 = GetReg(x) / 100; //parseInt?
+        const reg = GetReg(x);
+
+        const pos1 = Math.floor(reg / 100); //o problema era os decimais
         setIndicePos(0, pos1);
 
-        let pos2 = (GetReg(x)%100) / 10;
+        const pos2 = Math.floor((reg % 100) / 10);
         setIndicePos(1, pos2);
 
-        let pos3 = GetReg(x) % 10;
+        const pos3 = Math.floor(reg % 10);
         setIndicePos(2, pos3);
 
         return 2;
