@@ -30,13 +30,13 @@ const highLighted = {
     fontWeight: "bold"
 }
 
-function Ajuda({passar, setPassar}) {
+function Ajuda({passar, setPassar}: any) { //r todo: corrigir tipo
     function continuarAjuda(){ 
         if (passar > 2) setPassar(0);
         else setPassar(passar + 1);
     }
 
-    function paginacao(pagina) {
+    function paginacao(pagina: number) {
         if (pagina === 0) 
             return <p>Para usar o emulador você deve possuir as ROMs com os jogos compatíveis, não disponibilizamos nenhuma ROM em nossa aplicação. Use o botão na parte superior esquerda para selecionar o arquivo desejado.</p>
         else if (pagina === 1)

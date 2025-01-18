@@ -5,7 +5,7 @@ import Instrucoes from './Instrucoes';
  * interpreta a instrução de acordo com a Opcode table da wiki
  * https://en.wikipedia.org/wiki/CHIP-8
  */
-function Disassembler(indice, inst1, inst2) {
+function Disassembler(indice: number, inst1: number, inst2: number) {
   let op =inst1 >> 4,   // primeira posicao da instrucao
       x = inst1 & 0xf,  // segunda posicao
       y = inst2 >> 4,   // terceira posicao
@@ -20,6 +20,8 @@ function Disassembler(indice, inst1, inst2) {
         } else if (n===14) {
           // 00ee: volta pra linha que chamou a subrotina
           return Instrucoes.Retorna();
+        } else {
+          throw new Error("0 e alguma coisa...");
         }
       }
       else // 0NNN

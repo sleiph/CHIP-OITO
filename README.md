@@ -15,10 +15,10 @@ npm install
 ```
 
 ```shell
-npm start
+npm run dev
 ```
 
-O servidor fica ativo na [porta 3000](http://localhost:3000/).
+O servidor fica ativo na [porta 5173](http://localhost:5173/).
 
 Arquivos binários pra testes podem ser encontrados na [documentação](./documentacao).
 
@@ -32,16 +32,6 @@ Arquivos binários pra testes podem ser encontrados na [documentação](./docume
 * melhorar o teclado virtual pra celular
 * melhorar a performance, pra rodar em uma velocidade boa
 * o debug focar na instrução sendo executada (pro usuario não ter q ficar procurando a instrução)
-
-## Feito
-
-* passar o FPS pra tela de debug?
-* mostrar no teclado que a tecla foi apertada.
-* arrumar a posição dos botões no mobile 
-* testes pras funcôes
-* adicionando aquele sublinhado no debug.
-* Funçâo 8XY5 arrumada.
-* Fazer o emulador passar nos testes básicos(INI a 9).
 
 ### Extras
 

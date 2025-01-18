@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import Inputs from '../services/Inputs';
+import { ToggleJogando } from '../services/Inputs';
 
 const Cartucho = styled.div`
   height: 4vh;
@@ -15,7 +15,6 @@ const DivDebug = styled.div`
   justify-self: flex-end;
   display: flex;
   gap: 12px;
-  position:absolute;
   right:0px;
   bottom:0px;
   @media only screen and (max-width : 600px) {
@@ -31,16 +30,16 @@ const Underline = styled.span`
     border-bottom: 0.1px solid #1e2f45;
 `
 
-function Header({ disable, setDisable, Iniciar, handleAjuda, handleDebug, fps, setFps}) {
+function Header({ disable, setDisable, Iniciar, handleAjuda, handleDebug/*, fps, setFps*/}: any ) { //r todo: corrigir o tipo
     // entrada de arquivo (rom)
-    let fileReader;
+    let fileReader: FileReader;
     /// manda o arquivo pra ser interpretado
     const handleFileRead = () => {
         const buffer = fileReader.result;
         Iniciar(buffer);
     };
     /// lê o arquivo carregado pelo usuario
-    function handleFileChosen(arquivo) {
+    function handleFileChosen(arquivo: File) {
         fileReader = new FileReader();
         fileReader.onloadend = handleFileRead;
         fileReader.readAsArrayBuffer(arquivo);
@@ -52,7 +51,7 @@ function Header({ disable, setDisable, Iniciar, handleAjuda, handleDebug, fps, s
     }
 
     function pauseButton(){
-        Inputs.ToggleJogando()
+        ToggleJogando()
     }
     
     return (
@@ -63,8 +62,12 @@ function Header({ disable, setDisable, Iniciar, handleAjuda, handleDebug, fps, s
                     type='file'
                     name='arquivo'
                     accept='.rom,.ch8'
-                    onChange={e => handleFileChosen(e.target.files[0])}
-                    onClick={e => e.target.value = ''}
+                    onChange={e => {
+                        if (e.target.files == null)
+                            throw new Error("sem arquivo para iniciar");
+                        handleFileChosen( e.target.files[0] )
+                    }}
+                    onClick={e => (e.target as HTMLInputElement).value = ''}
                     disabled={disable}
                 />
             }
