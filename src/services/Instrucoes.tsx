@@ -1,6 +1,6 @@
 import { LimpaTela, UpdateDisplay } from './Display';
 import { isApertando, getIndiceApertadas, getUltimaApertada } from './Inputs';
-import { SubrotinaPop, SubrotinaPush, getIndicePos, setIndicePos, getSprite, GetIndice, UpdateIndice } from './Memoria';
+import { SubrotinaPop, SubrotinaPush, getIndicePos, setIndicePos, getSprites, GetIndice, UpdateIndice } from './Memoria';
 import { GetReg, UpdateRegistradores, UpdateRegistradoresArr, CopiaRegs } from './Registros';
 import { getDT, setDelay, setSom } from './Timer';
 
@@ -100,8 +100,9 @@ const Instrucoes = {
     },
 
     /// ex. Opcode: 8XY6
-    setRightShift : function(x: number): number { //falta arrumar isso aq
+    setRightShift : function(x: number, y: number): number { //falta arrumar isso aq
         let copia = CopiaRegs();
+        if (true) copia[x] = copia[y];
         copia[15] = copia[x] & 0x1;
         copia[x] >>= 1;
         UpdateRegistradoresArr(copia);
@@ -177,8 +178,8 @@ const Instrucoes = {
     Desenha : function (x: number, y: number, n: number) {
         let vX: number = GetReg(x);
         let vY: number = GetReg(y);
-        let sprite: string = getSprite(n).toString();
-        let vf: number = UpdateDisplay(vX, vY, sprite) ? 1 : 0;
+        let sprites: number[] = getSprites(n);
+        let vf: number = UpdateDisplay(vX, vY, sprites.map(String)) ? 1 : 0;
         UpdateRegistradores(15, vf);
         return 2;
     },

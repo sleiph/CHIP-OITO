@@ -117,7 +117,7 @@ export const setIndicePos = function (i: number, val: number) {
     memoria.pos[memoria.Indice+i] = val;
 }
 
-export const getSprite = function (n: number): number[] {
+export const getSprites = function (n: number): number[] {
     if (memoria.pos == null) {
         console.log("Erro encontrado sprite");
         return [0xF0];

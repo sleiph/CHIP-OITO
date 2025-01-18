@@ -58,7 +58,7 @@ function Disassembler(indice: number, inst1: number, inst2: number) {
         case 5:
           return indice + Instrucoes.setSubop(x, y);
         case 6:
-          return indice + Instrucoes.setRightShift(x);
+          return indice + Instrucoes.setRightShift(x, y);
         case 7:
           return indice + Instrucoes.setRestop(x, y);
         case 14:

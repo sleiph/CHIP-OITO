@@ -39,11 +39,11 @@ export const SetaPixel = function(x: number, y: number) {
     return display.pixels[y][x] === 0;
 }
 
-export const UpdateDisplay = function(x: number, y: number, sprite: string): boolean {
+export const UpdateDisplay = function(x: number, y: number, sprites: string[]): boolean {
     let isUnset = false;
 
-    for (let i=0; i<sprite.length; i++) {
-        let s: number = parseInt(sprite[i]);
+    for (let i=0; i<sprites.length; i++) {
+        let s: number = parseInt(sprites[i]);
         for (let j=0; j<8; j++) {
             if ((s & 0x80) > 0) {
                 if (SetaPixel(x+j, y+i) && !isUnset)

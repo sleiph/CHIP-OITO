@@ -1,6 +1,8 @@
 import styled from 'styled-components';
 import { Fundo } from './Ajuda';
 import { getMapaMemoria } from '../services/Memoria';
+import { isJogando } from '../services/Inputs';
+import arrow from '../assets/arrow.png'
 
 export const OPDiv = styled.div`
   position: absolute;
@@ -13,6 +15,17 @@ export const OPDiv = styled.div`
   display: flex;
   flex-wrap: wrap;
   flex-direction: column;
+`
+const ArrowButton: any = styled.input`
+  width: 25px;
+  height: 25px;
+  transform: rotate(${(props: any) => props.rotate}deg);
+  &:hover{
+    filter: brightness(70%);
+  }
+  &:active{
+    filter:hue-rotate(215deg);
+  }
 `
 export const Grupo = styled.div`
   padding: 12px 24px;
@@ -83,6 +96,14 @@ function Debug({registradores, indice, timers, instrucao, fps/*, setFps*/}: any 
         <Informacao>{'DT:' + timers[0].toString(16).padStart(2, '0').toUpperCase()}</Informacao>
         <Informacao>{'ST:' + timers[1].toString(16).padStart(2, '0').toUpperCase()}</Informacao>
         <Informacao>{fps}</Informacao> 
+        {
+          (!isJogando) ? 
+            <>
+              <Informacao><ArrowButton type='image' src={arrow} rotate='0'></ArrowButton></Informacao>
+              <Informacao><ArrowButton type='image' src={arrow} rotate='180'></ArrowButton></Informacao> 
+            </>
+          : <></>
+        } 
       </Grupo>
     </OPDiv>
   )

@@ -15,7 +15,6 @@ const DivDebug = styled.div`
   justify-self: flex-end;
   display: flex;
   gap: 12px;
-  position:absolute;
   right:0px;
   bottom:0px;
   @media only screen and (max-width : 600px) {
