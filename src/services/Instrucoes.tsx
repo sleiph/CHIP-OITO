@@ -100,7 +100,7 @@ const Instrucoes = {
     },
 
     /// ex. Opcode: 8XY6
-    setRightShift : function(x: number, y: number): number { //falta arrumar isso aq
+    setRightShift : function(x: number/*, y: number*/): number { //falta arrumar isso aq
         let copia = CopiaRegs();
         //copia[x] = copia[y];
         const lsb = copia[x] & 0x80;
