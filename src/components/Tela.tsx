@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { pegarCor } from '../services/Display';
 
 const DisplayDiv = styled.div`
   height: 70vh;
@@ -16,7 +17,7 @@ function Tela( { display }: any ) {
           linha.map((pixel, j) => {
             return( 
               <div key={i + "-" + j}
-                style={{backgroundColor: (pixel===1) ? '#62afb7' : '#d9ffea'}}
+                style={{backgroundColor: (pixel===1) ? pegarCor(0) : pegarCor(1)}}
               />
             );
           })

@@ -7,7 +7,9 @@ export interface IDisplay {
     pixels: Array<Array<number>>,
     setter: any,
     debug: boolean,
-    ajuda: boolean
+    ajuda: boolean,
+    cor: string[],
+    temas: string[][],
 }
 
 let display: IDisplay = {
@@ -16,6 +18,8 @@ let display: IDisplay = {
     setter: null,
     debug: false,
     ajuda: false,
+    cor: ['#62afb7', '#d9ffea'],
+    temas: [["#550000", "#ef0000"], ["#c7f0d8", "#43523d"], ["#FFFFFF", "#000000"], ["#f44f53", "#5c46ab"], ["#1d337c", "#4d8dbc"]]
 }
 
 export const IniciarDisplay = function(setter: any) {
@@ -82,4 +86,14 @@ export const toggleAjuda = function() {
 
 export const toggleDebug = function() {
     display.debug = !display.debug;
+}
+
+export const pegarCor = function(x : number) : string {
+    return display.cor[x];
+}
+
+export const mudarCor = function() {
+    display.temas.push(display.cor)
+    display.cor = display.temas[0];
+    display.temas.shift();
 }

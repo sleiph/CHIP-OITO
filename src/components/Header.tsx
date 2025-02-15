@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import { ToggleJogando } from '../services/Inputs';
+import { mudarCor } from '../services/Display';
 
 const Cartucho = styled.div`
   height: 4vh;
@@ -73,6 +74,7 @@ function Header({ disable, setDisable, Iniciar, handleAjuda, handleDebug/*, fps,
             }
             <DivDebug> 
                 <button disabled={!disable} onClick={pauseButton}>Pause</button>
+                <button disabled={!disable} onClick={() => mudarCor()}>Change Theme</button>
                 <button onClick={handleDebug}>Debu<Underline>g</Underline></button>
                 <button onClick={handleAjuda}>?</button>
             </DivDebug>
