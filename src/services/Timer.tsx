@@ -21,6 +21,13 @@ export const IniciarTimer = function(setter: React.Dispatch<React.SetStateAction
     updateTimers([0, 0])
 };
 
+export const ReiniciarTimer = function() {
+    timer.setter(null);
+    timer.DT = 0;
+    timer.ST = 0;
+    updateTimers([0, 0]);
+}
+
 export const tick = function () {
     if (timer.DT!==0 || timer.ST!==0) {
         if (timer.DT > 0)

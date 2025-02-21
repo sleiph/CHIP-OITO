@@ -1,6 +1,10 @@
 import styled from 'styled-components';
 import { ToggleJogando } from '../services/Inputs';
-import { mudarCor } from '../services/Display';
+import { mudarCor, /*LimpaTela*/ } from '../services/Display';
+/*import { ReiniciarMemoria } from '../services/Memoria';
+import { ReiniciarRegistradores } from '../services/Registros';
+import { ReiniciarApontador } from '../services/Apontador';
+import { ReiniciarTimer } from '../services/Timer';*/
 
 const Cartucho = styled.div`
   height: 4vh;
@@ -48,6 +52,13 @@ function Header({ disable, setDisable, Iniciar, handleAjuda, handleDebug/*, fps,
     }
 
     function reset(){
+        //LimpaTela();
+        //ReiniciarMemoria();
+        //ReiniciarRegistradores(); // talvez funcionando, checar novamente em conjunto dos outros
+        //ReiniciarApontador(); // funcionando
+        //ReiniciarTimer(); // aparentemente funcionando, tenho minhas duvídas
+        //setDisable(false); // funcionando
+        //console.log(disable);
         window.location.reload();
     }
 

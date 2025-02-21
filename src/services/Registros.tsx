@@ -13,6 +13,12 @@ export const IniciarRegistradores = function(setter: React.Dispatch<any>) {
     UpdateRegistradoresArr([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
 }
 
+export const ReiniciarRegistradores = function() : void {
+    registros.setter(null);
+    registros.reg = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+    UpdateRegistradoresArr([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
+}
+
 export const GetReg = function(indice: number): number {
     return registros.reg[indice];
 };

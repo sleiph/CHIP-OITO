@@ -37,6 +37,11 @@ export const IniciarApontador = function (setInstrucao: any) {
   apontador.intervalo(setInstrucao);
 }
 
+export const ReiniciarApontador = function () : any {
+  apontador.atual = 0x200;
+  clearInterval(apontador.intervalo);
+}
+
 function aponta(setInstrucao: any) {
   if (isJogando() || isProximoInput()) {
     let indice = apontador.atual
