@@ -1,7 +1,6 @@
 /**
  * Controla todas as ações relacionadas à tela do jogo
  */
-
 export interface IDisplay {
     original: Array<Array<number>>,
     pixels: Array<Array<number>>,
@@ -27,8 +26,13 @@ export const IniciarDisplay = function(setter: any) {
     LimpaTela();
 }
 
+export const ReiniciarDisplay = function() {
+    display.setter(null);
+    LimpaTela();
+}
+
 export const LimpaTela = function() {
-    display.pixels = display.original
+    display.pixels = display.original;
     display.setter(display.pixels);
 }
 
@@ -50,8 +54,7 @@ export const UpdateDisplay = function(x: number, y: number, sprites: string[]): 
         let s: number = parseInt(sprites[i]);
         for (let j=0; j<8; j++) {
             if ((s & 0x80) > 0) {
-                if (SetaPixel(x+j, y+i) && !isUnset)
-                    isUnset = true;
+                if (SetaPixel(x+j, y+i) && !isUnset) isUnset = true;
             }
             s <<= 1;
         }

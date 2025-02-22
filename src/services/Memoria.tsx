@@ -66,7 +66,7 @@ export const IniciarMemoria = function (rom: ArrayBuffer, setter: any) {
 export const ReiniciarMemoria = function() : void  {
     memoria.Subrotinas = [];
     memoria.rom = [];
-    //memoria.pos = null; //fazendo o emulador ir de f (literalmente)
+    memoria.pos = []; //fazendo o emulador ir de f (literalmente)
     memoria.setter(null);
     UpdateIndice(0x200);
 }
