@@ -7,27 +7,72 @@ import { ReiniciarApontador } from '../services/Apontador';
 import { ReiniciarTimer } from '../services/Timer';
 
 const Cartucho = styled.div`
-  height: 4vh;
-  background-color: #f20553;
-  padding: 0 16px;
-  display: grid;
-  grid-template-columns: 2fr 1fr;
-  align-items: center;
-  position:relative;
+    height: 4vh;
+    background-color: #f20553;
+    padding: 0 16px;
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    align-items: center;
+    position:relative;
 `
 
 const DivDebug = styled.div`
-  justify-self: flex-end;
-  display: flex;
-  gap: 12px;
-  right:0px;
-  bottom:0px;
-  @media only screen and (max-width : 600px) {
-    gap: 6px;
-  }
+    height: 100%;
+    justify-self: flex-end;
+    display: flex;
+    column-gap: 12px;
+
+    button {
+        padding: 0px 16px;
+        color: white;
+        background-color: #3f956f;
+        border: none;
+        cursor: pointer;
+        transition: 0.1s all;
+
+        &:hover {
+            background-color: #388663;
+        }
+        
+        &:active {
+            transform: scale(0.98);
+            outline: solid #f20553;
+            outline-offset: -8px;
+        }
+    }
+
+    @media only screen and (max-width : 600px) {
+        gap: 6px;
+    }
 `
 const BtnReset = styled.button`
-  width: fit-content; 
+    width: fit-content; 
+`
+
+const StyledFileInput = styled.label`
+    height: 100%;
+    width: fit-content;
+    padding: 0px 16px;
+    color: white;
+    background-color: #3f956f;
+    cursor: pointer;
+    font-size: 16px;
+    align-content: center;
+    transition: 0.1s all;
+
+    input {
+        display: none;
+    }
+    
+    &:hover {
+        background-color: #388663;
+    }
+    
+    &:active {
+        transform: scale(0.98);
+        outline: solid #f20553;
+        outline-offset: -8px;
+    }
 `
 
 const Underline = styled.span`
@@ -35,7 +80,7 @@ const Underline = styled.span`
     border-bottom: 0.1px solid #1e2f45;
 `
 
-function Header({ disable, setDisable, Iniciar, handleAjuda, handleDebug/*, fps, setFps*/}: any ) { //r todo: corrigir o tipo
+function Header({ disable, setDisable, Iniciar, handleAjuda, handleDebug/*, fps, setFps*/ }: any) { //r todo: corrigir o tipo
     // entrada de arquivo (rom)
     let fileReader: FileReader;
     /// manda o arquivo pra ser interpretado
@@ -51,7 +96,7 @@ function Header({ disable, setDisable, Iniciar, handleAjuda, handleDebug/*, fps,
         setDisable(true);
     }
 
-    function reset(){
+    function reset() {
         ReiniciarMemoria();
         ReiniciarRegistradores();
         ReiniciarTimer();
@@ -61,28 +106,30 @@ function Header({ disable, setDisable, Iniciar, handleAjuda, handleDebug/*, fps,
         //window.location.reload();
     }
 
-    function pauseButton(){
+    function pauseButton() {
         ToggleJogando()
     }
-    
+
     return (
         <Cartucho>
             {
                 (disable) ? <BtnReset onClick={reset}>Reset</BtnReset> :
-                <input 
-                    type='file'
-                    name='arquivo'
-                    accept='.rom,.ch8'
-                    onChange={e => {
-                        if (e.target.files == null)
-                            throw new Error("sem arquivo para iniciar");
-                        handleFileChosen( e.target.files[0] )
-                    }}
-                    onClick={e => (e.target as HTMLInputElement).value = ''}
-                    disabled={disable}
-                />
+                <StyledFileInput> Escolher Arquivo
+                    <input 
+                        type='file'
+                        name='arquivo'
+                        accept='.rom,.ch8'
+                        onChange={e => {
+                            if (e.target.files == null)
+                                throw new Error("sem arquivo para iniciar");
+                            handleFileChosen( e.target.files[0] )
+                        }}
+                        onClick={e => (e.target as HTMLInputElement).value = ''}
+                        disabled={disable}
+                    />
+                </StyledFileInput>
             }
-            <DivDebug> 
+            <DivDebug>
                 <button disabled={!disable} onClick={pauseButton}>Pause</button>
                 <button disabled={!disable} onClick={() => mudarCor()}>Change Theme</button>
                 <button onClick={handleDebug}>Debu<Underline>g</Underline></button>
