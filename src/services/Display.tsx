@@ -21,6 +21,9 @@ let display: IDisplay = {
     temas: [["#550000", "#ef0000"], ["#c7f0d8", "#43523d"], ["#FFFFFF", "#000000"], ["#f44f53", "#5c46ab"], ["#1d337c", "#4d8dbc"]]
 }
 
+let updateTimeout: number | null = null;
+let needsUpdate = false;
+
 export const IniciarDisplay = function(setter: any) {
     display.setter = setter;
     LimpaTela();
@@ -31,9 +34,25 @@ export const ReiniciarDisplay = function() {
     LimpaTela();
 }
 
+const batchedUpdate = function() {
+    if (updateTimeout !== null) {
+        clearTimeout(updateTimeout);
+    }
+    
+    updateTimeout = setTimeout(() => {
+        if (display.setter && needsUpdate) {
+            display.setter(display.pixels);
+            needsUpdate = false;
+        }
+        updateTimeout = null;
+    }, 0);
+};
+
 export const LimpaTela = function() {
     display.pixels = display.original;
-    display.setter(display.pixels);
+    if (display.setter) {
+        display.setter(display.pixels.map(row => [...row]));
+    }
 }
 
 export const SetaPixel = function(x: number, y: number) {
@@ -59,7 +78,9 @@ export const UpdateDisplay = function(x: number, y: number, sprites: string[]): 
             s <<= 1;
         }
     }
-    display.setter(display.pixels);
+    if (display.setter) {
+        display.setter(display.pixels.map(row => [...row]));
+    }
     return isUnset;
 }
 

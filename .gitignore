@@ -23,4 +23,8 @@ dist-ssr
 *.sln
 *.sw?
 
+# Assets
 /src/assets/roms
+
+# AI
+.windsurfrules

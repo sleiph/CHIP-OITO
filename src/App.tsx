@@ -4,7 +4,7 @@ import Ajuda from './components/Ajuda';
 import Debug from './components/Debug';
 import Header from './components/Header';
 import Teclado from './components/Teclado';
-import Tela from './components/Tela';
+import TelaCanvas from './components/TelaCanvas';
 
 import { IniciarApontador } from './services/Apontador';
 import { IniciarDisplay, getOriginalDisplay, setAjudaDisplay, setDebugDisplay, isAjuda, isDebug, toggleAjuda, toggleDebug } from './services/Display';
@@ -36,7 +36,6 @@ function startFPS(intervaloFPS: any, fps: string, setFps: any) {
   if (fps == '') {
       intervaloFPS.current = setInterval( function() {
           passado = updateFPS(passado, setFps)
-          console.log('chamou?')
       },1000);
   } 
 }
@@ -118,7 +117,7 @@ function App() {
         /*fps={fps} setFps={setFps}*/
       />
 
-      <Tela display={display}/>
+      <TelaCanvas display={display}/>
       <Teclado />
       {
         debug && (

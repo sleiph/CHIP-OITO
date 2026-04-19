@@ -32,6 +32,8 @@ Arquivos binários pra testes podem ser encontrados na [documentação](./docume
 * melhorar o teclado virtual pra celular
 * melhorar a performance, pra rodar em uma velocidade boa
 * o debug focar na instrução sendo executada (pro usuario não ter q ficar procurando a instrução)
+* limpar a tela direito quando troca de ROM
+* as vezes o som não toca no Pong
 
 ### Extras
 
@@ -41,7 +43,6 @@ Arquivos binários pra testes podem ser encontrados na [documentação](./docume
 
 ## Referências
 
-- [Introduction to CHIP-8](http://www.emulator101.com/introduction-to-chip-8.html)
 - [Writing an Emulator in JavaScript (Chip-8)](https://www.taniarascia.com/writing-an-emulator-in-javascript-chip8/)
 - [Cowgod's Chip-8 Technical Reference v1.0](http://devernay.free.fr/hacks/chip8/C8TECH10.HTM)
 - [How to write an emulator (CHIP-8 interpreter)](https://multigesture.net/articles/how-to-write-an-emulator-Chip-8-interpreter/)
@@ -53,11 +54,8 @@ Arquivos binários pra testes podem ser encontrados na [documentação](./docume
 ### Processo de pesquisa
 
 1. [Leitura de guias práticos de criação de emuladores](http://www.emulator101.com/introduction-to-chip-8.html).
-
 2. [Estudo dos opcodes do CHIP-8](https://en.wikipedia.org/wiki/CHIP-8#Opcode_table).
-
 3. Aplicação [instrução por instrução](/roms/pong/pong-instr.md) da tabela de opcodes em alguns [roms de CHIP-8](/roms).
-
 4. Estudo de prática das roms rodando em um [emulador de terceiros](https://github.com/massung/CHIP-8), que possui um sistema de debug.
 
 ## Créditos

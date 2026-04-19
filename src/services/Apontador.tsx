@@ -42,13 +42,27 @@ export const ReiniciarApontador = function () : any {
   clearInterval(apontador.intervalo);
 }
 
+let instructionUpdateTimeout: number | null = null;
+let lastInstructionValue = 0;
+
+function batchedInstructionUpdate(setInstrucao: any, value: number) {
+  if (instructionUpdateTimeout !== null) {
+    clearTimeout(instructionUpdateTimeout);
+  }
+  
+  lastInstructionValue = value;
+  instructionUpdateTimeout = setTimeout(() => {
+    setInstrucao(lastInstructionValue);
+    instructionUpdateTimeout = null;
+  }, 0);
+}
+
 function aponta(setInstrucao: any) {
   if (isJogando() || isProximoInput()) {
     let indice = apontador.atual
     apontador.atual = Disassembler(indice, getPos(indice), getPos(indice+1));
     setProximoInput(false);
 
-    // esse hook q tá deixando ele lento, mas eh importante pro debug :(
-    setInstrucao(apontador.atual);
+    batchedInstructionUpdate(setInstrucao, apontador.atual);
   }
 }

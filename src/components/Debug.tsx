@@ -79,7 +79,7 @@ function Debug({registradores, indice, timers, instrucao, fps/*, setFps*/}: any 
         { 
           mapa.map((reg: Array<number>, i: number) => {
             return(
-              <Mapa color={instrucao===i ? 'black' : 'none'}>
+              <Mapa key={i} color={instrucao===i ? 'black' : 'none'}>
               {
                 (i !== undefined) ?
                   <Informacao>{"0x" + i.toString(16) + ':' + showInst(reg, 0)  + showInst(reg, 1)}</Informacao>
