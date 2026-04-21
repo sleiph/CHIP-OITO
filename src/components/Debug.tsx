@@ -51,15 +51,6 @@ const Instrucao = styled.span`
   outline: 1px solid ${props => props.color};
 `
 
-const ScrollIndicator = styled.div`
-  text-align: center;
-  padding: 8px;
-  color: #666;
-  font-style: italic;
-  border-bottom: 1px solid #ddd;
-  background-color: #f9f9f9;
-`
-
 const showReg = (e : number, reg : any) => { // transfomei em uma função pra deixar style
   return(
     <Informacao key={e}>
