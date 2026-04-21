@@ -7,7 +7,7 @@ import Teclado from './components/Teclado';
 import TelaCanvas from './components/TelaCanvas';
 
 import { IniciarApontador } from './services/Apontador';
-import { IniciarDisplay, getOriginalDisplay, setAjudaDisplay, setDebugDisplay, isAjuda, isDebug, toggleAjuda, toggleDebug } from './services/Display';
+import { IniciarDisplay, getPixelsDisplay, setAjudaDisplay, setDebugDisplay, isAjuda, isDebug, toggleAjuda, toggleDebug } from './services/Display';
 import { Soltou, Teclou, isApertando, ToggleJogando, setProximoInput } from './services/Inputs';
 import { IniciarMemoria } from './services/Memoria';
 import { IniciarRegistradores, GetRegistros } from './services/Registros';
@@ -47,7 +47,7 @@ function stopFPS(intervaloFPS: any, setFps: any) {
 
 function App() {
   const [registradores, setRegistradores] = useState(GetRegistros());
-  const [display, setDisplay] = useState(getOriginalDisplay());
+  const [display, setDisplay] = useState(getPixelsDisplay());
   const [indice, setIndice] = useState(0);
   const [timers, setTimers] = useState([0, 0]);
   const [instrucao, setInstrucao] = useState(512);

@@ -39,12 +39,11 @@ export const IniciarDisplay = function(setter: any) {
 }
 
 export const ReiniciarDisplay = function() {
-    display.setter(null);
     LimpaTela();
 }
 
 export const LimpaTela = function() {
-    display.pixels = display.original;
+    display.pixels = display.original.map(row => [...row]);
 
     dirtyRect.minX = 0;
     dirtyRect.minY = 0;
@@ -54,12 +53,10 @@ export const LimpaTela = function() {
     
     precisaUpdate = true;
     
-    // Clear existing timeout
     if (updateTimeout !== null) {
         clearTimeout(updateTimeout);
     }
     
-    // Schedule update for next animation frame
     updateTimeout = requestAnimationFrame(processDisplayUpdate);
 }
 
@@ -117,8 +114,8 @@ export const UpdateDisplay = function(x: number, y: number, sprites: string[]): 
     return isUnset;
 }
 
-export const getOriginalDisplay = function(): Array<Array<number>> {
-    return display.original;
+export const getPixelsDisplay = function(): Array<Array<number>> {
+    return display.pixels;
 }
 
 export const isAjuda = function(): boolean {

@@ -47,8 +47,17 @@ const Informacao = styled.span`
   margin: 0 8px 0 8px;
 `
 // assim fica + legivel
-const Mapa = styled.span` 
+const Instrucao = styled.span` 
   outline: 1px solid ${props => props.color};
+`
+
+const ScrollIndicator = styled.div`
+  text-align: center;
+  padding: 8px;
+  color: #666;
+  font-style: italic;
+  border-bottom: 1px solid #ddd;
+  background-color: #f9f9f9;
 `
 
 const showReg = (e : number, reg : any) => { // transfomei em uma função pra deixar style
@@ -77,18 +86,35 @@ function Debug({registradores, indice, timers, instrucao, fps/*, setFps*/}: any 
       </Grupo>
       <Instrucoes>
         { 
-          mapa.map((reg: Array<number>, i: number) => {
-            return(
-              <Mapa key={i} color={instrucao===i ? 'black' : 'none'}>
-              {
-                (i !== undefined) ?
-                  <Informacao>{"0x" + i.toString(16) + ':' + showInst(reg, 0)  + showInst(reg, 1)}</Informacao>
-                :
-                  <></>
-              }
-              </Mapa>
-            );
-          })
+          instrucao - 50 > 0 && (
+            <Instrucao color='none'>
+              ...{instrucao - 50}...
+            </Instrucao>
+          )
+        }
+        { 
+          // Soh renderiza o range de memoria ao redor da instrução atual
+          mapa.slice(Math.max(0, instrucao - 50), Math.min(mapa.length, instrucao + 50))
+            .map((reg: Array<number>, i: number) => {
+              const index = Math.max(0, instrucao - 50) + i;
+              return(
+                <Instrucao key={index} color={instrucao===index ? 'black' : 'none'}>
+                {
+                  (index !== undefined) ?
+                    <Informacao>{"0x" + index.toString(16) + ':' + showInst(reg, 0)  + showInst(reg, 1)}</Informacao>
+                  :
+                    <></>
+                }
+                </Instrucao>
+              );
+            })
+        }
+        { 
+          instrucao + 50 < mapa.length && (
+            <Instrucao color='none'>
+              ...{mapa.length - (instrucao + 50)}...
+            </Instrucao>
+          )
         }
       </Instrucoes>
       <Grupo>

@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { ToggleJogando } from '../services/Inputs';
+import { ToggleJogando, isJogando } from '../services/Inputs';
 import { mudarCor, ReiniciarDisplay } from '../services/Display';
 import { ReiniciarMemoria } from '../services/Memoria';
 import { ReiniciarRegistradores } from '../services/Registros';
@@ -147,7 +147,7 @@ function Header({ disable, setDisable, Iniciar, handleAjuda, handleDebug/*, fps,
                 </StyledFileInput>
             }
             <DivDebug>
-                <button disabled={!disable} onClick={pauseButton}>Pause</button>
+                <button disabled={!disable} onClick={pauseButton}>{isJogando() ? 'Pause' : 'Resume'}</button>
                 <button disabled={!disable} onClick={() => mudarCor()}>Change Theme</button>
                 <button onClick={handleDebug}>Debu<Underline>g</Underline></button>
                 <button onClick={handleAjuda}>?</button>
