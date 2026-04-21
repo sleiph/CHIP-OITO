@@ -62,8 +62,11 @@ const showReg = (e : number, reg : any) => { // transfomei em uma função pra d
 const showInst = (reg: any, x: number) => reg[x].toString(16).padStart(2, '0').toUpperCase(); // assim fica + legivel
 
 function Debug({registradores, indice, timers, instrucao, fps/*, setFps*/}: any ) { //r todo: corrigir tipo
+  
   const mapa = getMapaMemoria(); //vc tinha declarado como variável, burrao
   const arrayRegistradores = Object.values(registradores);
+  const tamanhoMapaDebug = 60;
+
   return (
     <OPDiv>
       <Fundo />
@@ -77,17 +80,17 @@ function Debug({registradores, indice, timers, instrucao, fps/*, setFps*/}: any 
       </Grupo>
       <Instrucoes>
         { 
-          instrucao - 50 > 0 && (
+          instrucao - tamanhoMapaDebug > 0 && (
             <Instrucao color='none'>
-              ...{instrucao - 50}...
+              ...{instrucao - tamanhoMapaDebug}...
             </Instrucao>
           )
         }
         { 
           // Soh renderiza o range de memoria ao redor da instrução atual
-          mapa.slice(Math.max(0, instrucao - 50), Math.min(mapa.length, instrucao + 50))
+          mapa.slice(Math.max(0, instrucao - tamanhoMapaDebug), Math.min(mapa.length, instrucao + tamanhoMapaDebug))
             .map((reg: Array<number>, i: number) => {
-              const index = Math.max(0, instrucao - 50) + i;
+              const index = Math.max(0, instrucao - tamanhoMapaDebug) + i;
               return(
                 <Instrucao key={index} color={instrucao===index ? 'black' : 'none'}>
                 {
@@ -101,9 +104,9 @@ function Debug({registradores, indice, timers, instrucao, fps/*, setFps*/}: any 
             })
         }
         { 
-          instrucao + 50 < mapa.length && (
+          instrucao + tamanhoMapaDebug < mapa.length && (
             <Instrucao color='none'>
-              ...{mapa.length - (instrucao + 50)}...
+              ...{mapa.length - (instrucao + tamanhoMapaDebug)}...
             </Instrucao>
           )
         }

@@ -16,9 +16,35 @@ let timer : ITimer = {
     setter: null
 };
 
+let timerInterval: number | null = null;
+
 export const IniciarTimer = function(setter: React.Dispatch<React.SetStateAction<number[]>>) {
     timer.setter = setter;
-    updateTimers([0, 0])
+    updateTimers([0, 0]);
+    
+    if (timerInterval !== null) {
+        clearInterval(timerInterval);
+    }
+    
+    timerInterval = setInterval(() => {
+        if (timer.DT!==0 || timer.ST!==0) {
+            if (timer.DT > 0)
+                timer.DT-=timer.velocidade;
+            else
+                timer.DT = 0;
+            if (timer.ST > 0) {
+                timer.ST-=timer.velocidade;
+                if (!isTocando(timer.track))
+                    timer.track.play();
+            } else {
+                timer.ST = 0;
+            }
+            updateTimers([timer.DT, timer.ST]);
+        } else {
+            if (isTocando(timer.track))
+                timer.track.pause();
+        }
+    }, 1000/60); // 60Hz padrao do CHIP-8
 };
 
 export const ReiniciarTimer = function() {
@@ -27,26 +53,6 @@ export const ReiniciarTimer = function() {
     timer.ST = 0;
     updateTimers([0, 0]);
 }
-
-export const tick = function () {
-    if (timer.DT!==0 || timer.ST!==0) {
-        if (timer.DT > 0)
-            timer.DT-=timer.velocidade;
-        else
-            timer.DT = 0;
-        if (timer.ST > 0) {
-            timer.ST-=timer.velocidade;
-            if (!isTocando(timer.track))
-                timer.track.play();
-        } else {
-            timer.ST = 0;
-        }
-        updateTimers([timer.DT, timer.ST]);
-    } else {
-        if (isTocando(timer.track))
-            timer.track.pause();
-    }
-};
 
 export const updateTimers = function(arr: Array<number>) {
     timer.DT = arr[0];

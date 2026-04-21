@@ -5,7 +5,6 @@
 import Disassembler from "./Disassembler";
 import { isJogando, isProximoInput, setProximoInput } from "./Inputs";
 import { getPos } from "./Memoria";
-import { tick } from "./Timer";
 
 export interface IApontador {
   atual: number,
@@ -21,8 +20,6 @@ let apontador: IApontador = {
     setInterval(
       function() {
         aponta(setInstrucao);
-        // Atualiza os timers
-        tick();
       }, velocidade
     )
   }
