@@ -15,7 +15,7 @@ function TelaCanvas({ display }: TelaCanvasProps) {
       return;
 
     const ctx = canvas.getContext('2d');
-    if (!ctx)
+    if (!ctx || !display)
       return;
 
     if (!lastDisplayRef.current || !arraysEqual(display, lastDisplayRef.current)) {

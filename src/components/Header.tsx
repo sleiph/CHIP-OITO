@@ -25,13 +25,13 @@ const DivDebug = styled.div`
     button {
         padding: 0px 16px;
         color: white;
-        background-color: #3f956f;
+        background-color: #c00442;
         border: none;
         cursor: pointer;
         transition: 0.1s all;
 
         &:hover {
-            background-color: #388663;
+            background-color: #a70339;
         }
         
         &:active {
@@ -46,7 +46,24 @@ const DivDebug = styled.div`
     }
 `
 const BtnReset = styled.button`
-    width: fit-content; 
+    padding: 0px 16px;
+    height: 100%;
+    width: fit-content;
+    color: white;
+    background-color: #c00442;
+    border: none;
+    cursor: pointer;
+    transition: 0.1s all;
+
+    &:hover {
+        background-color: #a70339;
+    }
+        
+    &:active {
+        transform: scale(0.98);
+        outline: solid #f20553;
+        outline-offset: -8px;
+    }
 `
 
 const StyledFileInput = styled.label`
@@ -54,7 +71,7 @@ const StyledFileInput = styled.label`
     width: fit-content;
     padding: 0px 16px;
     color: white;
-    background-color: #3f956f;
+    background-color: #c00442;
     cursor: pointer;
     font-size: 16px;
     align-content: center;
@@ -65,7 +82,7 @@ const StyledFileInput = styled.label`
     }
     
     &:hover {
-        background-color: #388663;
+        background-color: #a70339;
     }
     
     &:active {

@@ -21,6 +21,18 @@ let display: IDisplay = {
     temas: [["#550000", "#ef0000"], ["#c7f0d8", "#43523d"], ["#FFFFFF", "#000000"], ["#f44f53", "#5c46ab"], ["#1d337c", "#4d8dbc"]]
 }
 
+// Dirty rectangle tracking pra melhorar a performance
+let dirtyRect = {
+    minX: 64,
+    minY: 32,
+    maxX: -1,
+    maxY: -1,
+    isDirty: false
+}
+
+let updateTimeout: number | null = null;
+let precisaUpdate = false;
+
 export const IniciarDisplay = function(setter: any) {
     display.setter = setter;
     LimpaTela();
@@ -33,9 +45,22 @@ export const ReiniciarDisplay = function() {
 
 export const LimpaTela = function() {
     display.pixels = display.original;
-    if (display.setter) {
-        display.setter(display.pixels.map(row => [...row]));
+
+    dirtyRect.minX = 0;
+    dirtyRect.minY = 0;
+    dirtyRect.maxX = 63;
+    dirtyRect.maxY = 31;
+    dirtyRect.isDirty = true;
+    
+    precisaUpdate = true;
+    
+    // Clear existing timeout
+    if (updateTimeout !== null) {
+        clearTimeout(updateTimeout);
     }
+    
+    // Schedule update for next animation frame
+    updateTimeout = requestAnimationFrame(processDisplayUpdate);
 }
 
 export const SetaPixel = function(x: number, y: number) {
@@ -46,7 +71,24 @@ export const SetaPixel = function(x: number, y: number) {
     else if (y < 0) y += 0x40;
 
     display.pixels[y][x] ^= 1;
+    
+    dirtyRect.minX = Math.min(dirtyRect.minX, x);
+    dirtyRect.minY = Math.min(dirtyRect.minY, y);
+    dirtyRect.maxX = Math.max(dirtyRect.maxX, x);
+    dirtyRect.maxY = Math.max(dirtyRect.maxY, y);
+    dirtyRect.isDirty = true;
+    
     return display.pixels[y][x] === 0;
+}
+
+// Agrupar atualizações pra melhorar o desempenho
+const processDisplayUpdate = function() {
+    if (precisaUpdate && dirtyRect.isDirty && display.setter) {
+        display.setter(display.pixels.map(row => [...row]));
+        dirtyRect.isDirty = false;
+        precisaUpdate = false;
+    }
+    updateTimeout = null;
 }
 
 export const UpdateDisplay = function(x: number, y: number, sprites: string[]): boolean {
@@ -56,14 +98,22 @@ export const UpdateDisplay = function(x: number, y: number, sprites: string[]): 
         let s: number = parseInt(sprites[i]);
         for (let j=0; j<8; j++) {
             if ((s & 0x80) > 0) {
-                if (SetaPixel(x+j, y+i) && !isUnset) isUnset = true;
+                if (SetaPixel(x+j, y+i) && !isUnset)
+                    isUnset = true;
             }
             s <<= 1;
         }
     }
-    if (display.setter) {
-        display.setter(display.pixels.map(row => [...row]));
+    
+    if (dirtyRect.isDirty) {
+        precisaUpdate = true;
+        
+        if (updateTimeout !== null)
+            clearTimeout(updateTimeout);
+        
+        updateTimeout = requestAnimationFrame(processDisplayUpdate);
     }
+    
     return isUnset;
 }
 
