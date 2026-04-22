@@ -34,6 +34,7 @@ Arquivos binários pra testes podem ser encontrados na [documentação](./docume
 * (Pong) as vezes o som não toca
 * tá meio rápido demais agora, padronizar a velocidade
 * (Tetris) o jogo trava quando o usuário aperta alguma tecla
+* revisar os atalhos de teclado
 
 
 ### Extras

@@ -7,7 +7,7 @@ import Teclado from './components/Teclado';
 import TelaCanvas from './components/TelaCanvas';
 
 import { IniciarApontador } from './services/Apontador';
-import { IniciarDisplay, getPixelsDisplay, setAjudaDisplay, setDebugDisplay, isAjuda, isDebug, toggleAjuda, toggleDebug } from './services/Display';
+import { IniciarDisplay, getPixelsDisplay, setAjudaDisplay, setDebugDisplay, isAjuda, isDebug, mudarCor, toggleAjuda, toggleDebug } from './services/Display';
 import { Soltou, Teclou, isApertando, ToggleJogando, setProximoInput } from './services/Inputs';
 import { IniciarMemoria } from './services/Memoria';
 import { IniciarRegistradores, GetRegistros } from './services/Registros';
@@ -23,28 +23,6 @@ const Container = styled.div`
   background-color: #63bda4;
 `
 
-function updateFPS(lastloop: Date, setFps: any) {
-  let thisloop: Date = new Date(); // guardar o periodo atual
-  let fpscount = (thisloop.getTime() - lastloop.getTime()) / 20;
-  fpscount = Math.round(1000/fpscount)
-  setFps("FPS: " + fpscount);
-  return thisloop;
-}
-
-function startFPS(intervaloFPS: any, fps: string, setFps: any) {
-  let passado = new Date();
-  if (fps == '') {
-      intervaloFPS.current = setInterval( function() {
-          passado = updateFPS(passado, setFps)
-      },1000);
-  } 
-}
-
-function stopFPS(intervaloFPS: any, setFps: any) {
-  clearInterval(intervaloFPS.current);
-  setFps('');
-}
-
 function App() {
   const [registradores, setRegistradores] = useState(GetRegistros());
   const [display, setDisplay] = useState(getPixelsDisplay());
@@ -55,8 +33,9 @@ function App() {
   const [debug, setDebug] = useState(false);
   const [disable, setDisable] = useState(false);
   const [passar, setPassar] = useState(0);
-  const [fps, setFps] = useState('');
-  let intervaloFPS = useRef(); //atualiza o fps
+  const [fps, setFps] = useState(0);
+  const fpsRef = useRef(0); //atualiza o fps
+  const lastfpsRef = useRef(performance.now());
 
   // ainda não tá inciando direito, teria q zerar todas
   // as variaveis antes de voltar do começo
@@ -72,10 +51,6 @@ function App() {
   const handleDebug = () => {
     toggleDebug();
     setAjudaDisplay(false);
-    if (isDebug()) //como eu mudei o fps para o debug, o fps é chamado/parado junto com o debug
-      startFPS(intervaloFPS, fps, setFps);
-    else 
-      stopFPS(intervaloFPS, setFps);
     setAjuda(false);
     setDebug(isDebug());
   }
@@ -91,14 +66,23 @@ function App() {
     // ouve o teclado
     window.addEventListener('keydown', (event) => {
       if (!isApertando()) {
-        if (event.key === 'p')
-          ToggleJogando();
-        else if (event.key === 'o')
-          window.location.reload();
-        else if (event.key === 'g')
-          handleDebug();
-        else if (event.key === 'h')
-          handleAjuda();
+        switch (event.key) {
+          case 'p':
+            ToggleJogando();
+            break;
+          case 'r':
+            window.location.reload();
+            break;
+          case 'g':
+            handleDebug();
+            break;
+          case 'h':
+            handleAjuda();
+            break;
+          case 't':
+            mudarCor();
+            break;
+        }
       }
       if (event.key === 'ArrowRight')
         setProximoInput(true);
@@ -109,12 +93,30 @@ function App() {
     });
   }, [ajuda, debug]);
 
+  useEffect(() => {
+    const calculaFPS = () => {
+      const agora = performance.now();
+      fpsRef.current += 1;
+
+      if (agora - lastfpsRef.current >= 1000) {
+        setFps(Math.round((fpsRef.current * 1000) / (agora - lastfpsRef.current)));
+        fpsRef.current = 0;
+        lastfpsRef.current = agora;
+      }
+      requestAnimationFrame(calculaFPS);
+    };
+
+    const animationId = requestAnimationFrame(calculaFPS);
+    
+    // Cleanup on unmount
+    return () => cancelAnimationFrame(animationId);
+  }, []);
+
   return (
     <Container>
       <Header disable={disable} setDisable={setDisable}
         Iniciar={Iniciar}
         handleAjuda={handleAjuda} handleDebug={handleDebug}
-        /*fps={fps} setFps={setFps}*/
       />
 
       <TelaCanvas display={display}/>
@@ -127,7 +129,6 @@ function App() {
             timers={timers}
             instrucao={instrucao}
             fps={fps}
-            /*setFps={setFps}*/
           />
         )
       }

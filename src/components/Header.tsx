@@ -97,7 +97,7 @@ const Underline = styled.span`
     border-bottom: 0.1px solid #1e2f45;
 `
 
-function Header({ disable, setDisable, Iniciar, handleAjuda, handleDebug/*, fps, setFps*/ }: any) { //r todo: corrigir o tipo
+function Header({ disable, setDisable, Iniciar, handleAjuda, handleDebug }: any) {
     // entrada de arquivo (rom)
     let fileReader: FileReader;
     /// manda o arquivo pra ser interpretado
@@ -120,7 +120,6 @@ function Header({ disable, setDisable, Iniciar, handleAjuda, handleDebug/*, fps,
         ReiniciarApontador();
         ReiniciarDisplay();
         setDisable(false);
-        //window.location.reload();
     }
 
     function pauseButton() {
@@ -130,8 +129,8 @@ function Header({ disable, setDisable, Iniciar, handleAjuda, handleDebug/*, fps,
     return (
         <Cartucho>
             {
-                (disable) ? <BtnReset onClick={reset}>Reset</BtnReset> :
-                <StyledFileInput> Escolher Arquivo
+                (disable) ? <BtnReset onClick={reset}><Underline>R</Underline>eset</BtnReset> :
+                <StyledFileInput> <Underline>O</Underline>pen ROM
                     <input 
                         type='file'
                         name='arquivo'
@@ -147,10 +146,10 @@ function Header({ disable, setDisable, Iniciar, handleAjuda, handleDebug/*, fps,
                 </StyledFileInput>
             }
             <DivDebug>
-                <button disabled={!disable} onClick={pauseButton}>{isJogando() ? 'Pause' : 'Resume'}</button>
-                <button disabled={!disable} onClick={() => mudarCor()}>Change Theme</button>
-                <button onClick={handleDebug}>Debu<Underline>g</Underline></button>
-                <button onClick={handleAjuda}>?</button>
+                <button disabled={!disable} onClick={pauseButton}>{isJogando() ? <span><Underline>P</Underline>ause</span> : <span>Resume</span>}</button>
+                <button disabled={!disable} onClick={() => mudarCor()}>Change <Underline>T</Underline>heme</button>
+                <button onClick={handleDebug}>Debu<Underline>G</Underline></button>
+                <button onClick={handleAjuda}><Underline>H</Underline>elp</button>
             </DivDebug>
         </Cartucho>
     )

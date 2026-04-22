@@ -33,7 +33,12 @@ const TeclaDiv = styled.div`
     }
 `
 
-function Tecla( {chave, tecla}: any ) { //r todo: corrigir o tipo
+type TeclaProps = {
+    chave: string;
+    tecla: string;
+}
+
+function Tecla({ chave, tecla }: TeclaProps) {
 
     const handleMouseDown = () => {
         Teclou(tecla);
@@ -46,8 +51,8 @@ function Tecla( {chave, tecla}: any ) { //r todo: corrigir o tipo
         <TeclaDiv
             onMouseDown={handleMouseDown}
             onMouseUp={handleMouseUp}
-            tabIndex = {parseInt(chave, 16)+1}>
-            <button>{chave}</button>
+            tabIndex={parseInt(chave, 16) + 1}>
+            <button>{chave}{chave != tecla ? ` (${tecla})` : ''}</button>
         </TeclaDiv>
     )
 }

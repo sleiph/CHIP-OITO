@@ -57,7 +57,10 @@ function batchedInstructionUpdate(setInstrucao: any, value: number) {
 function aponta(setInstrucao: any) {
   if (isJogando() || isProximoInput()) {
     let indice = apontador.atual
-    apontador.atual = Disassembler(indice, getPos(indice), getPos(indice+1));
+    const byteAtual = getPos(indice);
+    const byteSeguinte = getPos(indice+1);
+    
+    apontador.atual = Disassembler(indice, byteAtual, byteSeguinte);
     setProximoInput(false);
 
     batchedInstructionUpdate(setInstrucao, apontador.atual);
