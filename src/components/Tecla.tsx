@@ -2,7 +2,7 @@ import styled from 'styled-components';
 
 import { Soltou, Teclou } from '../services/Inputs'
 
-const TeclaDiv = styled.div`
+const TeclaDiv = styled.div<{ $apertada: boolean }>`
     flex: 1;
     display: inline-flex;
     align-items: center;
@@ -22,6 +22,12 @@ const TeclaDiv = styled.div`
         cursor: pointer;
         outline: none;
         transition: 0.1s all;
+        
+        ${props => props.$apertada && `
+            transform: scale(0.98);
+            outline: solid #f20553;
+            outline-offset: -8px;
+        `}
     }
     button:hover {
         background-color: #388663;
@@ -36,9 +42,10 @@ const TeclaDiv = styled.div`
 type TeclaProps = {
     chave: string;
     tecla: string;
+    apertada: boolean;
 }
 
-function Tecla({ chave, tecla }: TeclaProps) {
+function Tecla({ chave, tecla, apertada }: TeclaProps) {
 
     const handleMouseDown = () => {
         Teclou(tecla);
@@ -49,6 +56,7 @@ function Tecla({ chave, tecla }: TeclaProps) {
 
     return (
         <TeclaDiv
+            $apertada={apertada}
             onMouseDown={handleMouseDown}
             onMouseUp={handleMouseUp}
             tabIndex={parseInt(chave, 16) + 1}>

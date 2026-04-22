@@ -30,7 +30,12 @@ const highLighted = {
     fontWeight: "bold"
 }
 
-function Ajuda({passar, setPassar}: any) { //r todo: corrigir tipo
+type AjudaProps = {
+    passar: number;
+    setPassar: React.Dispatch<React.SetStateAction<number>>;
+}
+
+function Ajuda({passar, setPassar}: AjudaProps) {
     function continuarAjuda(){ 
         if (passar > 2) setPassar(0);
         else setPassar(passar + 1);

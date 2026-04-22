@@ -35,6 +35,7 @@ Arquivos binários pra testes podem ser encontrados na [documentação](./docume
 * tá meio rápido demais agora, padronizar a velocidade
 * (Tetris) o jogo trava quando o usuário aperta alguma tecla
 * revisar os atalhos de teclado
+* remover todos esses 'any'
 
 
 ### Extras
@@ -42,6 +43,7 @@ Arquivos binários pra testes podem ser encontrados na [documentação](./docume
 * adicionar uma rom de demonstração (sem direitos autorais de ninguém)
 * Poder mudar o valor de qualquer registrador a qualquer momento
 * Mostrar pro usuário um pseudo-código das instruções no cartucho
+* adicionar uma interface de debug, com breakpoints e step-through
 
 
 ## Referências

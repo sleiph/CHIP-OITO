@@ -66,3 +66,11 @@ export const isProximoInput = function(): boolean {
 export const setProximoInput = function(val: boolean) {
     inputs.proximo = val;
 }
+
+export const isTeclaApertada = function(tecla: string): boolean {
+    let indice = inputs.teclas.indexOf(tecla);
+    if (indice !== -1) {
+        return inputs.apertadas.indexOf(indice.toString()) !== -1;
+    }
+    return false;
+}

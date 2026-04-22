@@ -61,7 +61,15 @@ const showReg = (e : number, reg : any) => { // transfomei em uma função pra d
 
 const showInst = (reg: any, x: number) => reg[x].toString(16).padStart(2, '0').toUpperCase(); // assim fica + legivel
 
-function Debug({registradores, indice, timers, instrucao, fps/*, setFps*/}: any ) { //r todo: corrigir tipo
+type DebugProps = {
+  registradores: number[];
+  indice: number;
+  timers: number[];
+  instrucao: number;
+  fps: number;
+}
+
+function Debug({registradores, indice, timers, instrucao, fps}: DebugProps ) {
   
   const mapa = getMapaMemoria(); //vc tinha declarado como variável, burrao
   const arrayRegistradores = Object.values(registradores);

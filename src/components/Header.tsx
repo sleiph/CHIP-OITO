@@ -97,13 +97,21 @@ const Underline = styled.span`
     border-bottom: 0.1px solid #1e2f45;
 `
 
-function Header({ disable, setDisable, Iniciar, handleAjuda, handleDebug }: any) {
+type HeaderProps = {
+    disable: boolean;
+    setDisable: (disable: boolean) => void;
+    Iniciar: (buffer: ArrayBuffer) => void;
+    handleAjuda: () => void;
+    handleDebug: () => void;
+}
+
+function Header({ disable, setDisable, Iniciar, handleAjuda, handleDebug }: HeaderProps) {
     // entrada de arquivo (rom)
     let fileReader: FileReader;
     /// manda o arquivo pra ser interpretado
     const handleFileRead = () => {
         const buffer = fileReader.result;
-        Iniciar(buffer);
+        Iniciar(buffer as ArrayBuffer);
     };
     /// lê o arquivo carregado pelo usuario
     function handleFileChosen(arquivo: File) {
@@ -129,6 +137,7 @@ function Header({ disable, setDisable, Iniciar, handleAjuda, handleDebug }: any)
     return (
         <Cartucho>
             {
+                //TODO: implementar atalho pra abrir ROMs
                 (disable) ? <BtnReset onClick={reset}><Underline>R</Underline>eset</BtnReset> :
                 <StyledFileInput> <Underline>O</Underline>pen ROM
                     <input 
